@@ -1,3 +1,3 @@
 <?php
 
-Route::get('/', 'ServiceController@index');
+Route::get('/', 'PageController@index');
