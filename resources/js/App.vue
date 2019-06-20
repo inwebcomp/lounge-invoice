@@ -1,14 +1,13 @@
 <template>
    <div id="app">
-      <a-row :gutter="16">
-         <a-col :class="`invoice-preview-box`" :span="13">
+      <el-row>
+         <el-col :span="12" class="invoice-preview-box">
             <InvoicePreview />
-         </a-col>
-
-         <a-col :class="`invoice-params-box`" :span="11">
+         </el-col>
+         <el-col :span="12" class="invoice-fields-box">
             <InvoiceFields />
-         </a-col>
-      </a-row>
+         </el-col>
+      </el-row>
    </div>
 </template>
 

@@ -32,6 +32,7 @@ body {
    // flex-direction: column;
    // justify-content: space-between;
    position: relative;
+   background-color: aliceblue;
 }
 
 .container {
@@ -47,52 +48,27 @@ body {
    }
 }
 
-$green: #43A047;
-$blue: #1E88E5;
-$padding: 16px;
-
-.ant-btn-green {
-   background-color: $green;
-   transition: all 0.2s ease;
-   color: #fff;
-
-   &:hover,
-   &:focus {
-      background-color: lighten($green, 7%);
-      border-color: lighten($green, 7%);
-      color: #fff;
-   }
-   &:active {
-      background-color: lighten($green, 7%);
-      border-color: lighten($green, 7%);
-      color: #fff;
-   }
+.invoice-fields-box {
+   height: 600px;
+   max-height: 1000px;
 }
 
-.ant-btn-blue {
-   background-color: $blue;
-   transition: all 0.2s ease;
-   color: #fff;
+.el-tabs {
+   height: 100%;
 
-   &:hover,
-   &:focus {
-      background-color: lighten($blue, 7%);
-      border-color: lighten($blue, 7%);
-      color: #fff;
-   }
-   &:active {
-      background-color: lighten($blue, 7%);
-      border-color: lighten($blue, 7%);
-      color: #fff;
+   &__content {
+      height: 100%;
    }
 }
 
 .invoice-fields {
+   margin-top: 105px;
+   height: 100%;
 
    &__title-line {
       display: flex;
       align-items: center;
-      margin: $padding 0;
+      margin: $padding * 2 0;
 
       &::after,
       &::before {
@@ -109,4 +85,13 @@ $padding: 16px;
          margin-left: 12px;
       }
    }
+}
+
+.input-label {
+   display: inline-block;
+   margin-bottom: $padding * 0.25;
+}
+
+.fields-row {
+   margin-bottom: $padding * 2;
 }

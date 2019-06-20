@@ -2,7 +2,8 @@ import './bootstrap'
 import Vue from 'vue'
 import store from './store/'
 import Translator from './services/Translator'
-import Antd from 'ant-design-vue'
+import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, Input, InputNumber, Table} from 'element-ui';
+import DatePicker from 'vue2-datepicker'
 
 // components
 import App from './App.vue'
@@ -18,10 +19,22 @@ Vue.mixin({
     }
 });
 
-Vue.use(Antd)
+Vue.use(Row)
+Vue.use(Col)
+Vue.use(Button)
+Vue.use(Select)
+Vue.use(Icon)
+Vue.use(Form)
+Vue.use(FormItem)
+Vue.use(Tabs)
+Vue.use(TabPane)
+Vue.use(Input)
+Vue.use(InputNumber)
+Vue.use(Table)
+Vue.use(Option)
+Vue.use(DatePicker)
 
 new Vue({
    store,
-   components: { Antd },
    render: h => h(App)
 }).$mount('#app')

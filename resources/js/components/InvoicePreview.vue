@@ -1,46 +1,81 @@
 <template>
    <div class="invoice-container">
       <div class="invoice-buttons">
-         <a-button size="large" class="">Открыть</a-button>
-         <a-button class="ant-btn-green" @click="saveInvoice" :loading="buttonSaveLoading" size="large">Сохранить</a-button>
-         <a-button class="ant-btn-blue" size="large" onClick="window.print()">Печать</a-button>
+         <el-button>Открыть</el-button>
+         <el-button type="primary" @click="saveInvoice" :loading="buttonSaveLoading">Сохранить</el-button>
+         <el-button type="success" onClick="window.print()">Печать</el-button>
       </div>
       <div class="invoice" id="printarea">
          <div class="invoice__row">
-            <img src="img/logo.svg" width="200" alt="logo" class="invoice__logo">
+            <img src="img/logo.svg" width="150" alt="logo" class="invoice__logo">
          </div>
          <div class="invoice__row">
             <div class="invoice__info" >
                <p>{{ clientObj.name }}  {{ clientObj.surName }}</p>
                <p>{{ clientObj.city ? `${clientObj.city},` : null }} {{ clientObj.addres }}</p>
                <p>{{ clientObj.postIndx }}</p>
+            </div>
 
+            <div class="invoice__reservation-info" >
+               <p>Room No.
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.roomNumb }}</span>
+               </p>
+               <p>No. of person(s)
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.personsCount }}</span>
+               </p>
+               <p>Arival
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.arival }}</span>
+               </p>
+               <p>Departure
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.departure }}</span>
+               </p>
+               <p>Reservation No.
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.reservationNumb }}</span>
+               </p>
+               <p>Ext. Reservation No.
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.extReservationNumb }}</span>
+               </p>
+               <p></p>
+               <p>Cashier No.
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.cashierNumb }}</span>
+               </p>
+               <p>Page No.
+                  <span class="invoice__reservation-info__right">: {{ reservationObj.pageNumb }}</span>
+               </p>
             </div>
          </div>
 
          <p class="invoice__text text-bold">Invoice</p>
 
-         <div class="ant-table ant-table-default ant-table-bordered table-">
-            <table>
-               <thead class="ant-table-thead">
-                  <tr>
-                     <th>Header1</th>
-                     <th>Header2</th>
-                     <th>Header3</th>
-                     <th>Header4</th>
+         <div class="">
+            <table class="invoice-table">
+               <thead class="invoice-table__header">
+                  <tr class="invoice-table__row">
+                     <th class="invoice-table__cell">Header1</th>
+                     <th class="invoice-table__cell">Header2</th>
+                     <th class="invoice-table__cell">Header3</th>
+                     <th class="invoice-table__cell">Header4</th>
                   </tr>
                </thead>
-               <tbody class="ant-table-tbody">
-                  <tr v-for="(item, index) in data" :key="index">
-                     <td style="width: 15%">{{ item.money }}</td>
-                     <td style="width: 45%">{{ item.name }}</td>
-                     <td style="width: 20%">{{ item.money }}</td>
-                     <td style="width: 20%">{{ item.money }}</td>
+               <tbody class="invoice-table__body">
+                  <tr class="invoice-table__row" v-for="(item, index) in data" :key="index">
+                     <td class="invoice-table__cell">{{ item.money }}</td>
+                     <td class="invoice-table__cell">{{ item.name }}</td>
+                     <td class="invoice-table__cell">{{ item.money }}</td>
+                     <td class="invoice-table__cell">{{ item.money }}</td>
                   </tr>
-                  <tr class="table__footer">
-                     <td colspan="2"> total </td>
-                     <td> 12496</td>
-                     <td> 12496</td>
+                  <tr class="invoice-table__row invoice-table__footer">
+                     <td class="invoice-table__cell" colspan="2"> Subtotal </td>
+                     <td class="invoice-table__cell"> 12496</td>
+                     <td class="invoice-table__cell"> 12496</td>
+                  </tr>
+                  <tr class="invoice-table__row invoice-table__footer">
+                     <td class="invoice-table__cell" colspan="2"> Balance Due: </td>
+                     <td class="invoice-table__cell" colspan="2"> 12496</td>
+                  </tr>
+                  <tr class="invoice-table__row">
+                     <td class="invoice-table__cell" colspan="2" style="text-align: center"> Total Incl. VAT </td>
+                     <td class="invoice-table__cell" colspan="2"> 12496</td>
                   </tr>
                </tbody>
             </table>
@@ -85,6 +120,9 @@ export default {
    computed: {
       clientObj() {
          return this.$store.state.client
+      },
+      reservationObj() {
+         return this.$store.state.reservation
       }
    },
 
@@ -116,31 +154,65 @@ export default {
 </script>
 
 <style lang="scss">
-.ant-table {
-   border: 1px solid #e8e8e8;
-   border-right: none;
-   border-bottom: none;
-   font-weight: 500;
-}
 
-.ant-table-thead > tr > th, .ant-table-tbody > tr > td {
-   padding: 10px 12px;
-}
+.invoice-table {
+   width: 100%;
 
-.invoice-preview-box {
-   background-color: aliceblue;
+   &__header {
+      tr {
+         border-top: none;
+         border-bottom: 2px solid #dee2e6;
+      }
+
+      .invoice-table__cell {
+         font-weight: 500;
+         font-size: 1.5rem;
+         text-align: left;
+      }
+   }
+
+   &__row {
+      border-top: 1px solid #dee2e6;
+   }
+
+   &__cell {
+      padding: 9px 5px 10px;
+      font-weight: normal;
+      font-size: 1.3rem;
+      vertical-align: middle;
+
+      &:nth-child(1) {
+         width: 20%;
+      }
+      &:nth-child(2) {
+         width: 50%;
+      }
+      &:nth-child(3) {
+         width: 15%;
+      }
+      &:nth-child(4) {
+         width: 15%;
+      }
+   }
+
+   &__footer {
+      .invoice-table__cell {
+         font-weight: 700;
+      }
+   }
 }
 
 .invoice-container {
    width: 100%;
-   max-width: 750px;
-   margin: 50px auto 100px;
+   max-width: 600px;
+   margin: 0 auto;
+   padding: 50px 0 100px;
 }
 
 .invoice-buttons {
    display: flex;
 
-   .ant-btn {
+   .el-button {
       &:first-of-type {
          margin-right: auto;
       }
@@ -155,8 +227,9 @@ export default {
    width: 100%;
    margin-top: 16px;
    padding: 16px;
-   font-size: 1.6rem;
+   font-size: 1.3rem;
    font-weight: 500;
+   box-shadow: 2px 2px 10px -2px rgba(0,0,0,0.75);
 
    &__row {
       margin-bottom: 16px * 2;
@@ -170,6 +243,27 @@ export default {
 
    &__info {
       padding-left: 25px;
+      float: left;
+
+   }
+
+   &__reservation-info {
+      padding: 0;
+      float: right;
+      font-weight: normal;
+      min-width: 180px;
+      max-width: 250px;
+
+
+      p {
+         margin: 0;
+         display: flex;
+      }
+
+      &__right {
+         text-align: right;
+         margin-left: auto;
+      }
    }
 
    .text-bold {
