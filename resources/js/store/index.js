@@ -34,7 +34,9 @@ export default new Vuex.Store({
          extReservationNumb: null,
          cashierNumb: null,
          pageNumb: null,
-      }
+      },
+
+      services: [],
    },
    getters: {
       getClientFiled (state, field) {
@@ -43,6 +45,12 @@ export default new Vuex.Store({
       getReservationFiled (state, field) {
          return state.reservation[field]
       },
+      getServices (state) {
+         return state.services
+      },
+      getServicesFiled: (state) => (id, field) => {
+        return state.services.find(item => item.id === id)[field];
+      }
    },
    mutations: {
       updateClientFiled (state, data) {
@@ -51,6 +59,32 @@ export default new Vuex.Store({
       updateReservationFiled (state, data) {
          state.reservation[data.field] = data.value
       },
+      updateServicesFiled (state, data) {
+         state.services.forEach(item => {
+            if (item.id === data.id) {
+               item[data.field] = data.value
+            }
+         })
+      },
+
+
+      addService(state, data) {
+         state.services.push(data)
+      },
+      removeService(state, id) {
+         state.services.forEach((item, index) => {
+            if (item.id === id) {
+               state.services.splice(index, 1)
+            }
+         })
+      },
+      toggleEditing(state, id) {
+         state.services.forEach(item => {
+            if (item.id === +id) {
+               item.isEditing = ! item.isEditing
+            }
+         })
+      }
    },
    actions: {
 

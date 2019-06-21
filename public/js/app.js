@@ -2010,34 +2010,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-var _data = [{
-  key: '1',
-  name: 'John Brown',
-  money: '￥300,000',
-  address: 'New York No. 1 Lake Park'
-}, {
-  key: '2',
-  name: 'Jim Green',
-  money: '￥1,256,000',
-  address: 'London No. 1 Lake Park'
-}, {
-  key: '3',
-  name: 'Joe Black',
-  money: '￥120,000',
-  address: 'Sidney No. 1 Lake Park'
-}, {
-  key: '4',
-  name: 'Joe Black',
-  money: '￥120,000',
-  className: 'my-class',
-  address: 'Sidney No. 1 Lake Park'
-}];
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicePreview',
   data: function data() {
     return {
-      data: _data,
       buttonSaveLoading: false
     };
   },
@@ -2047,6 +2023,9 @@ var _data = [{
     },
     reservationObj: function reservationObj() {
       return this.$store.state.reservation;
+    },
+    servicesObj: function servicesObj() {
+      return this.$store.getters.getServices;
     }
   },
   methods: {
@@ -2217,6 +2196,8 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
+/* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
 //
 //
 //
@@ -2253,13 +2234,121 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SevicesList',
-  data: function data() {
-    return {};
+  directives: {
+    ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
   },
-  computed: {},
-  methods: {}
+  data: function data() {
+    return {
+      nameServicesList: [{
+        label: 'Name 1',
+        value: 'Name 1'
+      }, {
+        label: 'Name 2',
+        value: 'Name 2'
+      }, {
+        label: 'Name 3',
+        value: 'Name 3'
+      }, {
+        label: 'Name 4',
+        value: 'Name 4'
+      }]
+    };
+  },
+  computed: {
+    getServices: function getServices() {
+      return this.$store.getters.getServices;
+    }
+  },
+  methods: {
+    getFiled: function getFiled(field, id) {
+      return this.$store.getters.getServicesFiled(id, field);
+    },
+    updateField: function updateField(field, val, id) {
+      this.$store.commit('updateServicesFiled', {
+        value: val,
+        field: field,
+        id: id
+      });
+    },
+    addService: function addService() {
+      var serviceObj = {
+        id: Date.now(),
+        date: null,
+        nameServices: null,
+        debit: null,
+        credit: null,
+        isEditing: true
+      };
+      this.$store.commit('addService', serviceObj);
+    },
+    editing: function editing(id) {
+      this.$store.commit('toggleEditing', id);
+    },
+    delItem: function delItem(id) {
+      this.$store.commit('removeService', id);
+    },
+    stopEditing: function stopEditing() {
+      this.getServices.forEach(function (item) {
+        item.isEditing = false;
+      });
+    }
+  }
 });
 
 /***/ }),
@@ -4117,7 +4206,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".mx-input {\n  height: 40px;\n  border-radius: 4px;\n  border: 1px solid #DCDFE6;\n  color: #606266;\n  transition: all 0.2s ease;\n}\n.mx-input::-webkit-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-moz-placeholder {\n  color: #c0c4cc;\n}\n.mx-input:-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::placeholder {\n  color: #c0c4cc;\n}\n.mx-input:hover {\n  border-color: #c0c4cc;\n}\n.mx-input:focus {\n  border-color: #409EFF;\n}\n.mx-datepicker {\n  width: 100%;\n}", ""]);
+exports.push([module.i, ".mx-input {\n  height: 40px;\n  border-radius: 4px;\n  border: 1px solid #DCDFE6;\n  color: #606266;\n  transition: all 0.2s ease;\n}\n.mx-input--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-input::-webkit-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-moz-placeholder {\n  color: #c0c4cc;\n}\n.mx-input:-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::placeholder {\n  color: #c0c4cc;\n}\n.mx-input:hover {\n  border-color: #c0c4cc;\n}\n.mx-input:focus {\n  border-color: #409EFF;\n}\n.mx-datepicker {\n  width: 100%;\n}\n.mx-datepicker--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}", ""]);
 
 // exports
 
@@ -62746,6 +62835,85 @@ exports.clearImmediate = (typeof self !== "undefined" && self.clearImmediate) ||
 
 /***/ }),
 
+/***/ "./node_modules/vue-click-outside/index.js":
+/*!*************************************************!*\
+  !*** ./node_modules/vue-click-outside/index.js ***!
+  \*************************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+function validate(binding) {
+  if (typeof binding.value !== 'function') {
+    console.warn('[Vue-click-outside:] provided expression', binding.expression, 'is not a function.')
+    return false
+  }
+
+  return true
+}
+
+function isPopup(popupItem, elements) {
+  if (!popupItem || !elements)
+    return false
+
+  for (var i = 0, len = elements.length; i < len; i++) {
+    try {
+      if (popupItem.contains(elements[i])) {
+        return true
+      }
+      if (elements[i].contains(popupItem)) {
+        return false
+      }
+    } catch(e) {
+      return false
+    }
+  }
+
+  return false
+}
+
+function isServer(vNode) {
+  return typeof vNode.componentInstance !== 'undefined' && vNode.componentInstance.$isServer
+}
+
+exports = module.exports = {
+  bind: function (el, binding, vNode) {
+    if (!validate(binding)) return
+
+    // Define Handler and cache it on the element
+    function handler(e) {
+      if (!vNode.context) return
+
+      // some components may have related popup item, on which we shall prevent the click outside event handler.
+      var elements = e.path || (e.composedPath && e.composedPath())
+      elements && elements.length > 0 && elements.unshift(e.target)
+      
+      if (el.contains(e.target) || isPopup(vNode.context.popupItem, elements)) return
+
+      el.__vueClickOutside__.callback(e)
+    }
+
+    // add Event Listeners
+    el.__vueClickOutside__ = {
+      handler: handler,
+      callback: binding.value
+    }
+    !isServer(vNode) && document.addEventListener('click', handler)
+  },
+
+  update: function (el, binding) {
+    if (validate(binding)) el.__vueClickOutside__.callback = binding.value
+  },
+  
+  unbind: function (el, binding, vNode) {
+    // Remove Event Listeners
+    !isServer(vNode) && document.removeEventListener('click', el.__vueClickOutside__.handler)
+    delete el.__vueClickOutside__
+  }
+}
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/App.vue?vue&type=template&id=f348271a&":
 /*!*******************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/App.vue?vue&type=template&id=f348271a& ***!
@@ -63132,47 +63300,45 @@ var render = function() {
       _vm._v(" "),
       _c("p", { staticClass: "invoice__text text-bold" }, [_vm._v("Invoice")]),
       _vm._v(" "),
-      _c("div", {}, [
-        _c("table", { staticClass: "invoice-table" }, [
-          _vm._m(1),
-          _vm._v(" "),
-          _c(
-            "tbody",
-            { staticClass: "invoice-table__body" },
-            [
-              _vm._l(_vm.data, function(item, index) {
-                return _c(
-                  "tr",
-                  { key: index, staticClass: "invoice-table__row" },
-                  [
-                    _c("td", { staticClass: "invoice-table__cell" }, [
-                      _vm._v(_vm._s(item.money))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "invoice-table__cell" }, [
-                      _vm._v(_vm._s(item.name))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "invoice-table__cell" }, [
-                      _vm._v(_vm._s(item.money))
-                    ]),
-                    _vm._v(" "),
-                    _c("td", { staticClass: "invoice-table__cell" }, [
-                      _vm._v(_vm._s(item.money))
-                    ])
-                  ]
-                )
-              }),
-              _vm._v(" "),
-              _vm._m(2),
-              _vm._v(" "),
-              _vm._m(3),
-              _vm._v(" "),
-              _vm._m(4)
-            ],
-            2
-          )
-        ])
+      _c("table", { staticClass: "invoice-table" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          { staticClass: "invoice-table__body" },
+          [
+            _vm._l(_vm.servicesObj, function(item) {
+              return _c(
+                "tr",
+                { key: item.id, staticClass: "invoice-table__row" },
+                [
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(item.date))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(item.nameServices))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(item.debit))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(item.credit))
+                  ])
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _vm._m(2),
+            _vm._v(" "),
+            _vm._m(3),
+            _vm._v(" "),
+            _vm._m(4)
+          ],
+          2
+        )
       ])
     ])
   ])
@@ -63550,9 +63716,238 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "fields-box" })
+  return _c("div", { staticClass: "fields-box" }, [
+    _c("table", { staticClass: "invoice-table" }, [
+      _vm._m(0),
+      _vm._v(" "),
+      _c(
+        "tbody",
+        {
+          directives: [
+            {
+              name: "click-outside",
+              rawName: "v-click-outside",
+              value: _vm.stopEditing,
+              expression: "stopEditing"
+            }
+          ],
+          staticClass: "invoice-table__body"
+        },
+        [
+          _vm._l(_vm.getServices, function(item) {
+            return _c(
+              "tr",
+              { key: item.id, staticClass: "invoice-table__row" },
+              [
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "23%" }
+                  },
+                  [
+                    item.isEditing
+                      ? _c("date-picker", {
+                          staticClass: "mx-datepicker--small",
+                          attrs: {
+                            value: _vm.getFiled("date", item.id),
+                            popupStyle: { left: 0, top: "100" },
+                            "input-class": "mx-input mx-input--small",
+                            valueType: "format",
+                            lang: "en"
+                          },
+                          on: {
+                            input: function($event) {
+                              return _vm.updateField("date", $event, item.id)
+                            }
+                          }
+                        })
+                      : _c("span", [_vm._v(_vm._s(item.date))])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "30%" }
+                  },
+                  [
+                    item.isEditing
+                      ? _c(
+                          "el-select",
+                          {
+                            attrs: {
+                              placeholder: "Select",
+                              value: _vm.getFiled("nameServices", item.id),
+                              size: "small"
+                            },
+                            on: {
+                              input: function($event) {
+                                return _vm.updateField(
+                                  "nameServices",
+                                  $event,
+                                  item.id
+                                )
+                              }
+                            }
+                          },
+                          _vm._l(_vm.nameServicesList, function(item) {
+                            return _c("el-option", {
+                              key: item.value,
+                              attrs: { label: item.label, value: item.value }
+                            })
+                          }),
+                          1
+                        )
+                      : _c("span", [_vm._v(_vm._s(item.nameServices))])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "20%" }
+                  },
+                  [
+                    item.isEditing
+                      ? _c("el-input", {
+                          attrs: {
+                            placeholder: "Please input",
+                            value: _vm.getFiled("debit", item.id),
+                            size: "small"
+                          },
+                          on: {
+                            input: function($event) {
+                              return _vm.updateField("debit", $event, item.id)
+                            }
+                          }
+                        })
+                      : _c("span", [_vm._v(_vm._s(item.debit))])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "20%" }
+                  },
+                  [
+                    item.isEditing
+                      ? _c("el-input", {
+                          attrs: {
+                            placeholder: "Please input",
+                            value: _vm.getFiled("credit", item.id),
+                            size: "small"
+                          },
+                          on: {
+                            input: function($event) {
+                              return _vm.updateField("credit", $event, item.id)
+                            }
+                          }
+                        })
+                      : _c("span", [_vm._v(_vm._s(item.credit))])
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  { staticClass: "invoice-table__cell" },
+                  [
+                    _c("el-button", {
+                      attrs: { icon: "el-icon-edit", size: "mini" },
+                      on: {
+                        click: function($event) {
+                          return _vm.editing(item.id)
+                        }
+                      }
+                    }),
+                    _vm._v(" "),
+                    _c("el-button", {
+                      attrs: { icon: "el-icon-delete", size: "mini" },
+                      on: {
+                        click: function($event) {
+                          return _vm.delItem(item.id)
+                        }
+                      }
+                    })
+                  ],
+                  1
+                )
+              ]
+            )
+          }),
+          _vm._v(" "),
+          _c("tr", { staticClass: "invoice-table__row" }, [
+            _c(
+              "td",
+              {
+                staticClass: "invoice-table__cell aligh-center",
+                attrs: { colspan: "5" }
+              },
+              [
+                _c(
+                  "el-button",
+                  {
+                    attrs: {
+                      icon: "el-icon-plus",
+                      type: "primary",
+                      size: "medium"
+                    },
+                    on: { click: _vm.addService }
+                  },
+                  [_vm._v("Добавить")]
+                )
+              ],
+              1
+            )
+          ])
+        ],
+        2
+      )
+    ])
+  ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", { staticClass: "invoice-table__header" }, [
+      _c("tr", { staticClass: "invoice-table__row" }, [
+        _c(
+          "th",
+          { staticClass: "invoice-table__cell", staticStyle: { width: "10%" } },
+          [_vm._v("Дата")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "invoice-table__cell", staticStyle: { width: "40%" } },
+          [_vm._v("Название услуги")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "invoice-table__cell", staticStyle: { width: "15%" } },
+          [_vm._v("Дебит")]
+        ),
+        _vm._v(" "),
+        _c(
+          "th",
+          { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
+          [_vm._v("Кредит")]
+        )
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 
@@ -77379,7 +77774,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       extReservationNumb: null,
       cashierNumb: null,
       pageNumb: null
-    }
+    },
+    services: []
   },
   getters: {
     getClientFiled: function getClientFiled(state, field) {
@@ -77387,6 +77783,16 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     getReservationFiled: function getReservationFiled(state, field) {
       return state.reservation[field];
+    },
+    getServices: function getServices(state) {
+      return state.services;
+    },
+    getServicesFiled: function getServicesFiled(state) {
+      return function (id, field) {
+        return state.services.find(function (item) {
+          return item.id === id;
+        })[field];
+      };
     }
   },
   mutations: {
@@ -77395,6 +77801,30 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     updateReservationFiled: function updateReservationFiled(state, data) {
       state.reservation[data.field] = data.value;
+    },
+    updateServicesFiled: function updateServicesFiled(state, data) {
+      state.services.forEach(function (item) {
+        if (item.id === data.id) {
+          item[data.field] = data.value;
+        }
+      });
+    },
+    addService: function addService(state, data) {
+      state.services.push(data);
+    },
+    removeService: function removeService(state, id) {
+      state.services.forEach(function (item, index) {
+        if (item.id === id) {
+          state.services.splice(index, 1);
+        }
+      });
+    },
+    toggleEditing: function toggleEditing(state, id) {
+      state.services.forEach(function (item) {
+        if (item.id === +id) {
+          item.isEditing = !item.isEditing;
+        }
+      });
     }
   },
   actions: {}

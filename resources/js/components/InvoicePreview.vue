@@ -47,73 +47,47 @@
 
          <p class="invoice__text text-bold">Invoice</p>
 
-         <div class="">
-            <table class="invoice-table">
-               <thead class="invoice-table__header">
-                  <tr class="invoice-table__row">
-                     <th class="invoice-table__cell">Header1</th>
-                     <th class="invoice-table__cell">Header2</th>
-                     <th class="invoice-table__cell">Header3</th>
-                     <th class="invoice-table__cell">Header4</th>
-                  </tr>
-               </thead>
-               <tbody class="invoice-table__body">
-                  <tr class="invoice-table__row" v-for="(item, index) in data" :key="index">
-                     <td class="invoice-table__cell">{{ item.money }}</td>
-                     <td class="invoice-table__cell">{{ item.name }}</td>
-                     <td class="invoice-table__cell">{{ item.money }}</td>
-                     <td class="invoice-table__cell">{{ item.money }}</td>
-                  </tr>
-                  <tr class="invoice-table__row invoice-table__footer">
-                     <td class="invoice-table__cell" colspan="2"> Subtotal </td>
-                     <td class="invoice-table__cell"> 12496</td>
-                     <td class="invoice-table__cell"> 12496</td>
-                  </tr>
-                  <tr class="invoice-table__row invoice-table__footer">
-                     <td class="invoice-table__cell" colspan="2"> Balance Due: </td>
-                     <td class="invoice-table__cell" colspan="2"> 12496</td>
-                  </tr>
-                  <tr class="invoice-table__row">
-                     <td class="invoice-table__cell" colspan="2" style="text-align: center"> Total Incl. VAT </td>
-                     <td class="invoice-table__cell" colspan="2"> 12496</td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
+
+         <table class="invoice-table">
+            <thead class="invoice-table__header">
+               <tr class="invoice-table__row">
+                  <th class="invoice-table__cell">Header1</th>
+                  <th class="invoice-table__cell">Header2</th>
+                  <th class="invoice-table__cell">Header3</th>
+                  <th class="invoice-table__cell">Header4</th>
+               </tr>
+            </thead>
+            <tbody class="invoice-table__body">
+               <tr class="invoice-table__row" v-for="item in servicesObj" :key="item.id">
+                  <td class="invoice-table__cell">{{ item.date }}</td>
+                  <td class="invoice-table__cell">{{ item.nameServices }}</td>
+                  <td class="invoice-table__cell">{{ item.debit }}</td>
+                  <td class="invoice-table__cell">{{ item.credit }}</td>
+               </tr>
+               <tr class="invoice-table__row invoice-table__footer">
+                  <td class="invoice-table__cell" colspan="2"> Subtotal </td>
+                  <td class="invoice-table__cell"> 12496</td>
+                  <td class="invoice-table__cell"> 12496</td>
+               </tr>
+               <tr class="invoice-table__row invoice-table__footer">
+                  <td class="invoice-table__cell" colspan="2"> Balance Due: </td>
+                  <td class="invoice-table__cell" colspan="2"> 12496</td>
+               </tr>
+               <tr class="invoice-table__row">
+                  <td class="invoice-table__cell" colspan="2" style="text-align: center"> Total Incl. VAT </td>
+                  <td class="invoice-table__cell" colspan="2"> 12496</td>
+               </tr>
+            </tbody>
+         </table>
       </div>
    </div>
 </template>
 
 <script>
-
-const data = [{
-  key: '1',
-  name: 'John Brown',
-  money: '￥300,000',
-  address: 'New York No. 1 Lake Park',
-}, {
-  key: '2',
-  name: 'Jim Green',
-  money: '￥1,256,000',
-  address: 'London No. 1 Lake Park',
-}, {
-  key: '3',
-  name: 'Joe Black',
-  money: '￥120,000',
-  address: 'Sidney No. 1 Lake Park',
-},{
-   key: '4',
-   name: 'Joe Black',
-   money: '￥120,000',
-   className: 'my-class',
-   address: 'Sidney No. 1 Lake Park',
-}];
-
 export default {
    name: 'InvoicePreview',
 
    data: () => ({
-      data,
       buttonSaveLoading: false
    }),
 
@@ -123,7 +97,10 @@ export default {
       },
       reservationObj() {
          return this.$store.state.reservation
-      }
+      },
+      servicesObj() {
+         return this.$store.getters.getServices
+      },
    },
 
    methods: {

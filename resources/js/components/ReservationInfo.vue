@@ -122,6 +122,12 @@ export default {
    color: #606266;
    transition: all 0.2s ease;
 
+   &--small {
+      height: 32px;
+      line-height: 32px;
+      font-size: 13px;
+   }
+
    &::placeholder {
       color: #c0c4cc;
    }
@@ -137,5 +143,11 @@ export default {
 
 .mx-datepicker {
    width: 100%;
+
+   &--small {
+      height: 32px;
+      line-height: 32px;
+      font-size: 13px;
+   }
 }
 </style>

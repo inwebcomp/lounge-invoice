@@ -596,6 +596,11 @@ body {
   }
 }
 
+.aligh-center {
+  text-align: center;
+  justify-content: center;
+}
+
 .invoice-fields-box {
   height: 600px;
   max-height: 1000px;
