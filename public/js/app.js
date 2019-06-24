@@ -1850,6 +1850,39 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientInfo',
   data: function data() {
@@ -1859,8 +1892,17 @@ __webpack_require__.r(__webpack_exports__);
     getFiled: function getFiled(field) {
       return this.$store.state.client[field];
     },
+    getInvoiceFiled: function getInvoiceFiled(field) {
+      return this.$store.state.invoiceInfo[field];
+    },
     updateField: function updateField(field, val) {
       this.$store.commit('updateClientFiled', {
+        value: val,
+        field: field
+      });
+    },
+    updateInvoiceFiled: function updateInvoiceFiled(field, val) {
+      this.$store.commit('updateInvoiceInfoFiled', {
         value: val,
         field: field
       });
@@ -2010,11 +2052,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicePreview',
   data: function data() {
     return {
-      buttonSaveLoading: false
+      buttonSaveLoading: false,
+      requisitesText: ['DeepL для перевода Ваших текстов с веб-сервис, который переводит', 'мобильный и веб-сервис, который переводит', 'мобильный и веб-сервис, который переводит оторый перевод'],
+      servicesObjsArr: [],
+      tva: 7
     };
   },
   computed: {
@@ -2024,13 +2100,74 @@ __webpack_require__.r(__webpack_exports__);
     reservationObj: function reservationObj() {
       return this.$store.state.reservation;
     },
+    invoiceInfo: function invoiceInfo() {
+      return this.$store.state.invoiceInfo;
+    },
     servicesObj: function servicesObj() {
       return this.$store.getters.getServices;
+    },
+    sumDebit: function sumDebit() {
+      return this.$store.getters.sumDebit;
+    },
+    sumCredit: function sumCredit() {
+      return this.$store.getters.sumCredit;
+    },
+    balanceDue: function balanceDue() {
+      return this.sumDebit - this.sumCredit;
+    },
+    TotalIncVAT: function TotalIncVAT() {
+      return this.sumDebit;
+    },
+    currencySymbl: function currencySymbl() {
+      switch (this.$store.state.currency.value) {
+        case 'EUR':
+          return '<span>&#8364;</span>';
+          break;
+
+        case 'USD':
+          return '<span>&#36;</span>';
+          break;
+
+        default:
+          return this.$store.state.currency.value;
+          break;
+      }
+    },
+    smallTableData: function smallTableData() {
+      var _this = this;
+
+      var namesArr = [];
+      this.servicesObjsArr = [];
+      this.servicesObj.forEach(function (item) {
+        if (namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null) {
+          namesArr.push(item.nameServices);
+        }
+      });
+      namesArr.forEach(function (itemName) {
+        var tvaServicesObj = {
+          nameServices: null,
+          debit: 0,
+          netto: 0,
+          tva: _this.tva
+        };
+
+        _this.servicesObj.forEach(function (item) {
+          if (item.nameServices === itemName) {
+            tvaServicesObj.nameServices = item.nameServices;
+            tvaServicesObj.debit += +item.debit;
+            tvaServicesObj.netto = +tvaServicesObj.debit * (1 - tvaServicesObj.tva / 100);
+            tvaServicesObj.netto = +tvaServicesObj.netto.toFixed(2);
+          }
+        });
+
+        _this.servicesObjsArr.push(tvaServicesObj);
+      });
+      return this.servicesObjsArr;
     }
   },
   methods: {
     saveInvoice: function saveInvoice() {
-      var _this = this;
+      var _this2 = this;
 
       if (this.buttonSaveLoading) {
         return false;
@@ -2055,7 +2192,7 @@ __webpack_require__.r(__webpack_exports__);
         }
       };
       html2pdf(element, opt).then(function () {
-        _this.buttonSaveLoading = false;
+        _this2.buttonSaveLoading = false;
       });
     }
   }
@@ -2287,6 +2424,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SevicesList',
@@ -2295,27 +2443,21 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      nameServicesList: [{
-        label: 'Name 1',
-        value: 'Name 1'
-      }, {
-        label: 'Name 2',
-        value: 'Name 2'
-      }, {
-        label: 'Name 3',
-        value: 'Name 3'
-      }, {
-        label: 'Name 4',
-        value: 'Name 4'
-      }]
+      state1: ''
     };
   },
   computed: {
     getServices: function getServices() {
       return this.$store.getters.getServices;
+    },
+    currency: function currency() {
+      return this.$store.state.currency;
     }
   },
   methods: {
+    currencySet: function currencySet(val) {
+      this.$store.commit('updateCurrency', val);
+    },
     getFiled: function getFiled(field, id) {
       return this.$store.getters.getServicesFiled(id, field);
     },
@@ -2347,7 +2489,37 @@ __webpack_require__.r(__webpack_exports__);
       this.getServices.forEach(function (item) {
         item.isEditing = false;
       });
+    },
+    querySearch: function querySearch(queryString, cb) {
+      var links = this.nameServicesList;
+      var results = queryString ? links.filter(this.createFilter(queryString)) : links;
+      cb(results);
+    },
+    createFilter: function createFilter(queryString) {
+      return function (link) {
+        return link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
+      };
+    },
+    handleSelect: function handleSelect(item) {
+      console.log(item);
     }
+  },
+  mounted: function mounted() {
+    this.nameServicesList = [{
+      "value": "vue"
+    }, {
+      "value": "element"
+    }, {
+      "value": "cooking"
+    }, {
+      "value": "mint-ui"
+    }, {
+      "value": "vuex"
+    }, {
+      "value": "vue-router"
+    }, {
+      "value": "babel"
+    }];
   }
 });
 
@@ -4187,7 +4359,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(2) {\n  width: 50%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:first-of-type {\n  margin-right: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  padding-left: 25px;\n  float: left;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 180px;\n  max-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 0;\n  display: flex;\n}\n.invoice__reservation-info__right {\n  text-align: right;\n  margin-left: auto;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
+exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:first-of-type {\n  margin-right: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 180px;\n  max-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n}\n.invoice__reservation-info__right {\n  text-align: right;\n  margin-left: auto;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  text-align: center;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
 
 // exports
 
@@ -63106,6 +63278,80 @@ var render = function() {
           )
         ],
         1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "invoice-fields__title-line" }, [
+        _vm._v("Информация об инвойсе")
+      ]),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticClass: "fields-row", attrs: { gutter: 16 } },
+        [
+          _c(
+            "el-col",
+            { attrs: { span: 10 } },
+            [
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v("Название отеля:")
+              ]),
+              _vm._v(" "),
+              _c("el-input", {
+                attrs: { value: _vm.getInvoiceFiled("name"), readonly: "" }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { attrs: { span: 7 } },
+            [
+              _c("label", { staticClass: "input-label" }, [_vm._v("Дата:")]),
+              _vm._v(" "),
+              _c("date-picker", {
+                attrs: {
+                  value: _vm.getInvoiceFiled("date"),
+                  placeholder: "",
+                  valueType: "format",
+                  lang: "en"
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.updateInvoiceFiled("date", $event)
+                  }
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { attrs: { span: 7 } },
+            [
+              _c("label", { staticClass: "input-label" }, [_vm._v("Время:")]),
+              _vm._v(" "),
+              _c("date-picker", {
+                attrs: {
+                  value: _vm.getInvoiceFiled("time"),
+                  type: "time",
+                  format: "HH:mm:ss",
+                  placeholder: "",
+                  valueType: "format",
+                  lang: "en"
+                },
+                on: {
+                  input: function($event) {
+                    return _vm.updateInvoiceFiled("time", $event)
+                  }
+                }
+              })
+            ],
+            1
+          )
+        ],
+        1
       )
     ],
     1
@@ -63220,21 +63466,44 @@ var render = function() {
       _vm._v(" "),
       _c("div", { staticClass: "invoice__row" }, [
         _c("div", { staticClass: "invoice__info" }, [
-          _c("p", [
-            _vm._v(
-              _vm._s(_vm.clientObj.name) + "  " + _vm._s(_vm.clientObj.surName)
-            )
+          _c("div", { staticClass: "invoice__info-client" }, [
+            _c("p", [
+              _vm._v(
+                _vm._s(_vm.clientObj.name || "Name") +
+                  "  " +
+                  _vm._s(_vm.clientObj.surName || "Surname")
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _vm._v(
+                _vm._s(
+                  _vm.clientObj.city ? _vm.clientObj.city + "," : "City,"
+                ) +
+                  " " +
+                  _vm._s(_vm.clientObj.addres || "Address")
+              )
+            ]),
+            _vm._v(" "),
+            _c("p", [_vm._v(_vm._s(_vm.clientObj.postIndx || "Post Index"))])
           ]),
           _vm._v(" "),
-          _c("p", [
-            _vm._v(
-              _vm._s(_vm.clientObj.city ? _vm.clientObj.city + "," : null) +
-                " " +
-                _vm._s(_vm.clientObj.addres)
-            )
-          ]),
-          _vm._v(" "),
-          _c("p", [_vm._v(_vm._s(_vm.clientObj.postIndx))])
+          _c("div", { staticClass: "invoice__info-hotel" }, [
+            _c("p", [
+              _c("b", [_vm._v("Invoice: ")]),
+              _vm._v(" " + _vm._s(_vm.invoiceInfo.name))
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _c("b", [_vm._v("Data: ")]),
+              _vm._v(" " + _vm._s(_vm.invoiceInfo.date || "-"))
+            ]),
+            _vm._v(" "),
+            _c("p", [
+              _c("b", [_vm._v("Time: ")]),
+              _vm._v(" " + _vm._s(_vm.invoiceInfo.time || "-"))
+            ])
+          ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "invoice__reservation-info" }, [
@@ -63298,10 +63567,26 @@ var render = function() {
         ])
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "invoice__text text-bold" }, [_vm._v("Invoice")]),
-      _vm._v(" "),
       _c("table", { staticClass: "invoice-table" }, [
-        _vm._m(1),
+        _c("thead", { staticClass: "invoice-table__header" }, [
+          _c("tr", { staticClass: "invoice-table__row" }, [
+            _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Date")]),
+            _vm._v(" "),
+            _c("th", { staticClass: "invoice-table__cell" }, [
+              _vm._v("Description")
+            ]),
+            _vm._v(" "),
+            _c("th", {
+              staticClass: "invoice-table__cell",
+              domProps: { innerHTML: _vm._s("Debit " + _vm.currencySymbl) }
+            }),
+            _vm._v(" "),
+            _c("th", {
+              staticClass: "invoice-table__cell",
+              domProps: { innerHTML: _vm._s("Credit " + _vm.currencySymbl) }
+            })
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
@@ -63331,15 +63616,138 @@ var render = function() {
               )
             }),
             _vm._v(" "),
-            _vm._m(2),
+            _c(
+              "tr",
+              { staticClass: "invoice-table__row invoice-table__footer" },
+              [
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v(" Subtotal: ")]
+                ),
+                _vm._v(" "),
+                _c("td", { staticClass: "invoice-table__cell" }, [
+                  _vm._v(_vm._s(_vm.sumDebit))
+                ]),
+                _vm._v(" "),
+                _c("td", { staticClass: "invoice-table__cell" }, [
+                  _vm._v(_vm._s(_vm.sumCredit))
+                ])
+              ]
+            ),
             _vm._v(" "),
-            _vm._m(3),
+            _c(
+              "tr",
+              { staticClass: "invoice-table__row invoice-table__footer" },
+              [
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v(" Balance Due: ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v(_vm._s(_vm.balanceDue))]
+                )
+              ]
+            ),
             _vm._v(" "),
-            _vm._m(4)
+            _c("tr", { staticClass: "invoice-table__row" }, [
+              _c(
+                "td",
+                {
+                  staticClass: "invoice-table__cell",
+                  staticStyle: { "text-align": "center" },
+                  attrs: { colspan: "2" }
+                },
+                [_vm._v(" Total Incl. VAT: ")]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
+                [_vm._v(_vm._s(_vm.TotalIncVAT))]
+              )
+            ])
           ],
           2
         )
-      ])
+      ]),
+      _vm._v(" "),
+      _c("table", { staticClass: "invoice-small-table" }, [
+        _vm._m(1),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          { staticClass: "invoice-table__body" },
+          _vm._l(_vm.smallTableData, function(item) {
+            return _c(
+              "tr",
+              { key: item.id, staticClass: "invoice-table__row" },
+              [
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "55%" }
+                  },
+                  [_vm._v(_vm._s(item.nameServices))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "15%" }
+                  },
+                  [_vm._v(_vm._s(item.netto))]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "15%" }
+                  },
+                  [_vm._v(_vm._s(item.tva) + "%")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    staticStyle: { width: "15%" }
+                  },
+                  [_vm._v(_vm._s(item.debit))]
+                )
+              ]
+            )
+          }),
+          0
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "section",
+        { staticClass: "invoice__requisites" },
+        _vm._l(_vm.requisitesText, function(item, index) {
+          return _c("p", { key: index, staticClass: "invoice__text" }, [
+            _vm._v("\n            " + _vm._s(item) + "\n         ")
+          ])
+        }),
+        0
+      )
     ])
   ])
 }
@@ -63361,78 +63769,14 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "invoice-table__header" }, [
       _c("tr", { staticClass: "invoice-table__row" }, [
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Header1")]),
+        _c("th", { staticClass: "invoice-table__cell" }),
         _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Header2")]),
+        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Net")]),
         _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Header3")]),
+        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("VAT")]),
         _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Header4")])
+        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Total")])
       ])
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "tr",
-      { staticClass: "invoice-table__row invoice-table__footer" },
-      [
-        _c(
-          "td",
-          { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-          [_vm._v(" Subtotal ")]
-        ),
-        _vm._v(" "),
-        _c("td", { staticClass: "invoice-table__cell" }, [_vm._v(" 12496")]),
-        _vm._v(" "),
-        _c("td", { staticClass: "invoice-table__cell" }, [_vm._v(" 12496")])
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c(
-      "tr",
-      { staticClass: "invoice-table__row invoice-table__footer" },
-      [
-        _c(
-          "td",
-          { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-          [_vm._v(" Balance Due: ")]
-        ),
-        _vm._v(" "),
-        _c(
-          "td",
-          { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-          [_vm._v(" 12496")]
-        )
-      ]
-    )
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", { staticClass: "invoice-table__row" }, [
-      _c(
-        "td",
-        {
-          staticClass: "invoice-table__cell",
-          staticStyle: { "text-align": "center" },
-          attrs: { colspan: "2" }
-        },
-        [_vm._v(" Total Incl. VAT ")]
-      ),
-      _vm._v(" "),
-      _c(
-        "td",
-        { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-        [_vm._v(" 12496")]
-      )
     ])
   }
 ]
@@ -63716,71 +64060,100 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "fields-box" }, [
-    _c("table", { staticClass: "invoice-table" }, [
-      _vm._m(0),
+  return _c(
+    "div",
+    { staticClass: "fields-box" },
+    [
+      _c("label", { staticClass: "input-label" }, [_vm._v("Валюта: ")]),
       _vm._v(" "),
       _c(
-        "tbody",
+        "el-select",
         {
-          directives: [
-            {
-              name: "click-outside",
-              rawName: "v-click-outside",
-              value: _vm.stopEditing,
-              expression: "stopEditing"
+          staticClass: "currency-select",
+          attrs: {
+            placeholder: "Select",
+            value: _vm.currency.value,
+            size: "small"
+          },
+          on: {
+            input: function($event) {
+              return _vm.currencySet($event)
             }
-          ],
-          staticClass: "invoice-table__body"
+          }
         },
-        [
-          _vm._l(_vm.getServices, function(item) {
-            return _c(
-              "tr",
-              { key: item.id, staticClass: "invoice-table__row" },
-              [
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "23%" }
-                  },
-                  [
-                    item.isEditing
-                      ? _c("date-picker", {
-                          staticClass: "mx-datepicker--small",
-                          attrs: {
-                            value: _vm.getFiled("date", item.id),
-                            popupStyle: { left: 0, top: "100" },
-                            "input-class": "mx-input mx-input--small",
-                            valueType: "format",
-                            lang: "en"
-                          },
-                          on: {
-                            input: function($event) {
-                              return _vm.updateField("date", $event, item.id)
-                            }
-                          }
-                        })
-                      : _c("span", [_vm._v(_vm._s(item.date))])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "30%" }
-                  },
-                  [
-                    item.isEditing
-                      ? _c(
-                          "el-select",
-                          {
+        _vm._l(_vm.currency.items, function(item) {
+          return _c("el-option", {
+            key: item.value,
+            attrs: { label: item.label, value: item.value }
+          })
+        }),
+        1
+      ),
+      _vm._v(" "),
+      _c("table", { staticClass: "invoice-table" }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          {
+            directives: [
+              {
+                name: "click-outside",
+                rawName: "v-click-outside",
+                value: _vm.stopEditing,
+                expression: "stopEditing"
+              }
+            ],
+            staticClass: "invoice-table__body"
+          },
+          [
+            _vm._l(_vm.getServices, function(item) {
+              return _c(
+                "tr",
+                { key: item.id, staticClass: "invoice-table__row" },
+                [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "23%" }
+                    },
+                    [
+                      item.isEditing
+                        ? _c("date-picker", {
+                            staticClass: "mx-datepicker--small",
                             attrs: {
-                              placeholder: "Select",
+                              value: _vm.getFiled("date", item.id),
+                              popupStyle: { left: 0, top: "100" },
+                              "input-class": "mx-input mx-input--small",
+                              valueType: "format",
+                              lang: "en"
+                            },
+                            on: {
+                              input: function($event) {
+                                return _vm.updateField("date", $event, item.id)
+                              }
+                            }
+                          })
+                        : _c("span", [_vm._v(_vm._s(item.date))])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "30%" }
+                    },
+                    [
+                      item.isEditing
+                        ? _c("el-autocomplete", {
+                            staticClass: "inline-input",
+                            attrs: {
                               value: _vm.getFiled("nameServices", item.id),
+                              "fetch-suggestions": _vm.querySearch,
+                              placeholder: "Please Input",
                               size: "small"
                             },
                             on: {
@@ -63792,127 +64165,125 @@ var render = function() {
                                 )
                               }
                             }
-                          },
-                          _vm._l(_vm.nameServicesList, function(item) {
-                            return _c("el-option", {
-                              key: item.value,
-                              attrs: { label: item.label, value: item.value }
-                            })
-                          }),
-                          1
-                        )
-                      : _c("span", [_vm._v(_vm._s(item.nameServices))])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "20%" }
-                  },
-                  [
-                    item.isEditing
-                      ? _c("el-input", {
-                          attrs: {
-                            placeholder: "Please input",
-                            value: _vm.getFiled("debit", item.id),
-                            size: "small"
-                          },
-                          on: {
-                            input: function($event) {
-                              return _vm.updateField("debit", $event, item.id)
-                            }
-                          }
-                        })
-                      : _c("span", [_vm._v(_vm._s(item.debit))])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "20%" }
-                  },
-                  [
-                    item.isEditing
-                      ? _c("el-input", {
-                          attrs: {
-                            placeholder: "Please input",
-                            value: _vm.getFiled("credit", item.id),
-                            size: "small"
-                          },
-                          on: {
-                            input: function($event) {
-                              return _vm.updateField("credit", $event, item.id)
-                            }
-                          }
-                        })
-                      : _c("span", [_vm._v(_vm._s(item.credit))])
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  { staticClass: "invoice-table__cell" },
-                  [
-                    _c("el-button", {
-                      attrs: { icon: "el-icon-edit", size: "mini" },
-                      on: {
-                        click: function($event) {
-                          return _vm.editing(item.id)
-                        }
-                      }
-                    }),
-                    _vm._v(" "),
-                    _c("el-button", {
-                      attrs: { icon: "el-icon-delete", size: "mini" },
-                      on: {
-                        click: function($event) {
-                          return _vm.delItem(item.id)
-                        }
-                      }
-                    })
-                  ],
-                  1
-                )
-              ]
-            )
-          }),
-          _vm._v(" "),
-          _c("tr", { staticClass: "invoice-table__row" }, [
-            _c(
-              "td",
-              {
-                staticClass: "invoice-table__cell aligh-center",
-                attrs: { colspan: "5" }
-              },
-              [
-                _c(
-                  "el-button",
-                  {
-                    attrs: {
-                      icon: "el-icon-plus",
-                      type: "primary",
-                      size: "medium"
+                          })
+                        : _c("span", [_vm._v(_vm._s(item.nameServices))])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "20%" }
                     },
-                    on: { click: _vm.addService }
-                  },
-                  [_vm._v("Добавить")]
-                )
-              ],
-              1
-            )
-          ])
-        ],
-        2
-      )
-    ])
-  ])
+                    [
+                      item.isEditing
+                        ? _c("el-input", {
+                            attrs: {
+                              placeholder: "Please input",
+                              value: _vm.getFiled("debit", item.id),
+                              size: "small"
+                            },
+                            on: {
+                              input: function($event) {
+                                return _vm.updateField("debit", $event, item.id)
+                              }
+                            }
+                          })
+                        : _c("span", [_vm._v(_vm._s(item.debit))])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "20%" }
+                    },
+                    [
+                      item.isEditing
+                        ? _c("el-input", {
+                            attrs: {
+                              placeholder: "Please input",
+                              value: _vm.getFiled("credit", item.id),
+                              size: "small"
+                            },
+                            on: {
+                              input: function($event) {
+                                return _vm.updateField(
+                                  "credit",
+                                  $event,
+                                  item.id
+                                )
+                              }
+                            }
+                          })
+                        : _c("span", [_vm._v(_vm._s(item.credit))])
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    { staticClass: "invoice-table__cell" },
+                    [
+                      _c("el-button", {
+                        attrs: { icon: "el-icon-edit", size: "mini" },
+                        on: {
+                          click: function($event) {
+                            return _vm.editing(item.id)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c("el-button", {
+                        attrs: { icon: "el-icon-delete", size: "mini" },
+                        on: {
+                          click: function($event) {
+                            return _vm.delItem(item.id)
+                          }
+                        }
+                      })
+                    ],
+                    1
+                  )
+                ]
+              )
+            }),
+            _vm._v(" "),
+            _c("tr", { staticClass: "invoice-table__row" }, [
+              _c(
+                "td",
+                {
+                  staticClass: "invoice-table__cell aligh-center",
+                  attrs: { colspan: "5" }
+                },
+                [
+                  _c(
+                    "el-button",
+                    {
+                      attrs: {
+                        icon: "el-icon-plus",
+                        type: "primary",
+                        size: "medium"
+                      },
+                      on: { click: _vm.addService }
+                    },
+                    [_vm._v("Добавить")]
+                  )
+                ],
+                1
+              )
+            ])
+          ],
+          2
+        )
+      ])
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -77219,6 +77590,7 @@ vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(element_ui__WEBPACK_IMPORTED_MODU
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_4__["Table"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_4__["Option"]);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(vue2_datepicker__WEBPACK_IMPORTED_MODULE_5___default.a);
+vue__WEBPACK_IMPORTED_MODULE_1___default.a.use(element_ui__WEBPACK_IMPORTED_MODULE_4__["Autocomplete"]);
 new vue__WEBPACK_IMPORTED_MODULE_1___default.a({
   store: _store___WEBPACK_IMPORTED_MODULE_2__["default"],
   render: function render(h) {
@@ -77742,6 +78114,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       city: '',
       postIndx: null
     },
+    invoiceInfo: {
+      name: 'Raddison Blu Hotel',
+      date: null,
+      time: null
+    },
     reservation: {
       roomNumbsList: [{
         label: 'option11',
@@ -77775,15 +78152,22 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       cashierNumb: null,
       pageNumb: null
     },
-    services: []
+    services: [],
+    currency: {
+      items: [{
+        label: 'USD',
+        value: 'USD'
+      }, {
+        label: 'EUR',
+        value: 'EUR'
+      }, {
+        label: 'MDL',
+        value: 'MDL'
+      }],
+      value: 'EUR'
+    }
   },
   getters: {
-    getClientFiled: function getClientFiled(state, field) {
-      return state.client[field];
-    },
-    getReservationFiled: function getReservationFiled(state, field) {
-      return state.reservation[field];
-    },
     getServices: function getServices(state) {
       return state.services;
     },
@@ -77793,6 +78177,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           return item.id === id;
         })[field];
       };
+    },
+    sumDebit: function sumDebit(state) {
+      var result = 0;
+      state.services.forEach(function (item) {
+        if (!isNaN(+item.debit)) result += +item.debit;
+      });
+      return result;
+    },
+    sumCredit: function sumCredit(state) {
+      var result = 0;
+      state.services.forEach(function (item) {
+        if (!isNaN(+item.credit)) result += +item.credit;
+      });
+      return result;
     }
   },
   mutations: {
@@ -77808,6 +78206,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           item[data.field] = data.value;
         }
       });
+    },
+    updateInvoiceInfoFiled: function updateInvoiceInfoFiled(state, data) {
+      state.invoiceInfo[data.field] = data.value;
+    },
+    updateCurrency: function updateCurrency(state, value) {
+      state.currency.value = value;
     },
     addService: function addService(state, data) {
       state.services.push(data);

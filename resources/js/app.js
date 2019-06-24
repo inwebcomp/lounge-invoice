@@ -2,7 +2,7 @@ import './bootstrap'
 import Vue from 'vue'
 import store from './store/'
 import Translator from './services/Translator'
-import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, Input, InputNumber, Table} from 'element-ui';
+import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, Input, InputNumber, Table, Autocomplete,} from 'element-ui';
 import DatePicker from 'vue2-datepicker'
 
 // components
@@ -33,6 +33,7 @@ Vue.use(InputNumber)
 Vue.use(Table)
 Vue.use(Option)
 Vue.use(DatePicker)
+Vue.use(Autocomplete)
 
 new Vue({
    store,

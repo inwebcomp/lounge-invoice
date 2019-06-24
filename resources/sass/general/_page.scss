@@ -71,9 +71,10 @@ body {
    height: 100%;
 
    &__title-line {
+      font-weight: 500;
       display: flex;
       align-items: center;
-      margin: $padding * 2 0;
+      margin: $padding * 2.5 0 $padding * 2;
 
       &::after,
       &::before {
@@ -99,4 +100,9 @@ body {
 
 .fields-row {
    margin-bottom: $padding * 2;
+}
+
+.currency-select {
+   margin-bottom: $padding * 1.5;
+   margin-left: $padding;
 }

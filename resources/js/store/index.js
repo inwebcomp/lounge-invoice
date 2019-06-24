@@ -13,6 +13,12 @@ export default new Vuex.Store({
          postIndx: null
       },
 
+      invoiceInfo: {
+         name: 'Raddison Blu Hotel',
+         date: null,
+         time: null
+      },
+
       reservation: {
          roomNumbsList: [
             {label: 'option11', value: 'roomNumb111'},
@@ -37,21 +43,44 @@ export default new Vuex.Store({
       },
 
       services: [],
+
+      currency: {
+         items: [
+            {label: 'USD', value: 'USD'},
+            {label: 'EUR', value: 'EUR'},
+            {label: 'MDL', value: 'MDL'},
+         ],
+         value: 'EUR'
+      }
    },
+
    getters: {
-      getClientFiled (state, field) {
-         return state.client[field]
-      },
-      getReservationFiled (state, field) {
-         return state.reservation[field]
-      },
       getServices (state) {
          return state.services
       },
       getServicesFiled: (state) => (id, field) => {
         return state.services.find(item => item.id === id)[field];
+      },
+      sumDebit (state) {
+         let result = 0;
+
+         state.services.forEach(item => {
+            if (! isNaN(+item.debit)) result += +item.debit
+         })
+
+         return result;
+      },
+      sumCredit (state) {
+         let result = 0;
+
+         state.services.forEach(item => {
+            if (! isNaN(+item.credit)) result += +item.credit
+         })
+
+         return result;
       }
    },
+
    mutations: {
       updateClientFiled (state, data) {
          state.client[data.field] = data.value
@@ -66,7 +95,12 @@ export default new Vuex.Store({
             }
          })
       },
-
+      updateInvoiceInfoFiled (state, data) {
+         state.invoiceInfo[data.field] = data.value
+      },
+      updateCurrency (state, value) {
+         state.currency.value = value
+      },
 
       addService(state, data) {
          state.services.push(data)
@@ -86,6 +120,7 @@ export default new Vuex.Store({
          })
       }
    },
+
    actions: {
 
    }

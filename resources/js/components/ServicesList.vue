@@ -1,5 +1,20 @@
 <template>
    <div class="fields-box">
+      <label class="input-label">Валюта: </label>
+      <el-select placeholder="Select"
+         :value="currency.value"
+         class="currency-select"
+         @input="currencySet($event)"
+         size="small"
+      >
+         <el-option
+            v-for="item in currency.items"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value">
+         </el-option>
+      </el-select>
+
       <table class="invoice-table">
          <thead class="invoice-table__header">
             <tr class="invoice-table__row">
@@ -25,19 +40,15 @@
                   <span v-else>{{ item.date }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 30%">
-                  <el-select placeholder="Select"
+                  <el-autocomplete
                      v-if="item.isEditing"
+                     class="inline-input"
                      :value="getFiled('nameServices', item.id)"
                      @input="updateField('nameServices', $event, item.id)"
+                     :fetch-suggestions="querySearch"
+                     placeholder="Please Input"
                      size="small"
-                  >
-                     <el-option
-                        v-for="item in nameServicesList"
-                        :key="item.value"
-                        :label="item.label"
-                        :value="item.value">
-                     </el-option>
-                  </el-select>
+                  ></el-autocomplete>
                   <span v-else>{{ item.nameServices }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 20%">
@@ -98,22 +109,22 @@ export default {
    },
 
    data: () => ({
-      nameServicesList: [
-         {label: 'Name 1', value: 'Name 1'},
-         {label: 'Name 2', value: 'Name 2'},
-         {label: 'Name 3', value: 'Name 3'},
-         {label: 'Name 4', value: 'Name 4'},
-      ],
-
+      state1: '',
    }),
 
    computed: {
       getServices() {
          return this.$store.getters.getServices
       },
+      currency() {
+         return this.$store.state.currency
+      }
    },
 
    methods: {
+      currencySet(val) {
+         this.$store.commit('updateCurrency', val)
+      },
       getFiled(field, id) {
          return this.$store.getters.getServicesFiled(id, field)
       },
@@ -146,8 +157,35 @@ export default {
          this.getServices.forEach(item => {
             item.isEditing = false
          })
+      },
+
+      querySearch(queryString, cb) {
+         const links = this.nameServicesList;
+         const results = queryString ? links.filter(this.createFilter(queryString)) : links;
+
+         cb(results);
+      },
+      createFilter(queryString) {
+         return (link) => {
+            return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+         };
+      },
+      handleSelect(item) {
+         console.log(item);
       }
    },
+
+   mounted() {
+      this.nameServicesList = [
+            { "value": "vue"},
+            { "value": "element"},
+            { "value": "cooking"},
+            { "value": "mint-ui"},
+            { "value": "vuex"},
+            { "value": "vue-router"},
+            { "value": "babel"}
+         ];
+   }
 
 }
 </script>

@@ -30,6 +30,39 @@
             </el-input>
          </el-col>
       </el-row>
+
+      <div class="invoice-fields__title-line">Информация об инвойсе</div>
+
+      <el-row :gutter="16" class="fields-row">
+         <el-col :span="10">
+            <label class="input-label">Название отеля:</label>
+            <el-input :value="getInvoiceFiled('name')" readonly>
+            </el-input>
+         </el-col>
+         <el-col :span="7">
+            <label class="input-label">Дата:</label>
+            <date-picker
+               :value="getInvoiceFiled('date')"
+               placeholder=""
+               @input="updateInvoiceFiled('date', $event)"
+               valueType="format"
+               lang="en" >
+            </date-picker>
+         </el-col>
+         <el-col :span="7">
+            <label class="input-label">Время:</label>
+            <date-picker
+               :value="getInvoiceFiled('time')"
+               @input="updateInvoiceFiled('time', $event)"
+               type="time"
+               format="HH:mm:ss"
+               placeholder=""
+               valueType="format"
+               lang="en" >
+            </date-picker>
+         </el-col>
+      </el-row>
+
    </div>
 </template>
 
@@ -46,8 +79,15 @@ export default {
       getFiled(field) {
          return this.$store.state.client[field]
       },
+      getInvoiceFiled(field) {
+         return this.$store.state.invoiceInfo[field]
+      },
+
       updateField (field, val) {
          this.$store.commit('updateClientFiled', {value: val, field: field})
+      },
+      updateInvoiceFiled (field, val) {
+         this.$store.commit('updateInvoiceInfoFiled', {value: val, field: field})
       }
    },
 }

@@ -620,9 +620,10 @@ body {
 }
 
 .invoice-fields__title-line {
+  font-weight: 500;
   display: flex;
   align-items: center;
-  margin: 32px 0;
+  margin: 40px 0 32px;
 }
 
 .invoice-fields__title-line::after,
@@ -647,6 +648,11 @@ body {
 
 .fields-row {
   margin-bottom: 32px;
+}
+
+.currency-select {
+  margin-bottom: 24px;
+  margin-left: 16px;
 }
 
 .layout {
