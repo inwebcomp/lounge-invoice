@@ -125,6 +125,7 @@ export default {
    border: 1px solid #DCDFE6;
    color: #606266;
    transition: all 0.2s ease;
+   box-shadow: none;
 
    &--small {
       height: 32px;
@@ -147,6 +148,7 @@ export default {
 
 .mx-datepicker {
    width: 100%;
+   font-family: "Montserrat", sans-serif;
 
    &--small {
       height: 32px;
