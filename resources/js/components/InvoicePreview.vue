@@ -370,7 +370,9 @@ export default {
       margin-top: 32px;
 
       .invoice__text {
+         margin: 2px 0;
          text-align: center;
+         font-size: 1.2rem;
       }
    }
 }
