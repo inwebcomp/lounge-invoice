@@ -26,14 +26,6 @@ export default {
       ClientInfo,
       ReservationInfo,
       ServicesList
-   },
-
-   data: () => ({
-
-   }),
-
-   methods: {
-
-   },
+   }
 }
 </script>

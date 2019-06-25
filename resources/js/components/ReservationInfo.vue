@@ -3,9 +3,10 @@
       <el-row :gutter="16" class="fields-row">
          <el-col :span="8">
             <label class="input-label">Room No.:</label>
-            <el-select placeholder="Select"
+            <el-select
                :value="getFiled('roomNumb')"
                @input="updateField('roomNumb', $event)"
+               placeholder="Выберите из списка"
             >
                <el-option
                   v-for="item in getFiled('roomNumbsList')"
@@ -17,9 +18,10 @@
          </el-col>
          <el-col :span="8">
             <label class="input-label">No. of person(s):</label>
-            <el-select placeholder="Select"
+            <el-select
                :value="getFiled('personsCount')"
                @input="updateField('personsCount', $event)"
+               placeholder="Выберите из списка"
             >
                <el-option
                   v-for="item in getFiled('personsCountList')"
@@ -32,6 +34,7 @@
          <el-col :span="8">
             <label class="input-label">Arival:</label>
             <date-picker
+               placeholder="Выберите дату"
                :value="getFiled('arival')"
                @input="updateField('arival', $event)"
                valueType="format"
@@ -44,6 +47,7 @@
          <el-col :span="8">
             <label class="input-label">Departure:</label>
             <date-picker
+               placeholder="Выберите дату"
                :value="getFiled('departure')"
                @input="updateField('departure', $event)"
                :popupStyle="{left: 0, top: '100'}"
@@ -53,7 +57,9 @@
          </el-col>
          <el-col :span="8">
             <label class="input-label">Reservation No.:</label>
-               <el-input placeholder="Введите имя"
+               <el-input
+               type="number"
+               placeholder="Введите номер"
                :value="getFiled('reservationNumb')"
                @input="updateField('reservationNumb', $event)"
                clearable>
@@ -61,7 +67,9 @@
          </el-col>
          <el-col :span="8">
             <label class="input-label">Ext. Reservation No.:</label>
-               <el-input placeholder="Введите имя"
+               <el-input
+               type="number"
+               placeholder="Введите номер"
                :value="getFiled('extReservationNumb')"
                @input="updateField('extReservationNumb', $event)"
                clearable>
@@ -72,7 +80,9 @@
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
             <label class="input-label">Cashier No.:</label>
-               <el-input placeholder="Введите имя"
+               <el-input
+               type="number"
+               placeholder="Введите номер"
                :value="getFiled('cashierNumb')"
                @input="updateField('cashierNumb', $event)"
                clearable>
@@ -80,7 +90,9 @@
          </el-col>
          <el-col :span="12">
             <label class="input-label">Page No.:</label>
-               <el-input placeholder="Введите имя"
+               <el-input
+               type="number"
+               placeholder="Введите номер"
                :value="getFiled('pageNumb')"
                @input="updateField('pageNumb', $event)"
                clearable>
@@ -94,14 +106,6 @@
 
 export default {
    name: 'ReservationInfo',
-
-   data: () => ({
-      date: null
-   }),
-
-   computed: {
-
-   },
 
    methods: {
       getFiled(field) {
@@ -148,6 +152,16 @@ export default {
       height: 32px;
       line-height: 32px;
       font-size: 13px;
+
+      .mx-clear-icon {
+         position: relative;
+
+         &::before {
+            position: absolute;
+            top: -5px;
+            right: 2px;
+         }
+      }
    }
 }
 </style>

@@ -7,49 +7,49 @@
       </div>
       <div class="invoice" id="printarea">
          <div class="invoice__row">
-            <img src="img/logo.svg" width="150" alt="logo" class="invoice__logo">
+            <img src="img/logo.png" width="150" alt="logo" class="invoice__logo">
          </div>
          <div class="invoice__row">
             <div class="invoice__info">
                <div class="invoice__info-client" >
-                  <p>{{ clientObj.name || 'Name' }}  {{ clientObj.surName || 'Surname' }}</p>
-                  <p>{{ clientObj.city ? `${clientObj.city},` : 'City,' }} {{ clientObj.addres || 'Address'}}</p>
-                  <p>{{ clientObj.postIndx || 'Post Index'}}</p>
+                  <p>{{ getClient.name || 'Name' }}  {{ getClient.surName || 'Surname' }}</p>
+                  <p>{{ getClient.city ? `${getClient.city},` : 'City,' }} {{ getClient.addres || 'Address'}}</p>
+                  <p>{{ getClient.postIndx || 'Post Index'}}</p>
                </div>
 
                <div class="invoice__info-hotel">
-                  <p><b>Invoice: </b> {{ invoiceInfo.name }}</p>
-                  <p><b>Data: </b> {{ invoiceInfo.date || '-'}}</p>
-                  <p><b>Time: </b> {{ invoiceInfo.time || '-'}}</p>
+                  <p><b>Invoice: </b> {{ getInvoiceInfo.name }}</p>
+                  <p><b>Data: </b> {{ getInvoiceInfo.date || '-'}}</p>
+                  <p><b>Time: </b> {{ getInvoiceInfo.time || '-'}}</p>
                </div>
             </div>
 
 
             <div class="invoice__reservation-info" >
                <p>Room No.
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.roomNumb }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.roomNumb }}</span>
                </p>
                <p>No. of person(s)
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.personsCount }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.personsCount }}</span>
                </p>
                <p>Arival
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.arival }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.arival }}</span>
                </p>
                <p>Departure
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.departure }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.departure }}</span>
                </p>
                <p>Reservation No.
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.reservationNumb }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.reservationNumb }}</span>
                </p>
                <p>Ext. Reservation No.
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.extReservationNumb }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.extReservationNumb }}</span>
                </p>
                <p></p>
                <p>Cashier No.
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.cashierNumb }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.cashierNumb }}</span>
                </p>
                <p>Page No.
-                  <span class="invoice__reservation-info__right">: {{ reservationObj.pageNumb }}</span>
+                  <span class="invoice__reservation-info__right">: {{ getReservation.pageNumb }}</span>
                </p>
             </div>
          </div>
@@ -64,7 +64,7 @@
                </tr>
             </thead>
             <tbody class="invoice-table__body">
-               <tr class="invoice-table__row" v-for="item in servicesObj" :key="item.id">
+               <tr class="invoice-table__row" v-for="item in getServices" :key="item.id">
                   <td class="invoice-table__cell">{{ item.date }}</td>
                   <td class="invoice-table__cell">{{ item.nameServices }}</td>
                   <td class="invoice-table__cell">{{ item.debit }}</td>
@@ -115,6 +115,8 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
    name: 'InvoicePreview',
 
@@ -132,24 +134,15 @@ export default {
    }),
 
    computed: {
-      clientObj() {
-         return this.$store.state.client
-      },
-      reservationObj() {
-         return this.$store.state.reservation
-      },
-      invoiceInfo() {
-         return this.$store.state.invoiceInfo
-      },
-      servicesObj() {
-         return this.$store.getters.getServices
-      },
-      sumDebit() {
-         return this.$store.getters.sumDebit
-      },
-      sumCredit() {
-         return this.$store.getters.sumCredit
-      },
+      ...mapGetters([
+         'getServices',
+         'getClient',
+         'getReservation',
+         'getInvoiceInfo',
+         'sumDebit',
+         'sumCredit'
+      ]),
+
       balanceDue() {
          return this.sumDebit - this.sumCredit
       },
@@ -174,7 +167,7 @@ export default {
          const namesArr = []
          this.servicesObjsArr = []
 
-         this.servicesObj.forEach(item => {
+         this.getServices.forEach(item => {
             if ( namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null) {
                namesArr.push(item.nameServices)
             }
@@ -188,7 +181,7 @@ export default {
                tva: this.tva
             }
 
-            this.servicesObj.forEach(item => {
+            this.getServices.forEach(item => {
                if (item.nameServices === itemName) {
                   tvaServicesObj.nameServices = item.nameServices;
                   tvaServicesObj.debit += +item.debit
@@ -263,7 +256,7 @@ export default {
          width: 20%;
       }
       &:nth-child(2) {
-         //width: 50%;
+
       }
       &:nth-child(3) {
          width: 15%;
@@ -278,11 +271,16 @@ export default {
          font-weight: 700;
       }
    }
+
+   &__controls-btn {
+      margin: 5px 0 0 0 !important;
+   }
 }
 
 .invoice-small-table {
    width: 60%;
    margin-left: auto;
+   margin-top: 24px;
 }
 
 .invoice-container {
@@ -345,18 +343,18 @@ export default {
       padding: 0;
       float: right;
       font-weight: normal;
-      min-width: 180px;
-      max-width: 250px;
-
+      min-width: 250px;
 
       p {
          margin: 3px 0;
          display: flex;
+         width: 100%;
       }
 
       &__right {
-         text-align: right;
+         text-align: left;
          margin-left: auto;
+         width: 45%;
       }
    }
 
@@ -390,8 +388,10 @@ export default {
       width: 100%;
       display: block;
       position: absolute;
+      margin-top: 0;
       left: 0;
       top: 0;
+      box-shadow: none;
    }
 
    .invoice-preview-box {

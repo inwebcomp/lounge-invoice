@@ -1949,11 +1949,7 @@ __webpack_require__.r(__webpack_exports__);
     ClientInfo: _ClientInfo__WEBPACK_IMPORTED_MODULE_0__["default"],
     ReservationInfo: _ReservationInfo__WEBPACK_IMPORTED_MODULE_1__["default"],
     ServicesList: _ServicesList__WEBPACK_IMPORTED_MODULE_2__["default"]
-  },
-  data: function data() {
-    return {};
-  },
-  methods: {}
+  }
 });
 
 /***/ }),
@@ -1967,6 +1963,11 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2083,6 +2084,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicePreview',
   data: function data() {
@@ -2093,25 +2095,7 @@ __webpack_require__.r(__webpack_exports__);
       tva: 7
     };
   },
-  computed: {
-    clientObj: function clientObj() {
-      return this.$store.state.client;
-    },
-    reservationObj: function reservationObj() {
-      return this.$store.state.reservation;
-    },
-    invoiceInfo: function invoiceInfo() {
-      return this.$store.state.invoiceInfo;
-    },
-    servicesObj: function servicesObj() {
-      return this.$store.getters.getServices;
-    },
-    sumDebit: function sumDebit() {
-      return this.$store.getters.sumDebit;
-    },
-    sumCredit: function sumCredit() {
-      return this.$store.getters.sumCredit;
-    },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['getServices', 'getClient', 'getReservation', 'getInvoiceInfo', 'sumDebit', 'sumCredit']), {
     balanceDue: function balanceDue() {
       return this.sumDebit - this.sumCredit;
     },
@@ -2138,7 +2122,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var namesArr = [];
       this.servicesObjsArr = [];
-      this.servicesObj.forEach(function (item) {
+      this.getServices.forEach(function (item) {
         if (namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null) {
           namesArr.push(item.nameServices);
         }
@@ -2151,7 +2135,7 @@ __webpack_require__.r(__webpack_exports__);
           tva: _this.tva
         };
 
-        _this.servicesObj.forEach(function (item) {
+        _this.getServices.forEach(function (item) {
           if (item.nameServices === itemName) {
             tvaServicesObj.nameServices = item.nameServices;
             tvaServicesObj.debit += +item.debit;
@@ -2164,7 +2148,7 @@ __webpack_require__.r(__webpack_exports__);
       });
       return this.servicesObjsArr;
     }
-  },
+  }),
   methods: {
     saveInvoice: function saveInvoice() {
       var _this2 = this;
@@ -2301,14 +2285,20 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReservationInfo',
-  data: function data() {
-    return {
-      date: null
-    };
-  },
-  computed: {},
   methods: {
     getFiled: function getFiled(field) {
       return this.$store.state.reservation[field];
@@ -2435,6 +2425,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SevicesList',
@@ -2442,9 +2435,7 @@ __webpack_require__.r(__webpack_exports__);
     ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
   },
   data: function data() {
-    return {
-      state1: ''
-    };
+    return {};
   },
   computed: {
     getServices: function getServices() {
@@ -2499,9 +2490,6 @@ __webpack_require__.r(__webpack_exports__);
       return function (link) {
         return link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0;
       };
-    },
-    handleSelect: function handleSelect(item) {
-      console.log(item);
     }
   },
   mounted: function mounted() {
@@ -4359,7 +4347,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:first-of-type {\n  margin-right: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 180px;\n  max-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n}\n.invoice__reservation-info__right {\n  text-align: right;\n  margin-left: auto;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  text-align: center;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    left: 0;\n    top: 0;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
+exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-table__controls-btn {\n  margin: 5px 0 0 0 !important;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n  margin-top: 24px;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:first-of-type {\n  margin-right: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n  width: 100%;\n}\n.invoice__reservation-info__right {\n  text-align: left;\n  margin-left: auto;\n  width: 45%;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  text-align: center;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    margin-top: 0;\n    left: 0;\n    top: 0;\n    box-shadow: none;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
 
 // exports
 
@@ -4378,7 +4366,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".mx-input {\n  height: 40px;\n  border-radius: 4px;\n  border: 1px solid #DCDFE6;\n  color: #606266;\n  transition: all 0.2s ease;\n}\n.mx-input--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-input::-webkit-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-moz-placeholder {\n  color: #c0c4cc;\n}\n.mx-input:-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::placeholder {\n  color: #c0c4cc;\n}\n.mx-input:hover {\n  border-color: #c0c4cc;\n}\n.mx-input:focus {\n  border-color: #409EFF;\n}\n.mx-datepicker {\n  width: 100%;\n}\n.mx-datepicker--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}", ""]);
+exports.push([module.i, ".mx-input {\n  height: 40px;\n  border-radius: 4px;\n  border: 1px solid #DCDFE6;\n  color: #606266;\n  transition: all 0.2s ease;\n}\n.mx-input--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-input::-webkit-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-moz-placeholder {\n  color: #c0c4cc;\n}\n.mx-input:-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::placeholder {\n  color: #c0c4cc;\n}\n.mx-input:hover {\n  border-color: #c0c4cc;\n}\n.mx-input:focus {\n  border-color: #409EFF;\n}\n.mx-datepicker {\n  width: 100%;\n}\n.mx-datepicker--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-datepicker--small .mx-clear-icon {\n  position: relative;\n}\n.mx-datepicker--small .mx-clear-icon::before {\n  position: absolute;\n  top: -5px;\n  right: 2px;\n}", ""]);
 
 // exports
 
@@ -63165,11 +63153,7 @@ var render = function() {
               _c("label", { staticClass: "input-label" }, [_vm._v("Имя:")]),
               _vm._v(" "),
               _c("el-input", {
-                attrs: {
-                  placeholder: "Введите имя",
-                  value: _vm.getFiled("name"),
-                  clearable: ""
-                },
+                attrs: { value: _vm.getFiled("name"), clearable: "" },
                 on: {
                   input: function($event) {
                     return _vm.updateField("name", $event)
@@ -63187,11 +63171,7 @@ var render = function() {
               _c("label", { staticClass: "input-label" }, [_vm._v("Фамилия:")]),
               _vm._v(" "),
               _c("el-input", {
-                attrs: {
-                  placeholder: "Введите фамилию",
-                  value: _vm.getFiled("surName"),
-                  clearable: ""
-                },
+                attrs: { value: _vm.getFiled("surName"), clearable: "" },
                 on: {
                   input: function($event) {
                     return _vm.updateField("surName", $event)
@@ -63216,11 +63196,7 @@ var render = function() {
               _c("label", { staticClass: "input-label" }, [_vm._v("Город:")]),
               _vm._v(" "),
               _c("el-input", {
-                attrs: {
-                  placeholder: "Введите имя",
-                  value: _vm.getFiled("addres"),
-                  clearable: ""
-                },
+                attrs: { value: _vm.getFiled("addres"), clearable: "" },
                 on: {
                   input: function($event) {
                     return _vm.updateField("addres", $event)
@@ -63238,11 +63214,7 @@ var render = function() {
               _c("label", { staticClass: "input-label" }, [_vm._v("Адресс:")]),
               _vm._v(" "),
               _c("el-input", {
-                attrs: {
-                  placeholder: "Введите фамилию",
-                  value: _vm.getFiled("city"),
-                  clearable: ""
-                },
+                attrs: { value: _vm.getFiled("city"), clearable: "" },
                 on: {
                   input: function($event) {
                     return _vm.updateField("city", $event)
@@ -63262,11 +63234,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("el-input", {
-                attrs: {
-                  placeholder: "Введите фамилию",
-                  value: _vm.getFiled("postIndx"),
-                  clearable: ""
-                },
+                attrs: { value: _vm.getFiled("postIndx"), clearable: "" },
                 on: {
                   input: function($event) {
                     return _vm.updateField("postIndx", $event)
@@ -63312,7 +63280,7 @@ var render = function() {
               _c("date-picker", {
                 attrs: {
                   value: _vm.getInvoiceFiled("date"),
-                  placeholder: "",
+                  placeholder: "Выберите дату",
                   valueType: "format",
                   lang: "en"
                 },
@@ -63337,7 +63305,7 @@ var render = function() {
                   value: _vm.getInvoiceFiled("time"),
                   type: "time",
                   format: "HH:mm:ss",
-                  placeholder: "",
+                  placeholder: "Выберите время",
                   valueType: "format",
                   lang: "en"
                 },
@@ -63469,39 +63437,39 @@ var render = function() {
           _c("div", { staticClass: "invoice__info-client" }, [
             _c("p", [
               _vm._v(
-                _vm._s(_vm.clientObj.name || "Name") +
+                _vm._s(_vm.getClient.name || "Name") +
                   "  " +
-                  _vm._s(_vm.clientObj.surName || "Surname")
+                  _vm._s(_vm.getClient.surName || "Surname")
               )
             ]),
             _vm._v(" "),
             _c("p", [
               _vm._v(
                 _vm._s(
-                  _vm.clientObj.city ? _vm.clientObj.city + "," : "City,"
+                  _vm.getClient.city ? _vm.getClient.city + "," : "City,"
                 ) +
                   " " +
-                  _vm._s(_vm.clientObj.addres || "Address")
+                  _vm._s(_vm.getClient.addres || "Address")
               )
             ]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.clientObj.postIndx || "Post Index"))])
+            _c("p", [_vm._v(_vm._s(_vm.getClient.postIndx || "Post Index"))])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "invoice__info-hotel" }, [
             _c("p", [
               _c("b", [_vm._v("Invoice: ")]),
-              _vm._v(" " + _vm._s(_vm.invoiceInfo.name))
+              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.name))
             ]),
             _vm._v(" "),
             _c("p", [
               _c("b", [_vm._v("Data: ")]),
-              _vm._v(" " + _vm._s(_vm.invoiceInfo.date || "-"))
+              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.date || "-"))
             ]),
             _vm._v(" "),
             _c("p", [
               _c("b", [_vm._v("Time: ")]),
-              _vm._v(" " + _vm._s(_vm.invoiceInfo.time || "-"))
+              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.time || "-"))
             ])
           ])
         ]),
@@ -63510,42 +63478,42 @@ var render = function() {
           _c("p", [
             _vm._v("Room No.\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.roomNumb))
+              _vm._v(": " + _vm._s(_vm.getReservation.roomNumb))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("No. of person(s)\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.personsCount))
+              _vm._v(": " + _vm._s(_vm.getReservation.personsCount))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Arival\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.arival))
+              _vm._v(": " + _vm._s(_vm.getReservation.arival))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Departure\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.departure))
+              _vm._v(": " + _vm._s(_vm.getReservation.departure))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Reservation No.\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.reservationNumb))
+              _vm._v(": " + _vm._s(_vm.getReservation.reservationNumb))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Ext. Reservation No.\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.extReservationNumb))
+              _vm._v(": " + _vm._s(_vm.getReservation.extReservationNumb))
             ])
           ]),
           _vm._v(" "),
@@ -63554,14 +63522,14 @@ var render = function() {
           _c("p", [
             _vm._v("Cashier No.\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.cashierNumb))
+              _vm._v(": " + _vm._s(_vm.getReservation.cashierNumb))
             ])
           ]),
           _vm._v(" "),
           _c("p", [
             _vm._v("Page No.\n               "),
             _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.reservationObj.pageNumb))
+              _vm._v(": " + _vm._s(_vm.getReservation.pageNumb))
             ])
           ])
         ])
@@ -63592,7 +63560,7 @@ var render = function() {
           "tbody",
           { staticClass: "invoice-table__body" },
           [
-            _vm._l(_vm.servicesObj, function(item) {
+            _vm._l(_vm.getServices, function(item) {
               return _c(
                 "tr",
                 { key: item.id, staticClass: "invoice-table__row" },
@@ -63759,7 +63727,7 @@ var staticRenderFns = [
     return _c("div", { staticClass: "invoice__row" }, [
       _c("img", {
         staticClass: "invoice__logo",
-        attrs: { src: "img/logo.svg", width: "150", alt: "logo" }
+        attrs: { src: "img/logo.png", width: "150", alt: "logo" }
       })
     ])
   },
@@ -63821,8 +63789,8 @@ var render = function() {
                 "el-select",
                 {
                   attrs: {
-                    placeholder: "Select",
-                    value: _vm.getFiled("roomNumb")
+                    value: _vm.getFiled("roomNumb"),
+                    placeholder: "Выберите из списка"
                   },
                   on: {
                     input: function($event) {
@@ -63854,8 +63822,8 @@ var render = function() {
                 "el-select",
                 {
                   attrs: {
-                    placeholder: "Select",
-                    value: _vm.getFiled("personsCount")
+                    value: _vm.getFiled("personsCount"),
+                    placeholder: "Выберите из списка"
                   },
                   on: {
                     input: function($event) {
@@ -63883,6 +63851,7 @@ var render = function() {
               _vm._v(" "),
               _c("date-picker", {
                 attrs: {
+                  placeholder: "Выберите дату",
                   value: _vm.getFiled("arival"),
                   valueType: "format",
                   lang: "en"
@@ -63914,6 +63883,7 @@ var render = function() {
               _vm._v(" "),
               _c("date-picker", {
                 attrs: {
+                  placeholder: "Выберите дату",
                   value: _vm.getFiled("departure"),
                   popupStyle: { left: 0, top: "100" },
                   valueType: "format",
@@ -63939,7 +63909,8 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  placeholder: "Введите имя",
+                  type: "number",
+                  placeholder: "Введите номер",
                   value: _vm.getFiled("reservationNumb"),
                   clearable: ""
                 },
@@ -63963,7 +63934,8 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  placeholder: "Введите имя",
+                  type: "number",
+                  placeholder: "Введите номер",
                   value: _vm.getFiled("extReservationNumb"),
                   clearable: ""
                 },
@@ -63994,7 +63966,8 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  placeholder: "Введите имя",
+                  type: "number",
+                  placeholder: "Введите номер",
                   value: _vm.getFiled("cashierNumb"),
                   clearable: ""
                 },
@@ -64018,7 +63991,8 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  placeholder: "Введите имя",
+                  type: "number",
+                  placeholder: "Введите номер",
                   value: _vm.getFiled("pageNumb"),
                   clearable: ""
                 },
@@ -64070,11 +64044,7 @@ var render = function() {
         "el-select",
         {
           staticClass: "currency-select",
-          attrs: {
-            placeholder: "Select",
-            value: _vm.currency.value,
-            size: "small"
-          },
+          attrs: { value: _vm.currency.value, size: "small" },
           on: {
             input: function($event) {
               return _vm.currencySet($event)
@@ -64125,6 +64095,7 @@ var render = function() {
                             attrs: {
                               value: _vm.getFiled("date", item.id),
                               popupStyle: { left: 0, top: "100" },
+                              placeholder: "",
                               "input-class": "mx-input mx-input--small",
                               valueType: "format",
                               lang: "en"
@@ -64153,7 +64124,6 @@ var render = function() {
                             attrs: {
                               value: _vm.getFiled("nameServices", item.id),
                               "fetch-suggestions": _vm.querySearch,
-                              placeholder: "Please Input",
                               size: "small"
                             },
                             on: {
@@ -64181,7 +64151,7 @@ var render = function() {
                       item.isEditing
                         ? _c("el-input", {
                             attrs: {
-                              placeholder: "Please input",
+                              type: "number",
                               value: _vm.getFiled("debit", item.id),
                               size: "small"
                             },
@@ -64206,7 +64176,7 @@ var render = function() {
                       item.isEditing
                         ? _c("el-input", {
                             attrs: {
-                              placeholder: "Please input",
+                              type: "number",
                               value: _vm.getFiled("credit", item.id),
                               size: "small"
                             },
@@ -64230,6 +64200,7 @@ var render = function() {
                     { staticClass: "invoice-table__cell" },
                     [
                       _c("el-button", {
+                        staticClass: "invoice-table__controls-btn",
                         attrs: { icon: "el-icon-edit", size: "mini" },
                         on: {
                           click: function($event) {
@@ -64239,7 +64210,12 @@ var render = function() {
                       }),
                       _vm._v(" "),
                       _c("el-button", {
-                        attrs: { icon: "el-icon-delete", size: "mini" },
+                        staticClass: "invoice-table__controls-btn",
+                        attrs: {
+                          icon: "el-icon-delete",
+                          type: "danger",
+                          size: "mini"
+                        },
                         on: {
                           click: function($event) {
                             return _vm.delItem(item.id)
@@ -78177,6 +78153,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
           return item.id === id;
         })[field];
       };
+    },
+    getClient: function getClient(state) {
+      return state.client;
+    },
+    getReservation: function getReservation(state) {
+      return state.reservation;
+    },
+    getInvoiceInfo: function getInvoiceInfo(state) {
+      return state.invoiceInfo;
     },
     sumDebit: function sumDebit(state) {
       var result = 0;

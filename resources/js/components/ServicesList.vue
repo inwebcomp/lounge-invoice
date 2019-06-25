@@ -1,7 +1,7 @@
 <template>
    <div class="fields-box">
       <label class="input-label">Валюта: </label>
-      <el-select placeholder="Select"
+      <el-select
          :value="currency.value"
          class="currency-select"
          @input="currencySet($event)"
@@ -33,6 +33,7 @@
                      @input="updateField('date', $event, item.id)"
                      :popupStyle="{left: 0, top: '100'}"
                      class="mx-datepicker--small"
+                     placeholder=""
                      input-class="mx-input mx-input--small"
                      valueType="format"
                      lang="en" >
@@ -46,7 +47,6 @@
                      :value="getFiled('nameServices', item.id)"
                      @input="updateField('nameServices', $event, item.id)"
                      :fetch-suggestions="querySearch"
-                     placeholder="Please Input"
                      size="small"
                   ></el-autocomplete>
                   <span v-else>{{ item.nameServices }}</span>
@@ -54,7 +54,7 @@
                <td class="invoice-table__cell" style="width: 20%">
                   <el-input
                      v-if="item.isEditing"
-                     placeholder="Please input"
+                     type="number"
                      :value="getFiled('debit', item.id)"
                      @input="updateField('debit', $event, item.id)"
                      size="small"
@@ -65,7 +65,7 @@
                <td class="invoice-table__cell" style="width: 20%">
                   <el-input
                      v-if="item.isEditing"
-                     placeholder="Please input"
+                     type="number"
                      :value="getFiled('credit', item.id)"
                      @input="updateField('credit', $event, item.id)"
                      size="small"
@@ -76,12 +76,15 @@
                <td class="invoice-table__cell">
                   <el-button
                      @click="editing(item.id)"
+                     class="invoice-table__controls-btn"
                      icon="el-icon-edit"
                      size="mini">
                   </el-button>
                   <el-button
                      @click="delItem(item.id)"
                      icon="el-icon-delete"
+                     class="invoice-table__controls-btn"
+                     type="danger"
                      size="mini">
                   </el-button>
                </td>
@@ -109,7 +112,7 @@ export default {
    },
 
    data: () => ({
-      state1: '',
+
    }),
 
    computed: {
@@ -165,13 +168,11 @@ export default {
 
          cb(results);
       },
+
       createFilter(queryString) {
          return (link) => {
             return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
          };
-      },
-      handleSelect(item) {
-         console.log(item);
       }
    },
 

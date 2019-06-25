@@ -11,6 +11,17 @@ html {
     box-sizing: inherit;
 }
 
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+input[type='number'] {
+   -moz-appearance: textfield;
+}
+
 body {
    font-size: $font-size;
    overflow-x: hidden;
@@ -19,20 +30,20 @@ body {
    line-height: $line-height;
    min-width: 320px;
    color: $font-color-black;
-   background-color: $background-color;
+   background-color: aliceblue;
 }
 
 #app {
    min-height: 100%;
-   // max-width: 1200px + $padding * 2;
    width: 100%;
    margin: 0 auto;
+   max-width: 1400px;
    // display: flex;
    overflow-x: hidden;
    // flex-direction: column;
    // justify-content: space-between;
    position: relative;
-   background-color: aliceblue;
+
 }
 
 .container {
@@ -53,17 +64,8 @@ body {
    justify-content: center;
 }
 
-.invoice-fields-box {
-   height: 600px;
-   max-height: 1000px;
-}
-
-.el-tabs {
-   height: 100%;
-
-   &__content {
-      height: 100%;
-   }
+.el-tabs--border-card>.el-tabs__content {
+   padding-bottom: 215px;
 }
 
 .invoice-fields {
@@ -106,3 +108,8 @@ body {
    margin-bottom: $padding * 1.5;
    margin-left: $padding;
 }
+
+.inline-input {
+   display: block;
+}
+

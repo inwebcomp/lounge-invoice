@@ -61,6 +61,15 @@ export default new Vuex.Store({
       getServicesFiled: (state) => (id, field) => {
         return state.services.find(item => item.id === id)[field];
       },
+      getClient (state) {
+         return state.client
+      },
+      getReservation (state) {
+         return state.reservation
+      },
+      getInvoiceInfo (state) {
+         return state.invoiceInfo
+      },
       sumDebit (state) {
          let result = 0;
 
