@@ -35,6 +35,7 @@
             <label class="input-label">Arival:</label>
             <date-picker
                placeholder="Выберите дату"
+               format="DD.MM.YYYY"
                :value="getFiled('arival')"
                @input="updateField('arival', $event)"
                valueType="format"
@@ -48,6 +49,7 @@
             <label class="input-label">Departure:</label>
             <date-picker
                placeholder="Выберите дату"
+               format="DD.MM.YYYY"
                :value="getFiled('departure')"
                @input="updateField('departure', $event)"
                :popupStyle="{left: 0, top: '100'}"

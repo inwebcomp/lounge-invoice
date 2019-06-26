@@ -37,7 +37,7 @@ body {
    min-height: 100%;
    width: 100%;
    margin: 0 auto;
-   max-width: 1400px;
+   max-width: 1580px;
    // display: flex;
    overflow-x: hidden;
    // flex-direction: column;
@@ -69,7 +69,9 @@ body {
 }
 
 .invoice-fields {
+   margin-left: auto;
    margin-top: 105px;
+   width: 98%;
    height: 100%;
 
    &__title-line {
@@ -113,3 +115,18 @@ body {
    display: block;
 }
 
+@include media-max(1366px) {
+   .invoice-preview-box {
+      width: 100%;
+   }
+
+   .invoice-fields-box {
+      width: 100%;
+      padding: 0 $padding;
+   }
+
+   .invoice-fields {
+      max-width: 690px;
+      margin: 0 auto;
+   }
+}

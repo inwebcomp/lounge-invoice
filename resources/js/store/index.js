@@ -15,7 +15,7 @@ export default new Vuex.Store({
 
       invoiceInfo: {
          name: 'Raddison Blu Hotel',
-         date: null,
+         date: new Intl.DateTimeFormat('ru-RU').format(new Date()),
          time: null
       },
 

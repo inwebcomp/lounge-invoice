@@ -1883,6 +1883,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientInfo',
   data: function data() {
@@ -1964,6 +1965,7 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _TimeComponent__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimeComponent */ "./resources/js/components/TimeComponent.vue");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2085,8 +2087,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'InvoicePreview',
+  components: {
+    TimeComponent: _TimeComponent__WEBPACK_IMPORTED_MODULE_1__["default"]
+  },
   data: function data() {
     return {
       buttonSaveLoading: false,
@@ -2193,6 +2199,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
 //
 //
 //
@@ -2428,6 +2436,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SevicesList',
@@ -2446,6 +2466,14 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   methods: {
+    focusInput: function focusInput(input, id) {
+      this.$refs[input].forEach(function (item) {
+        console.log(item);
+      });
+      console.dir();
+      console.log(id);
+      this.editing(+id);
+    },
     currencySet: function currencySet(val) {
       this.$store.commit('updateCurrency', val);
     },
@@ -2460,15 +2488,24 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addService: function addService() {
+      var _this = this;
+
+      var date = new Intl.DateTimeFormat('ru-RU').format(new Date());
       var serviceObj = {
         id: Date.now(),
-        date: null,
+        date: date,
         nameServices: null,
         debit: null,
         credit: null,
         isEditing: true
       };
+      this.stopEditing();
       this.$store.commit('addService', serviceObj);
+      this.$nextTick(function () {
+        console.log(_this.$refs.inputName[_this.$refs.inputName.length - 1]);
+
+        _this.$refs.inputName[_this.$refs.inputName.length - 1].focus();
+      });
     },
     editing: function editing(id) {
       this.$store.commit('toggleEditing', id);
@@ -2508,6 +2545,53 @@ __webpack_require__.r(__webpack_exports__);
     }, {
       "value": "babel"
     }];
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TimeComponent.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TimeComponent.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'TimeComponent',
+  data: function data() {
+    return {
+      time: null
+    };
+  },
+  methods: {
+    getFiled: function getFiled(field) {
+      return this.$store.state.invoiceInfo[field];
+    }
+  },
+  computed: {
+    timeCom: function timeCom() {
+      return this.getFiled('time') ? this.getFiled('time') : this.time;
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    var intrId = setInterval(function () {
+      var options = {
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit'
+      };
+      var time = new Intl.DateTimeFormat('ru-RU', options).format(new Date());
+      _this.time = time;
+    }, 1000);
   }
 });
 
@@ -4347,7 +4431,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-table__controls-btn {\n  margin: 5px 0 0 0 !important;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n  margin-top: 24px;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 600px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:first-of-type {\n  margin-right: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n  width: 100%;\n}\n.invoice__reservation-info__right {\n  text-align: left;\n  margin-left: auto;\n  width: 45%;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  margin: 2px 0;\n  text-align: center;\n  font-size: 1.2rem;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    margin-top: 0;\n    left: 0;\n    top: 0;\n    box-shadow: none;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
+exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-table__controls-btn .el-button + .el-button {\n  margin-left: 5px;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n  margin-top: 24px;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 690px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:nth-child(2) {\n  margin-left: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  color: #000;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n  width: 100%;\n}\n.invoice__reservation-info__right {\n  text-align: left;\n  margin-left: auto;\n  width: 45%;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  margin: 2px 0;\n  text-align: center;\n  font-size: 1.2rem;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    margin-top: 0;\n    left: 0;\n    top: 0;\n    box-shadow: none;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
 
 // exports
 
@@ -63191,7 +63275,7 @@ var render = function() {
         [
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 6 } },
             [
               _c("label", { staticClass: "input-label" }, [_vm._v("Город:")]),
               _vm._v(" "),
@@ -63209,7 +63293,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [_vm._v("Адресс:")]),
               _vm._v(" "),
@@ -63227,7 +63311,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 6 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("Почтовый индекс:")
@@ -63281,6 +63365,7 @@ var render = function() {
                 attrs: {
                   value: _vm.getInvoiceFiled("date"),
                   placeholder: "Выберите дату",
+                  format: "DD.MM.YYYY",
                   valueType: "format",
                   lang: "en"
                 },
@@ -63409,7 +63494,20 @@ var render = function() {
       "div",
       { staticClass: "invoice-buttons" },
       [
-        _c("el-button", [_vm._v("Открыть")]),
+        _c(
+          "el-button",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: false,
+                expression: "false"
+              }
+            ]
+          },
+          [_vm._v("Открыть")]
+        ),
         _vm._v(" "),
         _c(
           "el-button",
@@ -63437,101 +63535,127 @@ var render = function() {
           _c("div", { staticClass: "invoice__info-client" }, [
             _c("p", [
               _vm._v(
-                _vm._s(_vm.getClient.name || "Name") +
+                _vm._s(_vm.getClient.name) +
                   "  " +
-                  _vm._s(_vm.getClient.surName || "Surname")
+                  _vm._s(_vm.getClient.surName)
               )
             ]),
             _vm._v(" "),
             _c("p", [
               _vm._v(
-                _vm._s(
-                  _vm.getClient.city ? _vm.getClient.city + "," : "City,"
-                ) +
+                _vm._s(_vm.getClient.city ? _vm.getClient.city + "," : null) +
                   " " +
-                  _vm._s(_vm.getClient.addres || "Address")
+                  _vm._s(_vm.getClient.addres)
               )
             ]),
             _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.getClient.postIndx || "Post Index"))])
+            _c("p", [_vm._v(_vm._s(_vm.getClient.postIndx))])
           ]),
           _vm._v(" "),
           _c("div", { staticClass: "invoice__info-hotel" }, [
-            _c("p", [
-              _c("b", [_vm._v("Invoice: ")]),
-              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.name))
-            ]),
+            _vm._m(1),
             _vm._v(" "),
-            _c("p", [
-              _c("b", [_vm._v("Data: ")]),
-              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.date || "-"))
-            ]),
+            _c("p", [_vm._v(_vm._s(_vm.getInvoiceInfo.name))]),
             _vm._v(" "),
-            _c("p", [
-              _c("b", [_vm._v("Time: ")]),
-              _vm._v(" " + _vm._s(_vm.getInvoiceInfo.time || "-"))
-            ])
+            _c(
+              "p",
+              [
+                _vm._v(_vm._s(_vm.getInvoiceInfo.date) + " "),
+                _c("TimeComponent")
+              ],
+              1
+            )
           ])
         ]),
         _vm._v(" "),
         _c("div", { staticClass: "invoice__reservation-info" }, [
-          _c("p", [
-            _vm._v("Room No.\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.roomNumb))
-            ])
-          ]),
+          _vm.getReservation.roomNumb
+            ? _c("p", [
+                _vm._v("Room №:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.roomNumb))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("No. of person(s)\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.personsCount))
-            ])
-          ]),
+          _vm.getReservation.personsCount
+            ? _c("p", [
+                _vm._v("No. of person(s):\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.personsCount))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("Arival\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.arival))
-            ])
-          ]),
+          _vm.getReservation.arival
+            ? _c("p", [
+                _vm._v("Arival:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.arival))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("Departure\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.departure))
-            ])
-          ]),
+          _vm.getReservation.departure
+            ? _c("p", [
+                _vm._v("Departure:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.departure))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("Reservation No.\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.reservationNumb))
-            ])
-          ]),
+          _vm.getReservation.reservationNumb
+            ? _c("p", [
+                _vm._v("Reservation №:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.reservationNumb))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("Ext. Reservation No.\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.extReservationNumb))
-            ])
-          ]),
+          _vm.getReservation.extReservationNumb
+            ? _c("p", [
+                _vm._v("Ext. Reservation №:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.extReservationNumb))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p"),
+          _vm.getReservation.cashierNumb
+            ? _c("p", [
+                _vm._v("Cashier №:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.cashierNumb))]
+                )
+              ])
+            : _vm._e(),
           _vm._v(" "),
-          _c("p", [
-            _vm._v("Cashier No.\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.cashierNumb))
-            ])
-          ]),
-          _vm._v(" "),
-          _c("p", [
-            _vm._v("Page No.\n               "),
-            _c("span", { staticClass: "invoice__reservation-info__right" }, [
-              _vm._v(": " + _vm._s(_vm.getReservation.pageNumb))
-            ])
-          ])
+          _vm.getReservation.pageNumb
+            ? _c("p", [
+                _vm._v("Page №:\n               "),
+                _c(
+                  "span",
+                  { staticClass: "invoice__reservation-info__right" },
+                  [_vm._v(" " + _vm._s(_vm.getReservation.pageNumb))]
+                )
+              ])
+            : _vm._e()
         ])
       ]),
       _vm._v(" "),
@@ -63654,7 +63778,7 @@ var render = function() {
       ]),
       _vm._v(" "),
       _c("table", { staticClass: "invoice-small-table" }, [
-        _vm._m(1),
+        _vm._m(2),
         _vm._v(" "),
         _c(
           "tbody",
@@ -63730,6 +63854,12 @@ var staticRenderFns = [
         attrs: { src: "img/logo.png", width: "150", alt: "logo" }
       })
     ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("p", [_c("b", [_vm._v("Invoice: ")])])
   },
   function() {
     var _vm = this
@@ -63852,6 +63982,7 @@ var render = function() {
               _c("date-picker", {
                 attrs: {
                   placeholder: "Выберите дату",
+                  format: "DD.MM.YYYY",
                   value: _vm.getFiled("arival"),
                   valueType: "format",
                   lang: "en"
@@ -63884,6 +64015,7 @@ var render = function() {
               _c("date-picker", {
                 attrs: {
                   placeholder: "Выберите дату",
+                  format: "DD.MM.YYYY",
                   value: _vm.getFiled("departure"),
                   popupStyle: { left: 0, top: "100" },
                   valueType: "format",
@@ -64080,33 +64212,70 @@ var render = function() {
             _vm._l(_vm.getServices, function(item) {
               return _c(
                 "tr",
-                { key: item.id, staticClass: "invoice-table__row" },
+                {
+                  key: item.id,
+                  staticClass: "invoice-table__row",
+                  on: {
+                    keyup: function($event) {
+                      if (
+                        !$event.type.indexOf("key") &&
+                        _vm._k($event.keyCode, "enter", 13, $event.key, "Enter")
+                      ) {
+                        return null
+                      }
+                      item.isEditing = false
+                    }
+                  }
+                },
                 [
                   _c(
                     "td",
                     {
                       staticClass: "invoice-table__cell",
-                      staticStyle: { width: "23%" }
+                      staticStyle: { width: "20%" }
                     },
                     [
-                      item.isEditing
-                        ? _c("date-picker", {
-                            staticClass: "mx-datepicker--small",
-                            attrs: {
-                              value: _vm.getFiled("date", item.id),
-                              popupStyle: { left: 0, top: "100" },
-                              placeholder: "",
-                              "input-class": "mx-input mx-input--small",
-                              valueType: "format",
-                              lang: "en"
-                            },
-                            on: {
-                              input: function($event) {
-                                return _vm.updateField("date", $event, item.id)
-                              }
+                      _c("date-picker", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.isEditing,
+                            expression: "item.isEditing"
+                          }
+                        ],
+                        staticClass: "mx-datepicker--small",
+                        attrs: {
+                          value: _vm.getFiled("date", item.id),
+                          format: "DD.MM.YYYY",
+                          popupStyle: { left: 0, top: "100" },
+                          "default-value": new Date(),
+                          placeholder: "",
+                          "input-class": "mx-input mx-input--small",
+                          valueType: "format",
+                          lang: "en"
+                        },
+                        on: {
+                          input: function($event) {
+                            return _vm.updateField("date", $event, item.id)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !item.isEditing,
+                              expression: "!item.isEditing"
                             }
-                          })
-                        : _c("span", [_vm._v(_vm._s(item.date))])
+                          ]
+                        },
+                        [_vm._v(_vm._s(item.date))]
+                      )
                     ],
                     1
                   ),
@@ -64118,113 +64287,195 @@ var render = function() {
                       staticStyle: { width: "30%" }
                     },
                     [
-                      item.isEditing
-                        ? _c("el-autocomplete", {
-                            staticClass: "inline-input",
-                            attrs: {
-                              value: _vm.getFiled("nameServices", item.id),
-                              "fetch-suggestions": _vm.querySearch,
-                              size: "small"
-                            },
-                            on: {
-                              input: function($event) {
-                                return _vm.updateField(
-                                  "nameServices",
-                                  $event,
-                                  item.id
-                                )
-                              }
-                            }
-                          })
-                        : _c("span", [_vm._v(_vm._s(item.nameServices))])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    {
-                      staticClass: "invoice-table__cell",
-                      staticStyle: { width: "20%" }
-                    },
-                    [
-                      item.isEditing
-                        ? _c("el-input", {
-                            attrs: {
-                              type: "number",
-                              value: _vm.getFiled("debit", item.id),
-                              size: "small"
-                            },
-                            on: {
-                              input: function($event) {
-                                return _vm.updateField("debit", $event, item.id)
-                              }
-                            }
-                          })
-                        : _c("span", [_vm._v(_vm._s(item.debit))])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    {
-                      staticClass: "invoice-table__cell",
-                      staticStyle: { width: "20%" }
-                    },
-                    [
-                      item.isEditing
-                        ? _c("el-input", {
-                            attrs: {
-                              type: "number",
-                              value: _vm.getFiled("credit", item.id),
-                              size: "small"
-                            },
-                            on: {
-                              input: function($event) {
-                                return _vm.updateField(
-                                  "credit",
-                                  $event,
-                                  item.id
-                                )
-                              }
-                            }
-                          })
-                        : _c("span", [_vm._v(_vm._s(item.credit))])
-                    ],
-                    1
-                  ),
-                  _vm._v(" "),
-                  _c(
-                    "td",
-                    { staticClass: "invoice-table__cell" },
-                    [
-                      _c("el-button", {
-                        staticClass: "invoice-table__controls-btn",
-                        attrs: { icon: "el-icon-edit", size: "mini" },
+                      _c("el-autocomplete", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.isEditing,
+                            expression: "item.isEditing"
+                          }
+                        ],
+                        ref: "inputName",
+                        refInFor: true,
+                        staticClass: "inline-input",
+                        attrs: {
+                          value: _vm.getFiled("nameServices", item.id),
+                          "fetch-suggestions": _vm.querySearch,
+                          size: "small",
+                          autofocus: true
+                        },
                         on: {
-                          click: function($event) {
-                            return _vm.editing(item.id)
+                          input: function($event) {
+                            return _vm.updateField(
+                              "nameServices",
+                              $event,
+                              item.id
+                            )
                           }
                         }
                       }),
                       _vm._v(" "),
-                      _c("el-button", {
-                        staticClass: "invoice-table__controls-btn",
-                        attrs: {
-                          icon: "el-icon-delete",
-                          type: "danger",
-                          size: "mini"
-                        },
-                        on: {
-                          click: function($event) {
-                            return _vm.delItem(item.id)
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !item.isEditing,
+                              expression: "! item.isEditing"
+                            }
+                          ],
+                          on: {
+                            click: function($event) {
+                              return _vm.focusInput("inputName", item.id)
+                            }
                           }
-                        }
-                      })
+                        },
+                        [_vm._v(_vm._s(item.nameServices))]
+                      )
                     ],
                     1
-                  )
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "17%" }
+                    },
+                    [
+                      _c("el-input", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.isEditing,
+                            expression: "item.isEditing"
+                          }
+                        ],
+                        attrs: {
+                          type: "number",
+                          value: _vm.getFiled("debit", item.id),
+                          size: "small"
+                        },
+                        on: {
+                          input: function($event) {
+                            return _vm.updateField("debit", $event, item.id)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !item.isEditing,
+                              expression: "!item.isEditing"
+                            }
+                          ]
+                        },
+                        [_vm._v(_vm._s(item.debit))]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "16%" }
+                    },
+                    [
+                      _c("el-input", {
+                        directives: [
+                          {
+                            name: "show",
+                            rawName: "v-show",
+                            value: item.isEditing,
+                            expression: "item.isEditing"
+                          }
+                        ],
+                        attrs: {
+                          type: "number",
+                          value: _vm.getFiled("credit", item.id),
+                          size: "small"
+                        },
+                        on: {
+                          input: function($event) {
+                            return _vm.updateField("credit", $event, item.id)
+                          }
+                        }
+                      }),
+                      _vm._v(" "),
+                      _c(
+                        "span",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !item.isEditing,
+                              expression: "! item.isEditing"
+                            }
+                          ]
+                        },
+                        [_vm._v(_vm._s(item.credit))]
+                      )
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _c(
+                      "div",
+                      { staticClass: "invoice-table__controls-btn" },
+                      [
+                        !item.isEditing
+                          ? _c("el-button", {
+                              staticClass: "invoice-table__controls-btn",
+                              attrs: { icon: "el-icon-edit", size: "small" },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editing(item.id)
+                                }
+                              }
+                            })
+                          : _c("el-button", {
+                              staticClass: "invoice-table__controls-btn",
+                              attrs: {
+                                icon: "el-icon-document-checked",
+                                size: "small"
+                              },
+                              on: {
+                                click: function($event) {
+                                  return _vm.editing(item.id)
+                                }
+                              }
+                            }),
+                        _vm._v(" "),
+                        _c("el-button", {
+                          staticClass: "invoice-table__controls-btn",
+                          attrs: {
+                            icon: "el-icon-delete",
+                            type: "danger",
+                            size: "small"
+                          },
+                          on: {
+                            click: function($event) {
+                              return _vm.delItem(item.id)
+                            }
+                          }
+                        })
+                      ],
+                      1
+                    )
+                  ])
                 ]
               )
             }),
@@ -64268,23 +64519,13 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", { staticClass: "invoice-table__header" }, [
       _c("tr", { staticClass: "invoice-table__row" }, [
-        _c(
-          "th",
-          { staticClass: "invoice-table__cell", staticStyle: { width: "10%" } },
-          [_vm._v("Дата")]
-        ),
+        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Дата")]),
         _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "invoice-table__cell", staticStyle: { width: "40%" } },
-          [_vm._v("Название услуги")]
-        ),
+        _c("th", { staticClass: "invoice-table__cell" }, [
+          _vm._v("Название услуги")
+        ]),
         _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "invoice-table__cell", staticStyle: { width: "15%" } },
-          [_vm._v("Дебит")]
-        ),
+        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Дебит")]),
         _vm._v(" "),
         _c(
           "th",
@@ -64295,6 +64536,30 @@ var staticRenderFns = [
     ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("span", [_vm._v(" " + _vm._s(_vm.timeCom) + " ")])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -77987,6 +78252,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/TimeComponent.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/TimeComponent.vue ***!
+  \***************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TimeComponent.vue?vue&type=template&id=128df756& */ "./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756&");
+/* harmony import */ var _TimeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TimeComponent.vue?vue&type=script&lang=js& */ "./resources/js/components/TimeComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TimeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/TimeComponent.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/TimeComponent.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/TimeComponent.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./TimeComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TimeComponent.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TimeComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756& ***!
+  \**********************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./TimeComponent.vue?vue&type=template&id=128df756& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/TimeComponent.vue?vue&type=template&id=128df756&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TimeComponent_vue_vue_type_template_id_128df756___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/services/Translator.js":
 /*!*********************************************!*\
   !*** ./resources/js/services/Translator.js ***!
@@ -78092,7 +78426,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     invoiceInfo: {
       name: 'Raddison Blu Hotel',
-      date: null,
+      date: new Intl.DateTimeFormat('ru-RU').format(new Date()),
       time: null
     },
     reservation: {

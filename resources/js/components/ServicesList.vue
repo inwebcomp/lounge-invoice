@@ -18,75 +18,87 @@
       <table class="invoice-table">
          <thead class="invoice-table__header">
             <tr class="invoice-table__row">
-               <th class="invoice-table__cell" style="width: 10%">Дата</th>
-               <th class="invoice-table__cell" style="width: 40%">Название услуги</th>
-               <th class="invoice-table__cell" style="width: 15%">Дебит</th>
+               <th class="invoice-table__cell" >Дата</th>
+               <th class="invoice-table__cell" >Название услуги</th>
+               <th class="invoice-table__cell" >Дебит</th>
                <th class="invoice-table__cell" colspan="2">Кредит</th>
             </tr>
          </thead>
          <tbody class="invoice-table__body" v-click-outside="stopEditing">
-            <tr class="invoice-table__row" v-for="item in getServices" :key="item.id">
-               <td class="invoice-table__cell" style="width: 23%">
+            <tr class="invoice-table__row" v-for="item in getServices" :key="item.id" @keyup.enter="item.isEditing = false">
+               <td class="invoice-table__cell" style="width: 20%">
                   <date-picker
-                     v-if="item.isEditing"
+                     v-show="item.isEditing"
                      :value="getFiled('date', item.id)"
                      @input="updateField('date', $event, item.id)"
+                     format="DD.MM.YYYY"
                      :popupStyle="{left: 0, top: '100'}"
+                     :default-value="new Date()"
                      class="mx-datepicker--small"
                      placeholder=""
                      input-class="mx-input mx-input--small"
                      valueType="format"
                      lang="en" >
                   </date-picker>
-                  <span v-else>{{ item.date }}</span>
+                  <span v-show="!item.isEditing">{{ item.date }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 30%">
                   <el-autocomplete
-                     v-if="item.isEditing"
+                     v-show="item.isEditing"
                      class="inline-input"
                      :value="getFiled('nameServices', item.id)"
                      @input="updateField('nameServices', $event, item.id)"
                      :fetch-suggestions="querySearch"
                      size="small"
+                     :autofocus="true"
+                     ref="inputName"
                   ></el-autocomplete>
-                  <span v-else>{{ item.nameServices }}</span>
+                  <span v-show="! item.isEditing" @click="focusInput('inputName', item.id)">{{ item.nameServices }}</span>
                </td>
-               <td class="invoice-table__cell" style="width: 20%">
+               <td class="invoice-table__cell" style="width: 17%">
                   <el-input
-                     v-if="item.isEditing"
+                     v-show="item.isEditing"
                      type="number"
                      :value="getFiled('debit', item.id)"
                      @input="updateField('debit', $event, item.id)"
                      size="small"
                   >
                   </el-input>
-                  <span v-else>{{ item.debit }}</span>
+                  <span v-show="!item.isEditing">{{ item.debit }}</span>
                </td>
-               <td class="invoice-table__cell" style="width: 20%">
+               <td class="invoice-table__cell" style="width: 16%">
                   <el-input
-                     v-if="item.isEditing"
+                     v-show="item.isEditing"
                      type="number"
                      :value="getFiled('credit', item.id)"
                      @input="updateField('credit', $event, item.id)"
                      size="small"
                   >
                   </el-input>
-                  <span v-else>{{ item.credit }}</span>
+                  <span v-show="! item.isEditing">{{ item.credit }}</span>
                </td>
                <td class="invoice-table__cell">
-                  <el-button
-                     @click="editing(item.id)"
-                     class="invoice-table__controls-btn"
-                     icon="el-icon-edit"
-                     size="mini">
-                  </el-button>
-                  <el-button
-                     @click="delItem(item.id)"
-                     icon="el-icon-delete"
-                     class="invoice-table__controls-btn"
-                     type="danger"
-                     size="mini">
-                  </el-button>
+                  <div class="invoice-table__controls-btn">
+                     <el-button v-if="!item.isEditing"
+                        @click="editing(item.id)"
+                        class="invoice-table__controls-btn"
+                        icon="el-icon-edit"
+                        size="small">
+                     </el-button>
+                     <el-button  v-else
+                        @click="editing(item.id)"
+                        class="invoice-table__controls-btn"
+                        icon="el-icon-document-checked"
+                        size="small">
+                     </el-button>
+                     <el-button
+                        @click="delItem(item.id)"
+                        icon="el-icon-delete"
+                        class="invoice-table__controls-btn"
+                        type="danger"
+                        size="small">
+                     </el-button>
+                  </div>
                </td>
             </tr>
 
@@ -125,6 +137,19 @@ export default {
    },
 
    methods: {
+      focusInput(input, id) {
+
+         this.$refs[input].forEach(item => {
+            console.log(item)
+         })
+
+         console.dir( )
+         console.log(id)
+
+         this.editing(+id)
+
+      },
+
       currencySet(val) {
          this.$store.commit('updateCurrency', val)
       },
@@ -136,16 +161,25 @@ export default {
       },
 
       addService() {
+         let date = new Intl.DateTimeFormat('ru-RU').format(new Date())
+
          const serviceObj = {
             id: Date.now(),
-            date: null,
+            date: date,
             nameServices: null,
             debit: null,
             credit: null,
             isEditing: true
          }
 
+         this.stopEditing()
+
          this.$store.commit('addService', serviceObj)
+
+         this.$nextTick(() => {
+            console.log(this.$refs.inputName[this.$refs.inputName.length - 1])
+            this.$refs.inputName[this.$refs.inputName.length - 1].focus()
+         })
       },
 
       editing(id) {
@@ -187,6 +221,5 @@ export default {
             { "value": "babel"}
          ];
    }
-
 }
 </script>

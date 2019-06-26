@@ -588,7 +588,7 @@ body {
   min-height: 100%;
   width: 100%;
   margin: 0 auto;
-  max-width: 1400px;
+  max-width: 1580px;
   overflow-x: hidden;
   position: relative;
 }
@@ -618,7 +618,9 @@ body {
 }
 
 .invoice-fields {
+  margin-left: auto;
   margin-top: 105px;
+  width: 98%;
   height: 100%;
 }
 
@@ -660,6 +662,22 @@ body {
 
 .inline-input {
   display: block;
+}
+
+@media screen and (max-width: 1366px) {
+  .invoice-preview-box {
+    width: 100%;
+  }
+
+  .invoice-fields-box {
+    width: 100%;
+    padding: 0 16px;
+  }
+
+  .invoice-fields {
+    max-width: 690px;
+    margin: 0 auto;
+  }
 }
 
 .layout {

@@ -14,17 +14,17 @@
       </el-row>
 
       <el-row :gutter="16" class="fields-row">
-         <el-col :span="8">
+         <el-col :span="6">
             <label class="input-label">Город:</label>
             <el-input :value="getFiled('addres')" @input="updateField('addres', $event)" clearable>
             </el-input>
          </el-col>
-         <el-col :span="8">
+         <el-col :span="12">
             <label class="input-label">Адресс:</label>
             <el-input  :value="getFiled('city')" @input="updateField('city', $event)" clearable>
             </el-input>
          </el-col>
-         <el-col :span="8">
+         <el-col :span="6">
             <label class="input-label">Почтовый индекс:</label>
             <el-input  :value="getFiled('postIndx')" @input="updateField('postIndx', $event)" clearable>
             </el-input>
@@ -45,6 +45,7 @@
                :value="getInvoiceFiled('date')"
                placeholder="Выберите дату"
                @input="updateInvoiceFiled('date', $event)"
+               format="DD.MM.YYYY"
                valueType="format"
                lang="en" >
             </date-picker>

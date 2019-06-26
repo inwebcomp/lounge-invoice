@@ -1,7 +1,7 @@
 <template>
    <div class="invoice-container">
       <div class="invoice-buttons">
-         <el-button>Открыть</el-button>
+         <el-button v-show="false">Открыть</el-button>
          <el-button type="primary" @click="saveInvoice" :loading="buttonSaveLoading">Сохранить</el-button>
          <el-button type="success" onClick="window.print()">Печать</el-button>
       </div>
@@ -12,44 +12,44 @@
          <div class="invoice__row">
             <div class="invoice__info">
                <div class="invoice__info-client" >
-                  <p>{{ getClient.name || 'Name' }}  {{ getClient.surName || 'Surname' }}</p>
-                  <p>{{ getClient.city ? `${getClient.city},` : 'City,' }} {{ getClient.addres || 'Address'}}</p>
-                  <p>{{ getClient.postIndx || 'Post Index'}}</p>
+                  <p>{{ getClient.name }}  {{ getClient.surName }}</p>
+                  <p>{{ getClient.city ? `${getClient.city},` : null }} {{ getClient.addres }}</p>
+                  <p>{{ getClient.postIndx }}</p>
                </div>
 
                <div class="invoice__info-hotel">
-                  <p><b>Invoice: </b> {{ getInvoiceInfo.name }}</p>
-                  <p><b>Data: </b> {{ getInvoiceInfo.date || '-'}}</p>
-                  <p><b>Time: </b> {{ getInvoiceInfo.time || '-'}}</p>
+                  <p><b>Invoice: </b></p>
+                  <p>{{ getInvoiceInfo.name }}</p>
+                  <p>{{ getInvoiceInfo.date }} <TimeComponent /> </p>
+                  <!-- <p>{{ getInvoiceInfo.date }} {{ getInvoiceInfo.time }}</p> -->
                </div>
             </div>
 
 
             <div class="invoice__reservation-info" >
-               <p>Room No.
-                  <span class="invoice__reservation-info__right">: {{ getReservation.roomNumb }}</span>
+               <p v-if="getReservation.roomNumb">Room №:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.roomNumb }}</span>
                </p>
-               <p>No. of person(s)
-                  <span class="invoice__reservation-info__right">: {{ getReservation.personsCount }}</span>
+               <p v-if="getReservation.personsCount">No. of person(s):
+                  <span class="invoice__reservation-info__right"> {{ getReservation.personsCount }}</span>
                </p>
-               <p>Arival
-                  <span class="invoice__reservation-info__right">: {{ getReservation.arival }}</span>
+               <p v-if="getReservation.arival">Arival:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.arival }}</span>
                </p>
-               <p>Departure
-                  <span class="invoice__reservation-info__right">: {{ getReservation.departure }}</span>
+               <p v-if="getReservation.departure">Departure:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.departure }}</span>
                </p>
-               <p>Reservation No.
-                  <span class="invoice__reservation-info__right">: {{ getReservation.reservationNumb }}</span>
+               <p v-if="getReservation.reservationNumb">Reservation №:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.reservationNumb }}</span>
                </p>
-               <p>Ext. Reservation No.
-                  <span class="invoice__reservation-info__right">: {{ getReservation.extReservationNumb }}</span>
+               <p v-if="getReservation.extReservationNumb">Ext. Reservation №:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.extReservationNumb }}</span>
                </p>
-               <p></p>
-               <p>Cashier No.
-                  <span class="invoice__reservation-info__right">: {{ getReservation.cashierNumb }}</span>
+               <p v-if="getReservation.cashierNumb">Cashier №:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.cashierNumb }}</span>
                </p>
-               <p>Page No.
-                  <span class="invoice__reservation-info__right">: {{ getReservation.pageNumb }}</span>
+               <p v-if="getReservation.pageNumb">Page №:
+                  <span class="invoice__reservation-info__right"> {{ getReservation.pageNumb }}</span>
                </p>
             </div>
          </div>
@@ -116,9 +116,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
+import TimeComponent from './TimeComponent';
 
 export default {
    name: 'InvoicePreview',
+
+   components: {
+      TimeComponent
+   },
 
    data: () => ({
       buttonSaveLoading: false,
@@ -221,6 +226,8 @@ export default {
             )
       }
    },
+
+
 };
 </script>
 
@@ -273,7 +280,9 @@ export default {
    }
 
    &__controls-btn {
-      margin: 5px 0 0 0 !important;
+      .el-button + .el-button {
+         margin-left: 5px;
+      }
    }
 }
 
@@ -285,7 +294,7 @@ export default {
 
 .invoice-container {
    width: 100%;
-   max-width: 600px;
+   max-width: 690px;
    margin: 0 auto;
    padding: 50px 0 100px;
 }
@@ -294,8 +303,8 @@ export default {
    display: flex;
 
    .el-button {
-      &:first-of-type {
-         margin-right: auto;
+      &:nth-child(2) {
+         margin-left: auto;
       }
       &:last-of-type {
          margin-left: 16px * 0.5;
@@ -305,6 +314,7 @@ export default {
 
 .invoice {
    background-color: #fff;
+   color: #000;
    width: 100%;
    margin-top: 16px;
    padding: 16px;
