@@ -1,11 +1,11 @@
 <template>
    <div id="app">
-      <el-row>
-         <el-col :span="12" class="invoice-preview-box">
-            <InvoicePreview />
-         </el-col>
+      <el-row :gutter="16">
          <el-col :span="12" class="invoice-fields-box">
             <InvoiceFields />
+         </el-col>
+         <el-col :span="12" class="invoice-preview-box">
+            <InvoicePreview />
          </el-col>
       </el-row>
    </div>
@@ -22,10 +22,3 @@ export default {
    },
 }
 </script>
-
-<style lang="scss">
-
-
-
-</style>
-

@@ -1884,11 +1884,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientInfo',
-  data: function data() {
-    return {};
-  },
   methods: {
     getFiled: function getFiled(field) {
       return this.$store.state.client[field];
@@ -2096,7 +2094,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       buttonSaveLoading: false,
-      requisitesText: ['DeepL для перевода Ваших текстов с веб-сервис, который переводит', 'мобильный и веб-сервис, который переводит', 'мобильный и веб-сервис, который переводит оторый перевод'],
+      requisitesText: ['Контакты и реквизиты'],
       servicesObjsArr: [],
       tva: 7
     };
@@ -2166,19 +2164,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.buttonSaveLoading = true;
       var element = document.getElementById('printarea');
       var opt = {
-        margin: 1,
-        filename: 'invoive.pdf',
+        filename: 'invoice.pdf',
         image: {
-          type: 'png',
+          type: 'jpeg',
           quality: 1
         },
         html2canvas: {
           scale: 2
         },
         jsPDF: {
-          unit: 'in',
-          format: 'letter',
-          orientation: 'portrait'
+          unit: 'mm',
+          format: 'a4',
+          orientation: 'portrait',
+          putOnlyUsedFonts: false
         }
       };
       html2pdf(element, opt).then(function () {
@@ -2305,6 +2303,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReservationInfo',
   methods: {
@@ -2316,6 +2320,9 @@ __webpack_require__.r(__webpack_exports__);
         value: val,
         field: field
       });
+    },
+    onSetArival: function onSetArival(event) {
+      this.$refs.departure.handleFocus();
     }
   }
 });
@@ -2333,6 +2340,13 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -2467,12 +2481,17 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     focusInput: function focusInput(input, id) {
-      this.$refs[input].forEach(function (item) {
-        console.log(item);
-      });
-      console.dir();
-      console.log(id);
+      var _this = this;
+
       this.editing(+id);
+      this.$nextTick(function () {
+        _this.$refs[input].forEach(function (item) {
+          if (item.$attrs.dataId === +id) {
+            item.handleFocus();
+            if (item.focus) item.focus();
+          }
+        });
+      });
     },
     currencySet: function currencySet(val) {
       this.$store.commit('updateCurrency', val);
@@ -2488,9 +2507,10 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     addService: function addService() {
-      var _this = this;
+      var _this2 = this;
 
       var date = new Intl.DateTimeFormat('ru-RU').format(new Date());
+      this.stopEditingAll();
       var serviceObj = {
         id: Date.now(),
         date: date,
@@ -2499,12 +2519,9 @@ __webpack_require__.r(__webpack_exports__);
         credit: null,
         isEditing: true
       };
-      this.stopEditing();
       this.$store.commit('addService', serviceObj);
       this.$nextTick(function () {
-        console.log(_this.$refs.inputName[_this.$refs.inputName.length - 1]);
-
-        _this.$refs.inputName[_this.$refs.inputName.length - 1].focus();
+        _this2.$refs.inputName[_this2.$refs.inputName.length - 1].focus();
       });
     },
     editing: function editing(id) {
@@ -2513,10 +2530,8 @@ __webpack_require__.r(__webpack_exports__);
     delItem: function delItem(id) {
       this.$store.commit('removeService', id);
     },
-    stopEditing: function stopEditing() {
-      this.getServices.forEach(function (item) {
-        item.isEditing = false;
-      });
+    stopEditingAll: function stopEditingAll() {
+      this.$store.commit('stopEditingAll');
     },
     querySearch: function querySearch(queryString, cb) {
       var links = this.nameServicesList;
@@ -4431,7 +4446,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-table__controls-btn .el-button + .el-button {\n  margin-left: 5px;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n  margin-top: 24px;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 690px;\n  margin: 0 auto;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:nth-child(2) {\n  margin-left: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  color: #000;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n  width: 100%;\n}\n.invoice__reservation-info__right {\n  text-align: left;\n  margin-left: auto;\n  width: 45%;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  margin: 2px 0;\n  text-align: center;\n  font-size: 1.2rem;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    margin-top: 0;\n    left: 0;\n    top: 0;\n    box-shadow: none;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
+exports.push([module.i, ".invoice-table {\n  width: 100%;\n}\n.invoice-table__header tr {\n  border-top: none;\n  border-bottom: 2px solid #dee2e6;\n}\n.invoice-table__header .invoice-table__cell {\n  font-weight: 500;\n  font-size: 1.5rem;\n  text-align: left;\n}\n.invoice-table__row {\n  border-top: 1px solid #dee2e6;\n}\n.invoice-table__cell {\n  padding: 9px 5px 10px;\n  font-weight: normal;\n  font-size: 1.3rem;\n  vertical-align: middle;\n}\n.invoice-table__cell:nth-child(1) {\n  width: 20%;\n}\n.invoice-table__cell:nth-child(3) {\n  width: 15%;\n}\n.invoice-table__cell:nth-child(4) {\n  width: 15%;\n}\n.invoice-table__footer .invoice-table__cell {\n  font-weight: 700;\n}\n.invoice-table__controls-btn .el-button + .el-button {\n  margin-left: 5px;\n}\n.invoice-table__static {\n  min-height: 27px;\n  cursor: pointer;\n  line-height: 27px;\n  display: inline-block;\n  vertical-align: middle;\n  width: 100%;\n  padding-left: 7px;\n  border-radius: 3px;\n  transition: background-color 0.15s ease;\n}\n.invoice-table__static:hover {\n  background-color: #f5f7fa;\n}\n.invoice-small-table {\n  width: 60%;\n  margin-left: auto;\n  margin-top: 24px;\n}\n.invoice-container {\n  width: 100%;\n  max-width: 710px;\n  padding: 50px 0 100px;\n}\n.invoice-buttons {\n  display: flex;\n}\n.invoice-buttons .el-button:nth-child(2) {\n  margin-left: auto;\n}\n.invoice-buttons .el-button:last-of-type {\n  margin-left: 8px;\n}\n.invoice {\n  background-color: #fff;\n  color: #000;\n  width: 100%;\n  margin-top: 16px;\n  padding: 16px;\n  font-size: 1.3rem;\n  font-weight: 500;\n  box-shadow: 2px 2px 10px -2px rgba(0, 0, 0, 0.75);\n}\n.invoice__text {\n  margin: 3px 0;\n}\n.invoice__row {\n  margin-bottom: 32px;\n}\n.invoice__row:after {\n  content: \"\";\n  display: table;\n  clear: both;\n}\n.invoice__info {\n  float: left;\n}\n.invoice__info p {\n  margin: 3px 0;\n}\n.invoice__info-client {\n  padding-left: 25px;\n  margin-bottom: 32px;\n}\n.invoice__reservation-info {\n  padding: 0;\n  float: right;\n  font-weight: normal;\n  min-width: 250px;\n}\n.invoice__reservation-info p {\n  margin: 3px 0;\n  display: flex;\n  width: 100%;\n}\n.invoice__reservation-info__right {\n  text-align: left;\n  margin-left: auto;\n  width: 45%;\n}\n.invoice .text-bold {\n  font-weight: 700;\n}\n.invoice__logo {\n  float: right;\n}\n.invoice__requisites {\n  margin-top: 32px;\n}\n.invoice__requisites .invoice__text {\n  margin: 2px 0;\n  text-align: center;\n  font-size: 1.2rem;\n}\n@media print {\nbody * {\n    visibility: hidden;\n}\n#printarea, #printarea * {\n    visibility: visible;\n}\n#printarea {\n    width: 100%;\n    display: block;\n    position: absolute;\n    margin-top: 0;\n    left: 0;\n    top: 0;\n    box-shadow: none;\n}\n.invoice-preview-box {\n    position: static;\n}\n}", ""]);
 
 // exports
 
@@ -63179,18 +63194,19 @@ var render = function() {
     [
       _c(
         "el-row",
+        { attrs: { gutter: 16 } },
         [
           _c(
             "el-col",
-            { staticClass: "invoice-preview-box", attrs: { span: 12 } },
-            [_c("InvoicePreview")],
+            { staticClass: "invoice-fields-box", attrs: { span: 12 } },
+            [_c("InvoiceFields")],
             1
           ),
           _vm._v(" "),
           _c(
             "el-col",
-            { staticClass: "invoice-fields-box", attrs: { span: 12 } },
-            [_c("InvoiceFields")],
+            { staticClass: "invoice-preview-box", attrs: { span: 12 } },
+            [_c("InvoicePreview")],
             1
           )
         ],
@@ -63390,6 +63406,7 @@ var render = function() {
                   value: _vm.getInvoiceFiled("time"),
                   type: "time",
                   format: "HH:mm:ss",
+                  popupStyle: { right: 0, left: 100 },
                   placeholder: "Выберите время",
                   valueType: "format",
                   lang: "en"
@@ -63909,7 +63926,7 @@ var render = function() {
         [
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("Room No.:")
@@ -63942,7 +63959,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("No. of person(s):")
@@ -63971,11 +63988,18 @@ var render = function() {
               )
             ],
             1
-          ),
-          _vm._v(" "),
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticClass: "fields-row", attrs: { gutter: 16 } },
+        [
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [_vm._v("Arival:")]),
               _vm._v(" "),
@@ -63990,29 +64014,24 @@ var render = function() {
                 on: {
                   input: function($event) {
                     return _vm.updateField("arival", $event)
-                  }
+                  },
+                  change: _vm.onSetArival
                 }
               })
             ],
             1
-          )
-        ],
-        1
-      ),
-      _vm._v(" "),
-      _c(
-        "el-row",
-        { staticClass: "fields-row", attrs: { gutter: 16 } },
-        [
+          ),
+          _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("Departure:")
               ]),
               _vm._v(" "),
               _c("date-picker", {
+                ref: "departure",
                 attrs: {
                   placeholder: "Выберите дату",
                   format: "DD.MM.YYYY",
@@ -64029,11 +64048,18 @@ var render = function() {
               })
             ],
             1
-          ),
-          _vm._v(" "),
+          )
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "el-row",
+        { staticClass: "fields-row", attrs: { gutter: 16 } },
+        [
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("Reservation No.:")
@@ -64058,7 +64084,7 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 8 } },
+            { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
                 _vm._v("Ext. Reservation No.:")
@@ -64113,30 +64139,7 @@ var render = function() {
             1
           ),
           _vm._v(" "),
-          _c(
-            "el-col",
-            { attrs: { span: 12 } },
-            [
-              _c("label", { staticClass: "input-label" }, [
-                _vm._v("Page No.:")
-              ]),
-              _vm._v(" "),
-              _c("el-input", {
-                attrs: {
-                  type: "number",
-                  placeholder: "Введите номер",
-                  value: _vm.getFiled("pageNumb"),
-                  clearable: ""
-                },
-                on: {
-                  input: function($event) {
-                    return _vm.updateField("pageNumb", $event)
-                  }
-                }
-              })
-            ],
-            1
-          )
+          _c("el-col", { attrs: { span: 12 } })
         ],
         1
       )
@@ -64170,7 +64173,7 @@ var render = function() {
     "div",
     { staticClass: "fields-box" },
     [
-      _c("label", { staticClass: "input-label" }, [_vm._v("Валюта: ")]),
+      _c("label", { staticClass: "inlain-label" }, [_vm._v("Валюта: ")]),
       _vm._v(" "),
       _c(
         "el-select",
@@ -64202,8 +64205,8 @@ var render = function() {
               {
                 name: "click-outside",
                 rawName: "v-click-outside",
-                value: _vm.stopEditing,
-                expression: "stopEditing"
+                value: _vm.stopEditingAll,
+                expression: "stopEditingAll"
               }
             ],
             staticClass: "invoice-table__body"
@@ -64244,12 +64247,15 @@ var render = function() {
                             expression: "item.isEditing"
                           }
                         ],
+                        ref: "inputData",
+                        refInFor: true,
                         staticClass: "mx-datepicker--small",
                         attrs: {
                           value: _vm.getFiled("date", item.id),
                           format: "DD.MM.YYYY",
                           popupStyle: { left: 0, top: "100" },
                           "default-value": new Date(),
+                          dataId: item.id,
                           placeholder: "",
                           "input-class": "mx-input mx-input--small",
                           valueType: "format",
@@ -64272,7 +64278,13 @@ var render = function() {
                               value: !item.isEditing,
                               expression: "!item.isEditing"
                             }
-                          ]
+                          ],
+                          staticClass: "invoice-table__static",
+                          on: {
+                            click: function($event) {
+                              return _vm.focusInput("inputData", item.id)
+                            }
+                          }
                         },
                         [_vm._v(_vm._s(item.date))]
                       )
@@ -64303,7 +64315,8 @@ var render = function() {
                           value: _vm.getFiled("nameServices", item.id),
                           "fetch-suggestions": _vm.querySearch,
                           size: "small",
-                          autofocus: true
+                          autofocus: true,
+                          dataId: item.id
                         },
                         on: {
                           input: function($event) {
@@ -64327,6 +64340,7 @@ var render = function() {
                               expression: "! item.isEditing"
                             }
                           ],
+                          staticClass: "invoice-table__static",
                           on: {
                             click: function($event) {
                               return _vm.focusInput("inputName", item.id)
@@ -64355,10 +64369,13 @@ var render = function() {
                             expression: "item.isEditing"
                           }
                         ],
+                        ref: "inputDebit",
+                        refInFor: true,
                         attrs: {
                           type: "number",
                           value: _vm.getFiled("debit", item.id),
-                          size: "small"
+                          size: "small",
+                          dataId: item.id
                         },
                         on: {
                           input: function($event) {
@@ -64377,7 +64394,13 @@ var render = function() {
                               value: !item.isEditing,
                               expression: "!item.isEditing"
                             }
-                          ]
+                          ],
+                          staticClass: "invoice-table__static",
+                          on: {
+                            click: function($event) {
+                              return _vm.focusInput("inputDebit", item.id)
+                            }
+                          }
                         },
                         [_vm._v(_vm._s(item.debit))]
                       )
@@ -64401,10 +64424,13 @@ var render = function() {
                             expression: "item.isEditing"
                           }
                         ],
+                        ref: "inputCredit",
+                        refInFor: true,
                         attrs: {
                           type: "number",
                           value: _vm.getFiled("credit", item.id),
-                          size: "small"
+                          size: "small",
+                          dataId: item.id
                         },
                         on: {
                           input: function($event) {
@@ -64423,7 +64449,13 @@ var render = function() {
                               value: !item.isEditing,
                               expression: "! item.isEditing"
                             }
-                          ]
+                          ],
+                          staticClass: "invoice-table__static",
+                          on: {
+                            click: function($event) {
+                              return _vm.focusInput("inputCredit", item.id)
+                            }
+                          }
                         },
                         [_vm._v(_vm._s(item.credit))]
                       )
@@ -78547,6 +78579,11 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         if (item.id === +id) {
           item.isEditing = !item.isEditing;
         }
+      });
+    },
+    stopEditingAll: function stopEditingAll(state) {
+      state.services.forEach(function (item) {
+        item.isEditing = false;
       });
     }
   },

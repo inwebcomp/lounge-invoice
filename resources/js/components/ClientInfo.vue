@@ -57,6 +57,7 @@
                @input="updateInvoiceFiled('time', $event)"
                type="time"
                format="HH:mm:ss"
+               :popupStyle="{right: 0, left: 100}"
                placeholder="Выберите время"
                valueType="format"
                lang="en" >
@@ -71,10 +72,6 @@
 
 export default {
    name: 'ClientInfo',
-
-   data: () => ({
-
-   }),
 
    methods: {
       getFiled(field) {

@@ -127,7 +127,12 @@ export default new Vuex.Store({
                item.isEditing = ! item.isEditing
             }
          })
-      }
+      },
+      stopEditingAll(state) {
+         state.services.forEach(item => {
+            item.isEditing = false
+         })
+      },
    },
 
    actions: {

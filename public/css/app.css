@@ -588,7 +588,7 @@ body {
   min-height: 100%;
   width: 100%;
   margin: 0 auto;
-  max-width: 1580px;
+  max-width: 1800px;
   overflow-x: hidden;
   position: relative;
 }
@@ -618,8 +618,7 @@ body {
 }
 
 .invoice-fields {
-  margin-left: auto;
-  margin-top: 105px;
+  margin: 105px auto 0 15px;
   width: 98%;
   height: 100%;
 }
@@ -647,8 +646,17 @@ body {
 }
 
 .input-label {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.inlain-label {
   display: inline-block;
   margin-bottom: 4px;
+}
+
+.el-select {
+  width: 100%;
 }
 
 .fields-row {
@@ -658,6 +666,7 @@ body {
 .currency-select {
   margin-bottom: 24px;
   margin-left: 16px;
+  max-width: 150px;
 }
 
 .inline-input {
@@ -675,8 +684,9 @@ body {
   }
 
   .invoice-fields {
-    max-width: 690px;
+    max-width: 710px;
     margin: 0 auto;
+    margin-top: 50px;
   }
 }
 

@@ -1,6 +1,6 @@
 <template>
    <div class="fields-box">
-      <label class="input-label">Валюта: </label>
+      <label class="inlain-label">Валюта: </label>
       <el-select
          :value="currency.value"
          class="currency-select"
@@ -24,7 +24,7 @@
                <th class="invoice-table__cell" colspan="2">Кредит</th>
             </tr>
          </thead>
-         <tbody class="invoice-table__body" v-click-outside="stopEditing">
+         <tbody class="invoice-table__body" v-click-outside="stopEditingAll">
             <tr class="invoice-table__row" v-for="item in getServices" :key="item.id" @keyup.enter="item.isEditing = false">
                <td class="invoice-table__cell" style="width: 20%">
                   <date-picker
@@ -34,13 +34,15 @@
                      format="DD.MM.YYYY"
                      :popupStyle="{left: 0, top: '100'}"
                      :default-value="new Date()"
+                     ref="inputData"
+                     :dataId="item.id"
                      class="mx-datepicker--small"
                      placeholder=""
                      input-class="mx-input mx-input--small"
                      valueType="format"
                      lang="en" >
                   </date-picker>
-                  <span v-show="!item.isEditing">{{ item.date }}</span>
+                  <span class="invoice-table__static" v-show="!item.isEditing" @click="focusInput('inputData', item.id)">{{ item.date }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 30%">
                   <el-autocomplete
@@ -52,8 +54,9 @@
                      size="small"
                      :autofocus="true"
                      ref="inputName"
+                     :dataId="item.id"
                   ></el-autocomplete>
-                  <span v-show="! item.isEditing" @click="focusInput('inputName', item.id)">{{ item.nameServices }}</span>
+                  <span class="invoice-table__static" v-show="! item.isEditing" @click="focusInput('inputName', item.id)">{{ item.nameServices }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 17%">
                   <el-input
@@ -62,9 +65,11 @@
                      :value="getFiled('debit', item.id)"
                      @input="updateField('debit', $event, item.id)"
                      size="small"
+                     ref="inputDebit"
+                     :dataId="item.id"
                   >
                   </el-input>
-                  <span v-show="!item.isEditing">{{ item.debit }}</span>
+                  <span class="invoice-table__static" v-show="!item.isEditing" @click="focusInput('inputDebit', item.id)">{{ item.debit }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 16%">
                   <el-input
@@ -73,9 +78,11 @@
                      :value="getFiled('credit', item.id)"
                      @input="updateField('credit', $event, item.id)"
                      size="small"
+                     ref="inputCredit"
+                     :dataId="item.id"
                   >
                   </el-input>
-                  <span v-show="! item.isEditing">{{ item.credit }}</span>
+                  <span class="invoice-table__static" v-show="! item.isEditing" @click="focusInput('inputCredit', item.id)">{{ item.credit }}</span>
                </td>
                <td class="invoice-table__cell">
                   <div class="invoice-table__controls-btn">
@@ -138,16 +145,17 @@ export default {
 
    methods: {
       focusInput(input, id) {
-
-         this.$refs[input].forEach(item => {
-            console.log(item)
-         })
-
-         console.dir( )
-         console.log(id)
-
          this.editing(+id)
 
+         this.$nextTick(() => {
+            this.$refs[input].forEach(item => {
+               if (item.$attrs.dataId === +id) {
+                  item.handleFocus()
+
+                  if (item.focus) item.focus()
+               }
+            })
+         })
       },
 
       currencySet(val) {
@@ -163,6 +171,8 @@ export default {
       addService() {
          let date = new Intl.DateTimeFormat('ru-RU').format(new Date())
 
+         this.stopEditingAll()
+
          const serviceObj = {
             id: Date.now(),
             date: date,
@@ -172,12 +182,9 @@ export default {
             isEditing: true
          }
 
-         this.stopEditing()
-
          this.$store.commit('addService', serviceObj)
 
          this.$nextTick(() => {
-            console.log(this.$refs.inputName[this.$refs.inputName.length - 1])
             this.$refs.inputName[this.$refs.inputName.length - 1].focus()
          })
       },
@@ -190,10 +197,8 @@ export default {
          this.$store.commit('removeService', id)
       },
 
-      stopEditing() {
-         this.getServices.forEach(item => {
-            item.isEditing = false
-         })
+      stopEditingAll() {
+         this.$store.commit('stopEditingAll')
       },
 
       querySearch(queryString, cb) {

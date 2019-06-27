@@ -1,7 +1,7 @@
 <template>
    <div class="fields-box">
       <el-row :gutter="16" class="fields-row">
-         <el-col :span="8">
+         <el-col :span="12">
             <label class="input-label">Room No.:</label>
             <el-select
                :value="getFiled('roomNumb')"
@@ -16,7 +16,7 @@
                </el-option>
             </el-select>
          </el-col>
-         <el-col :span="8">
+         <el-col :span="12">
             <label class="input-label">No. of person(s):</label>
             <el-select
                :value="getFiled('personsCount')"
@@ -31,21 +31,23 @@
                </el-option>
             </el-select>
          </el-col>
-         <el-col :span="8">
+
+      </el-row>
+
+      <el-row :gutter="16" class="fields-row">
+         <el-col :span="12">
             <label class="input-label">Arival:</label>
             <date-picker
                placeholder="Выберите дату"
                format="DD.MM.YYYY"
                :value="getFiled('arival')"
                @input="updateField('arival', $event)"
+               @change="onSetArival"
                valueType="format"
-               lang="en" >
+               lang="en">
             </date-picker>
          </el-col>
-      </el-row>
-
-      <el-row :gutter="16" class="fields-row">
-         <el-col :span="8">
+         <el-col :span="12">
             <label class="input-label">Departure:</label>
             <date-picker
                placeholder="Выберите дату"
@@ -54,10 +56,14 @@
                @input="updateField('departure', $event)"
                :popupStyle="{left: 0, top: '100'}"
                valueType="format"
-               lang="en" >
+               lang="en"
+               ref="departure" >
             </date-picker>
          </el-col>
-         <el-col :span="8">
+      </el-row>
+
+      <el-row :gutter="16" class="fields-row">
+         <el-col :span="12">
             <label class="input-label">Reservation No.:</label>
                <el-input
                type="number"
@@ -67,7 +73,7 @@
                clearable>
             </el-input>
          </el-col>
-         <el-col :span="8">
+         <el-col :span="12">
             <label class="input-label">Ext. Reservation No.:</label>
                <el-input
                type="number"
@@ -91,14 +97,14 @@
             </el-input>
          </el-col>
          <el-col :span="12">
-            <label class="input-label">Page No.:</label>
+            <!-- <label class="input-label">Page No.:</label>
                <el-input
                type="number"
                placeholder="Введите номер"
                :value="getFiled('pageNumb')"
                @input="updateField('pageNumb', $event)"
                clearable>
-            </el-input>
+            </el-input> -->
          </el-col>
       </el-row>
    </div>
@@ -115,8 +121,11 @@ export default {
       },
       updateField (field, val) {
          this.$store.commit('updateReservationFiled', {value: val, field: field})
+      },
+      onSetArival(event) {
+         this.$refs.departure.handleFocus()
       }
-   },
+   }
 }
 </script>
 

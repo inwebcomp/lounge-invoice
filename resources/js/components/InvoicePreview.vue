@@ -129,9 +129,7 @@ export default {
       buttonSaveLoading: false,
 
       requisitesText: [
-         'DeepL для перевода Ваших текстов с веб-сервис, который переводит',
-         'мобильный и веб-сервис, который переводит',
-         'мобильный и веб-сервис, который переводит оторый перевод',
+         'Контакты и реквизиты',
       ],
 
      servicesObjsArr: [],
@@ -212,11 +210,11 @@ export default {
 
          const element = document.getElementById('printarea');
          const opt = {
-            margin:       1,
-            filename:     'invoive.pdf',
-            image:        { type: 'png', quality: 1 },
+
+            filename:     'invoice.pdf',
+            image:        { type: 'jpeg', quality: 1 },
             html2canvas:  { scale: 2 },
-            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+            jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait', putOnlyUsedFonts:false }
          }
 
          html2pdf(element, opt)
@@ -284,6 +282,22 @@ export default {
          margin-left: 5px;
       }
    }
+
+   &__static {
+      min-height: 27px;
+      cursor: pointer;
+      line-height: 27px;
+      display: inline-block;
+      vertical-align: middle;
+      width: 100%;
+      padding-left: 7px;
+      border-radius: 3px;
+      transition: background-color 0.15s ease;
+
+      &:hover {
+         background-color: #f5f7fa;
+      }
+   }
 }
 
 .invoice-small-table {
@@ -294,8 +308,7 @@ export default {
 
 .invoice-container {
    width: 100%;
-   max-width: 690px;
-   margin: 0 auto;
+   max-width: 710px;
    padding: 50px 0 100px;
 }
 

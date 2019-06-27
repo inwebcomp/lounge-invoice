@@ -37,7 +37,7 @@ body {
    min-height: 100%;
    width: 100%;
    margin: 0 auto;
-   max-width: 1580px;
+   max-width: 1800px;
    // display: flex;
    overflow-x: hidden;
    // flex-direction: column;
@@ -69,8 +69,7 @@ body {
 }
 
 .invoice-fields {
-   margin-left: auto;
-   margin-top: 105px;
+   margin: 105px auto 0 15px;
    width: 98%;
    height: 100%;
 
@@ -98,8 +97,17 @@ body {
 }
 
 .input-label {
+   display: block;
+   margin-bottom: $padding * 0.25;
+}
+
+.inlain-label {
    display: inline-block;
    margin-bottom: $padding * 0.25;
+}
+
+.el-select {
+   width: 100%;
 }
 
 .fields-row {
@@ -109,6 +117,7 @@ body {
 .currency-select {
    margin-bottom: $padding * 1.5;
    margin-left: $padding;
+   max-width: 150px;
 }
 
 .inline-input {
@@ -126,7 +135,8 @@ body {
    }
 
    .invoice-fields {
-      max-width: 690px;
+      max-width: 710px;
       margin: 0 auto;
+      margin-top: 50px;
    }
 }
