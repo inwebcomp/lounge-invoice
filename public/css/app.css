@@ -82179,6 +82179,10 @@ body {
     margin: 0 auto;
     margin-top: 50px;
   }
+
+  .invoice-container {
+    margin: 0 auto;
+  }
 }
 
 .layout {
