@@ -41,18 +41,27 @@
          </el-col>
          <el-col :span="7">
             <label class="input-label">Дата:</label>
-            <date-picker
+            <!-- <date-picker
                :value="getInvoiceFiled('date')"
                placeholder="Выберите дату"
                @input="updateInvoiceFiled('date', $event)"
                format="DD.MM.YYYY"
                valueType="format"
                lang="en" >
-            </date-picker>
+            </date-picker> -->
+            <el-date-picker
+               type="date"
+               :value="getInvoiceFiled('date')"
+               placeholder="Выберите дату"
+               @input="updateInvoiceFiled('date', $event)"
+               format="dd.MM.yyyy"
+               class="date-picker"
+               value-format="dd.MM.yyyy">
+            </el-date-picker>
          </el-col>
          <el-col :span="7">
             <label class="input-label">Время:</label>
-            <date-picker
+            <!-- <date-picker
                :value="getInvoiceFiled('time')"
                @input="updateInvoiceFiled('time', $event)"
                type="time"
@@ -61,7 +70,15 @@
                placeholder="Выберите время"
                valueType="format"
                lang="en" >
-            </date-picker>
+            </date-picker> -->
+            <el-time-picker
+               :value="getInvoiceFiled('time')"
+               @input="updateInvoiceFiled('time', $event)"
+               format="HH:mm:ss"
+               value-format="HH:mm:ss"
+               class="time-picker"
+               placeholder="Выберите время">
+            </el-time-picker>
          </el-col>
       </el-row>
 

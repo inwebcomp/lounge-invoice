@@ -2,8 +2,10 @@ import './bootstrap'
 import Vue from 'vue'
 import store from './store/'
 import Translator from './services/Translator'
-import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, Input, InputNumber, Table, Autocomplete,} from 'element-ui';
-import DatePicker from 'vue2-datepicker'
+import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, Input, InputNumber, Table, Autocomplete, DatePicker, TimePicker} from 'element-ui';
+//import DatePicker from 'vue2-datepicker'
+import lang from 'element-ui/lib/locale/lang/en'
+import locale from 'element-ui/lib/locale'
 
 // components
 import App from './App.vue'
@@ -19,6 +21,8 @@ Vue.mixin({
     }
 });
 
+locale.use(lang)
+
 Vue.use(Row)
 Vue.use(Col)
 Vue.use(Button)
@@ -32,7 +36,8 @@ Vue.use(Input)
 Vue.use(InputNumber)
 Vue.use(Table)
 Vue.use(Option)
-Vue.use(DatePicker)
+Vue.use(DatePicker, { locale })
+Vue.use(TimePicker, { locale })
 Vue.use(Autocomplete)
 
 new Vue({

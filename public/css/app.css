@@ -82010,17 +82010,6 @@ template {
   list-style-type: none;
 }
 
-.button-reset,
-button {
-  border: none;
-  background-color: transparent;
-  padding: 0;
-  display: block;
-  font-size: inherit;
-  color: inherit;
-  outline: none;
-}
-
 .grid {
   display: grid;
 }

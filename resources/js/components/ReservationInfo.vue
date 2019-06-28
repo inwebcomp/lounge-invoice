@@ -177,4 +177,11 @@ export default {
       }
    }
 }
+
+.date-picker.el-date-editor.el-input {
+   width: 100%;
+}
+.time-picker.el-date-editor.el-input {
+   width: 100%;
+}
 </style>
