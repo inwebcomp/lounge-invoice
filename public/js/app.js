@@ -1884,24 +1884,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ClientInfo',
   methods: {
@@ -2100,7 +2082,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
-//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2153,15 +2134,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           nameServices: null,
           debit: 0,
           netto: 0,
-          tva: _this.tva
+          tva: 0
         };
 
         _this.getServices.forEach(function (item) {
           if (item.nameServices === itemName) {
             tvaServicesObj.nameServices = item.nameServices;
             tvaServicesObj.debit += +item.debit;
-            tvaServicesObj.netto = +tvaServicesObj.debit * (1 - tvaServicesObj.tva / 100);
+            tvaServicesObj.netto = +tvaServicesObj.debit * (1 - _this.tva / 100);
             tvaServicesObj.netto = +tvaServicesObj.netto.toFixed(2);
+            tvaServicesObj.tva = +tvaServicesObj.debit - tvaServicesObj.netto;
+            tvaServicesObj.tva = +tvaServicesObj.tva.toFixed(2);
           }
         });
 
@@ -2181,6 +2164,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.buttonSaveLoading = true;
       var element = document.getElementById('printarea');
       var opt = {
+        margin: [5, 10, 0, 10],
         filename: 'invoice.pdf',
         image: {
           type: 'jpeg',
@@ -2324,8 +2308,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReservationInfo',
   methods: {
@@ -2339,7 +2321,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     onSetArival: function onSetArival(event) {
-      this.$refs.departure.handleFocus();
+      this.$refs.departure.focus();
     }
   }
 });
@@ -2357,6 +2339,10 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue-click-outside */ "./node_modules/vue-click-outside/index.js");
 /* harmony import */ var vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue_click_outside__WEBPACK_IMPORTED_MODULE_0__);
+//
+//
+//
+//
 //
 //
 //
@@ -2542,6 +2528,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     editing: function editing(id) {
+      this.stopEditingAll();
       this.$store.commit('toggleEditing', id);
     },
     delItem: function delItem(id) {
@@ -4463,7 +4450,7 @@ exports = module.exports = __webpack_require__(/*! ../../../node_modules/css-loa
 
 
 // module
-exports.push([module.i, ".mx-input {\n  height: 40px;\n  border-radius: 4px;\n  border: 1px solid #DCDFE6;\n  color: #606266;\n  transition: all 0.2s ease;\n  box-shadow: none;\n}\n.mx-input--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-input::-webkit-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-moz-placeholder {\n  color: #c0c4cc;\n}\n.mx-input:-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::-ms-input-placeholder {\n  color: #c0c4cc;\n}\n.mx-input::placeholder {\n  color: #c0c4cc;\n}\n.mx-input:hover {\n  border-color: #c0c4cc;\n}\n.mx-input:focus {\n  border-color: #409EFF;\n}\n.mx-datepicker {\n  width: 100%;\n  font-family: \"Montserrat\", sans-serif;\n}\n.mx-datepicker--small {\n  height: 32px;\n  line-height: 32px;\n  font-size: 13px;\n}\n.mx-datepicker--small .mx-clear-icon {\n  position: relative;\n}\n.mx-datepicker--small .mx-clear-icon::before {\n  position: absolute;\n  top: -5px;\n  right: 2px;\n}\n.date-picker.el-date-editor.el-input {\n  width: 100%;\n}\n.time-picker.el-date-editor.el-input {\n  width: 100%;\n}", ""]);
+exports.push([module.i, ".date-picker.date-picker--icon-none .el-input__inner {\n  padding-left: 12px;\n}\n.date-picker.el-date-editor.el-input {\n  width: 100%;\n}\n.time-picker.el-date-editor.el-input {\n  width: 100%;\n}", ""]);
 
 // exports
 
@@ -63292,18 +63279,18 @@ var render = function() {
     [
       _c(
         "el-row",
-        { attrs: { gutter: 16 } },
+        { attrs: { gutter: 8 } },
         [
           _c(
             "el-col",
-            { staticClass: "invoice-fields-box", attrs: { span: 12 } },
+            { staticClass: "invoice-fields-box", attrs: { span: 10 } },
             [_c("InvoiceFields")],
             1
           ),
           _vm._v(" "),
           _c(
             "el-col",
-            { staticClass: "invoice-preview-box", attrs: { span: 12 } },
+            { staticClass: "invoice-preview-box", attrs: { span: 14 } },
             [_c("InvoicePreview")],
             1
           )
@@ -63428,7 +63415,7 @@ var render = function() {
             { attrs: { span: 6 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Почтовый индекс:")
+                _vm._v("Почт. индекс:")
               ]),
               _vm._v(" "),
               _c("el-input", {
@@ -63480,7 +63467,7 @@ var render = function() {
                 attrs: {
                   type: "date",
                   value: _vm.getInvoiceFiled("date"),
-                  placeholder: "Выберите дату",
+                  placeholder: "",
                   format: "dd.MM.yyyy",
                   "value-format": "dd.MM.yyyy"
                 },
@@ -63506,7 +63493,7 @@ var render = function() {
                   value: _vm.getInvoiceFiled("time"),
                   format: "HH:mm:ss",
                   "value-format": "HH:mm:ss",
-                  placeholder: "Выберите время"
+                  placeholder: ""
                 },
                 on: {
                   input: function($event) {
@@ -63926,7 +63913,7 @@ var render = function() {
                     staticClass: "invoice-table__cell",
                     staticStyle: { width: "15%" }
                   },
-                  [_vm._v(_vm._s(item.tva) + "%")]
+                  [_vm._v(_vm._s(item.tva))]
                 ),
                 _vm._v(" "),
                 _c(
@@ -64100,13 +64087,14 @@ var render = function() {
             [
               _c("label", { staticClass: "input-label" }, [_vm._v("Arival:")]),
               _vm._v(" "),
-              _c("date-picker", {
+              _c("el-date-picker", {
+                staticClass: "date-picker",
                 attrs: {
-                  placeholder: "Выберите дату",
-                  format: "DD.MM.YYYY",
+                  type: "date",
                   value: _vm.getFiled("arival"),
-                  valueType: "format",
-                  lang: "en"
+                  placeholder: "Выберите дату",
+                  format: "dd.MM.yyyy",
+                  "value-format": "dd.MM.yyyy"
                 },
                 on: {
                   input: function($event) {
@@ -64127,15 +64115,15 @@ var render = function() {
                 _vm._v("Departure:")
               ]),
               _vm._v(" "),
-              _c("date-picker", {
+              _c("el-date-picker", {
                 ref: "departure",
+                staticClass: "date-picker",
                 attrs: {
-                  placeholder: "Выберите дату",
-                  format: "DD.MM.YYYY",
+                  type: "date",
                   value: _vm.getFiled("departure"),
-                  popupStyle: { left: 0, top: "100" },
-                  valueType: "format",
-                  lang: "en"
+                  placeholder: "Выберите дату",
+                  format: "dd.MM.yyyy",
+                  "value-format": "dd.MM.yyyy"
                 },
                 on: {
                   input: function($event) {
@@ -64164,7 +64152,7 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  type: "number",
+                  type: "text",
                   placeholder: "Введите номер",
                   value: _vm.getFiled("reservationNumb"),
                   clearable: ""
@@ -64189,7 +64177,7 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  type: "number",
+                  type: "text",
                   placeholder: "Введите номер",
                   value: _vm.getFiled("extReservationNumb"),
                   clearable: ""
@@ -64221,7 +64209,7 @@ var render = function() {
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
-                  type: "number",
+                  type: "text",
                   placeholder: "Введите номер",
                   value: _vm.getFiled("cashierNumb"),
                   clearable: ""
@@ -64292,7 +64280,7 @@ var render = function() {
         1
       ),
       _vm._v(" "),
-      _c("table", { staticClass: "invoice-table" }, [
+      _c("table", { staticClass: "invoice-table service-table" }, [
         _vm._m(0),
         _vm._v(" "),
         _c(
@@ -64332,10 +64320,10 @@ var render = function() {
                     "td",
                     {
                       staticClass: "invoice-table__cell",
-                      staticStyle: { width: "20%" }
+                      staticStyle: { width: "22%" }
                     },
                     [
-                      _c("date-picker", {
+                      _c("el-date-picker", {
                         directives: [
                           {
                             name: "show",
@@ -64346,17 +64334,17 @@ var render = function() {
                         ],
                         ref: "inputData",
                         refInFor: true,
-                        staticClass: "mx-datepicker--small",
+                        staticClass: "date-picker date-picker--icon-none",
                         attrs: {
+                          type: "date",
                           value: _vm.getFiled("date", item.id),
-                          format: "DD.MM.YYYY",
-                          popupStyle: { left: 0, top: "100" },
-                          "default-value": new Date(),
-                          dataId: item.id,
                           placeholder: "",
-                          "input-class": "mx-input mx-input--small",
-                          valueType: "format",
-                          lang: "en"
+                          "default-value": new Date(),
+                          "prefix-icon": "none",
+                          format: "dd.MM.yyyy",
+                          "value-format": "dd.MM.yyyy",
+                          size: "small",
+                          dataId: item.id
                         },
                         on: {
                           input: function($event) {
@@ -64560,51 +64548,58 @@ var render = function() {
                     1
                   ),
                   _vm._v(" "),
-                  _c("td", { staticClass: "invoice-table__cell" }, [
-                    _c(
-                      "div",
-                      { staticClass: "invoice-table__controls-btn" },
-                      [
-                        !item.isEditing
-                          ? _c("el-button", {
-                              staticClass: "invoice-table__controls-btn",
-                              attrs: { icon: "el-icon-edit", size: "small" },
-                              on: {
-                                click: function($event) {
-                                  return _vm.editing(item.id)
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { "text-align": "right" }
+                    },
+                    [
+                      _c(
+                        "div",
+                        { staticClass: "invoice-table__controls-btn" },
+                        [
+                          !item.isEditing
+                            ? _c("el-button", {
+                                staticClass: "invoice-table__controls-btn",
+                                attrs: { icon: "el-icon-edit", size: "small" },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editing(item.id)
+                                  }
                                 }
-                              }
-                            })
-                          : _c("el-button", {
-                              staticClass: "invoice-table__controls-btn",
-                              attrs: {
-                                icon: "el-icon-document-checked",
-                                size: "small"
-                              },
-                              on: {
-                                click: function($event) {
-                                  return _vm.editing(item.id)
+                              })
+                            : _c("el-button", {
+                                staticClass: "invoice-table__controls-btn",
+                                attrs: {
+                                  icon: "el-icon-document-checked",
+                                  size: "small"
+                                },
+                                on: {
+                                  click: function($event) {
+                                    return _vm.editing(item.id)
+                                  }
                                 }
+                              }),
+                          _vm._v(" "),
+                          _c("el-button", {
+                            staticClass: "invoice-table__controls-btn",
+                            attrs: {
+                              icon: "el-icon-delete",
+                              type: "danger",
+                              size: "small"
+                            },
+                            on: {
+                              click: function($event) {
+                                return _vm.delItem(item.id)
                               }
-                            }),
-                        _vm._v(" "),
-                        _c("el-button", {
-                          staticClass: "invoice-table__controls-btn",
-                          attrs: {
-                            icon: "el-icon-delete",
-                            type: "danger",
-                            size: "small"
-                          },
-                          on: {
-                            click: function($event) {
-                              return _vm.delItem(item.id)
                             }
-                          }
-                        })
-                      ],
-                      1
-                    )
-                  ])
+                          })
+                        ],
+                        1
+                      )
+                    ]
+                  )
                 ]
               )
             }),
@@ -64614,12 +64609,14 @@ var render = function() {
                 "td",
                 {
                   staticClass: "invoice-table__cell aligh-center",
+                  staticStyle: { padding: "0" },
                   attrs: { colspan: "5" }
                 },
                 [
                   _c(
                     "el-button",
                     {
+                      staticClass: "add-button",
                       attrs: {
                         icon: "el-icon-plus",
                         type: "primary",

@@ -15,7 +15,7 @@
          </el-option>
       </el-select>
 
-      <table class="invoice-table">
+      <table class="invoice-table service-table">
          <thead class="invoice-table__header">
             <tr class="invoice-table__row">
                <th class="invoice-table__cell" >Дата</th>
@@ -26,22 +26,22 @@
          </thead>
          <tbody class="invoice-table__body" v-click-outside="stopEditingAll">
             <tr class="invoice-table__row" v-for="item in getServices" :key="item.id" @keyup.enter="item.isEditing = false">
-               <td class="invoice-table__cell" style="width: 20%">
-                  <date-picker
+               <td class="invoice-table__cell" style="width: 22%">
+                  <el-date-picker
                      v-show="item.isEditing"
+                     type="date"
                      :value="getFiled('date', item.id)"
                      @input="updateField('date', $event, item.id)"
-                     format="DD.MM.YYYY"
-                     :popupStyle="{left: 0, top: '100'}"
-                     :default-value="new Date()"
-                     ref="inputData"
-                     :dataId="item.id"
-                     class="mx-datepicker--small"
                      placeholder=""
-                     input-class="mx-input mx-input--small"
-                     valueType="format"
-                     lang="en" >
-                  </date-picker>
+                     :default-value="new Date()"
+                     prefix-icon="none"
+                     format="dd.MM.yyyy"
+                     class="date-picker date-picker--icon-none"
+                     value-format="dd.MM.yyyy"
+                     size="small"
+                     :dataId="item.id"
+                     ref="inputData">
+                  </el-date-picker>
                   <span class="invoice-table__static" v-show="!item.isEditing" @click="focusInput('inputData', item.id)">{{ item.date }}</span>
                </td>
                <td class="invoice-table__cell" style="width: 30%">
@@ -84,7 +84,7 @@
                   </el-input>
                   <span class="invoice-table__static" v-show="! item.isEditing" @click="focusInput('inputCredit', item.id)">{{ item.credit }}</span>
                </td>
-               <td class="invoice-table__cell">
+               <td class="invoice-table__cell" style="text-align: right;">
                   <div class="invoice-table__controls-btn">
                      <el-button v-if="!item.isEditing"
                         @click="editing(item.id)"
@@ -110,13 +110,17 @@
             </tr>
 
             <tr class="invoice-table__row">
-               <td class="invoice-table__cell aligh-center" colspan="5">
-                  <el-button icon="el-icon-plus" type="primary" size="medium" @click="addService">Добавить</el-button>
+               <td class="invoice-table__cell aligh-center" style="padding: 0" colspan="5">
+                  <el-button icon="el-icon-plus" class="add-button" type="primary" size="medium" @click="addService" >Добавить</el-button>
                </td>
             </tr>
 
          </tbody>
       </table>
+
+      <!-- <div class="add-button-wrap">
+         <el-button icon="el-icon-plus" type="primary" size="medium" @click="addService">Добавить</el-button>
+      </div> -->
    </div>
 </template>
 
@@ -190,6 +194,8 @@ export default {
       },
 
       editing(id) {
+         this.stopEditingAll()
+
          this.$store.commit('toggleEditing', id)
       },
 

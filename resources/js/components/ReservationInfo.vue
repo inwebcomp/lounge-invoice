@@ -6,8 +6,7 @@
             <el-select
                :value="getFiled('roomNumb')"
                @input="updateField('roomNumb', $event)"
-               placeholder="Выберите из списка"
-            >
+               placeholder="Выберите из списка">
                <el-option
                   v-for="item in getFiled('roomNumbsList')"
                   :key="item.value"
@@ -21,8 +20,7 @@
             <el-select
                :value="getFiled('personsCount')"
                @input="updateField('personsCount', $event)"
-               placeholder="Выберите из списка"
-            >
+               placeholder="Выберите из списка">
                <el-option
                   v-for="item in getFiled('personsCountList')"
                   :key="item.value"
@@ -31,34 +29,34 @@
                </el-option>
             </el-select>
          </el-col>
-
       </el-row>
 
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
             <label class="input-label">Arival:</label>
-            <date-picker
-               placeholder="Выберите дату"
-               format="DD.MM.YYYY"
+            <el-date-picker
+               type="date"
                :value="getFiled('arival')"
                @input="updateField('arival', $event)"
                @change="onSetArival"
-               valueType="format"
-               lang="en">
-            </date-picker>
+               placeholder="Выберите дату"
+               format="dd.MM.yyyy"
+               class="date-picker"
+               value-format="dd.MM.yyyy">
+            </el-date-picker>
          </el-col>
          <el-col :span="12">
             <label class="input-label">Departure:</label>
-            <date-picker
-               placeholder="Выберите дату"
-               format="DD.MM.YYYY"
+            <el-date-picker
+               type="date"
                :value="getFiled('departure')"
                @input="updateField('departure', $event)"
-               :popupStyle="{left: 0, top: '100'}"
-               valueType="format"
-               lang="en"
-               ref="departure" >
-            </date-picker>
+               placeholder="Выберите дату"
+               format="dd.MM.yyyy"
+               class="date-picker"
+               value-format="dd.MM.yyyy"
+               ref="departure">
+            </el-date-picker>
          </el-col>
       </el-row>
 
@@ -66,7 +64,7 @@
          <el-col :span="12">
             <label class="input-label">Reservation No.:</label>
                <el-input
-               type="number"
+               type="text"
                placeholder="Введите номер"
                :value="getFiled('reservationNumb')"
                @input="updateField('reservationNumb', $event)"
@@ -76,7 +74,7 @@
          <el-col :span="12">
             <label class="input-label">Ext. Reservation No.:</label>
                <el-input
-               type="number"
+               type="text"
                placeholder="Введите номер"
                :value="getFiled('extReservationNumb')"
                @input="updateField('extReservationNumb', $event)"
@@ -89,7 +87,7 @@
          <el-col :span="12">
             <label class="input-label">Cashier No.:</label>
                <el-input
-               type="number"
+               type="text"
                placeholder="Введите номер"
                :value="getFiled('cashierNumb')"
                @input="updateField('cashierNumb', $event)"
@@ -123,61 +121,16 @@ export default {
          this.$store.commit('updateReservationFiled', {value: val, field: field})
       },
       onSetArival(event) {
-         this.$refs.departure.handleFocus()
+         this.$refs.departure.focus()
       }
    }
 }
 </script>
 
 <style lang="scss">
-.mx-input {
-   height: 40px;
-   border-radius: 4px;
-   border: 1px solid #DCDFE6;
-   color: #606266;
-   transition: all 0.2s ease;
-   box-shadow: none;
-
-   &--small {
-      height: 32px;
-      line-height: 32px;
-      font-size: 13px;
-   }
-
-   &::placeholder {
-      color: #c0c4cc;
-   }
-
-   &:hover {
-      border-color: #c0c4cc;
-   }
-
-   &:focus {
-      border-color: #409EFF;
-   }
+.date-picker.date-picker--icon-none .el-input__inner {
+   padding-left: 12px;
 }
-
-.mx-datepicker {
-   width: 100%;
-   font-family: "Montserrat", sans-serif;
-
-   &--small {
-      height: 32px;
-      line-height: 32px;
-      font-size: 13px;
-
-      .mx-clear-icon {
-         position: relative;
-
-         &::before {
-            position: absolute;
-            top: -5px;
-            right: 2px;
-         }
-      }
-   }
-}
-
 .date-picker.el-date-editor.el-input {
    width: 100%;
 }

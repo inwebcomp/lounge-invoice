@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="format-detection" content="telephone=no">
 
-    <title>ProClinicdfds</title>
+    <title>Invoice</title>
 
     @yield('styles')
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">

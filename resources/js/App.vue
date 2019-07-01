@@ -1,10 +1,10 @@
 <template>
    <div id="app">
-      <el-row :gutter="16">
-         <el-col :span="12" class="invoice-fields-box">
+      <el-row :gutter="8">
+         <el-col :span="10" class="invoice-fields-box">
             <InvoiceFields />
          </el-col>
-         <el-col :span="12" class="invoice-preview-box">
+         <el-col :span="14" class="invoice-preview-box">
             <InvoicePreview />
          </el-col>
       </el-row>

@@ -64,12 +64,8 @@ body {
    justify-content: center;
 }
 
-.el-tabs--border-card>.el-tabs__content {
-   padding-bottom: 215px;
-}
-
 .invoice-fields {
-   margin: 105px auto 0 15px;
+   margin: 105px auto 0 $padding * 0.5;
    width: 98%;
    height: 100%;
 
@@ -124,7 +120,7 @@ body {
    display: block;
 }
 
-@include media-max(1366px) {
+@include media-max(1420px) {
    .invoice-preview-box {
       width: 100%;
    }
@@ -135,7 +131,7 @@ body {
    }
 
    .invoice-fields {
-      max-width: 710px;
+      max-width: 850px;
       margin: 0 auto;
       margin-top: 50px;
    }

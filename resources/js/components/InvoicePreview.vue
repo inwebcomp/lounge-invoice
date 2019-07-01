@@ -21,7 +21,6 @@
                   <p><b>Invoice: </b></p>
                   <p>{{ getInvoiceInfo.name }}</p>
                   <p>{{ getInvoiceInfo.date }} <TimeComponent /> </p>
-                  <!-- <p>{{ getInvoiceInfo.date }} {{ getInvoiceInfo.time }}</p> -->
                </div>
             </div>
 
@@ -99,7 +98,7 @@
                <tr class="invoice-table__row" v-for="item in smallTableData" :key="item.id">
                   <td class="invoice-table__cell" style="width: 55%">{{ item.nameServices }}</td>
                   <td class="invoice-table__cell" style="width: 15%">{{ item.netto }}</td>
-                  <td class="invoice-table__cell" style="width: 15%">{{ item.tva }}%</td>
+                  <td class="invoice-table__cell" style="width: 15%">{{ item.tva }}</td>
                   <td class="invoice-table__cell" style="width: 15%">{{ item.debit }}</td>
                </tr>
             </tbody>
@@ -181,15 +180,17 @@ export default {
                nameServices: null,
                debit: 0,
                netto: 0,
-               tva: this.tva
+               tva: 0
             }
 
             this.getServices.forEach(item => {
                if (item.nameServices === itemName) {
                   tvaServicesObj.nameServices = item.nameServices;
                   tvaServicesObj.debit += +item.debit
-                  tvaServicesObj.netto = +tvaServicesObj.debit * (1 - tvaServicesObj.tva / 100)
+                  tvaServicesObj.netto = +tvaServicesObj.debit * (1 - this.tva / 100)
                   tvaServicesObj.netto = +tvaServicesObj.netto.toFixed(2)
+                  tvaServicesObj.tva = +tvaServicesObj.debit - tvaServicesObj.netto
+                  tvaServicesObj.tva = +tvaServicesObj.tva.toFixed(2)
                }
             })
 
@@ -197,7 +198,7 @@ export default {
          })
 
          return this.servicesObjsArr;
-      }
+      },
    },
 
    methods: {
@@ -210,7 +211,7 @@ export default {
 
          const element = document.getElementById('printarea');
          const opt = {
-
+            margin: [5, 10, 0, 10],
             filename:     'invoice.pdf',
             image:        { type: 'jpeg', quality: 1 },
             html2canvas:  { scale: 2 },

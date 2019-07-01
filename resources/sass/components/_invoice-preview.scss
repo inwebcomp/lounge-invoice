@@ -23,6 +23,7 @@
       font-weight: normal;
       font-size: 1.3rem;
       vertical-align: middle;
+      position: relative;
 
       &:nth-child(1) {
          width: 20%;
@@ -45,8 +46,14 @@
    }
 
    &__controls-btn {
+      display: inline-block;
+
       .el-button + .el-button {
-         margin-left: 5px;
+         margin-left: 3px;
+      }
+
+      .el-button {
+         padding: 9px 10px;
       }
    }
 
@@ -75,7 +82,7 @@
 
 .invoice-container {
    width: 100%;
-   max-width: 710px;
+   max-width: 850px;
    padding: 50px 0 100px;
 }
 
@@ -90,6 +97,17 @@
          margin-left: 16px * 0.5;
       }
    }
+}
+
+.service-table {
+   margin-bottom: 60px;
+}
+
+.add-button {
+   position: absolute;
+   left: 50%;
+   top: 14px;
+   transform: translateX(-50%);
 }
 
 .invoice {
