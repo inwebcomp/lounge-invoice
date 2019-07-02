@@ -18,6 +18,6 @@ Route::group(['prefix' => $locale], function () {
     Route::get('/', 'PageController@index');
 });
 
-\Auth::routes(['register' => false]);
+\Auth::routes(['register' => true]);
 
 Route::get('/home', 'HomeController@index')->name('home');

@@ -8,6 +8,6 @@ return [
     'auth' => [
         'login' => 'admin',
         'email' => 'admin@sitename.com',
-        'password' => 'admin'
+        'password' => 'M3rzz9LQVn'
     ]
 ];
