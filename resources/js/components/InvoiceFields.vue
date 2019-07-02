@@ -1,13 +1,13 @@
 <template>
    <main class="invoice-fields">
       <el-tabs type="border-card">
-         <el-tab-pane label="Данные клиента">
+         <el-tab-pane :label="__('Данные клиента')">
             <ClientInfo />
          </el-tab-pane>
-         <el-tab-pane label="Данные бронирования">
+         <el-tab-pane :label="__('Данные бронирования')">
             <ReservationInfo />
          </el-tab-pane>
-         <el-tab-pane label="Услуги">
+         <el-tab-pane :label="__('Услуги')">
             <ServicesList />
          </el-tab-pane>
       </el-tabs>

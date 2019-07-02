@@ -14,9 +14,11 @@ mix.disableSuccessNotifications();
  */
 
 mix.js('resources/js/app.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .js('resources/js/auth/auth.js', 'public/js')
+    .sass('resources/sass/app.scss', 'public/css')
+    .sass('resources/sass/auth.scss', 'public/css');
 
-mix.browserSync('localhost:8000');
+// mix.browserSync('localhost:8000');
 
 if (mix.inProduction()) {
     mix.version();

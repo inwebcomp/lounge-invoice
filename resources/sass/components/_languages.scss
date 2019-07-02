@@ -1,0 +1,23 @@
+.languages {
+    font-size: 14px;
+    font-weight: 100;
+    display: flex;
+    height: 40px;
+    align-items: center;
+
+    &__item {
+        padding: $padding / 4 $padding / 2;
+        position: relative;
+        line-height: 1;
+        vertical-align: middle;
+        transition: opacity $transition;
+
+        &:hover {
+            opacity: 0.8;
+        }
+
+        &.active {
+            font-weight: bold;
+        }
+    }
+}

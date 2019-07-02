@@ -2,113 +2,119 @@
    <div class="invoice-container">
       <div class="invoice-buttons">
          <el-button v-show="false">Открыть</el-button>
-         <el-button type="primary" @click="saveInvoice" :loading="buttonSaveLoading">Сохранить</el-button>
-         <el-button type="success" onClick="window.print()">Печать</el-button>
+         <el-button type="primary" @click="saveInvoice" :loading="buttonSaveLoading">{{ __('Скачать') }}</el-button>
+         <el-button type="success" onClick="window.print()">{{ __('Печать') }}</el-button>
       </div>
-      <div class="invoice" id="printarea">
-         <div class="invoice__row">
-            <img src="img/logo.png" width="150" alt="logo" class="invoice__logo">
-         </div>
-         <div class="invoice__row">
-            <div class="invoice__info">
-               <div class="invoice__info-client" >
-                  <p>{{ getClient.name }}  {{ getClient.surName }}</p>
-                  <p>{{ getClient.city ? `${getClient.city},` : null }} {{ getClient.addres }}</p>
-                  <p>{{ getClient.postIndx }}</p>
+
+      <div class="printarea-container">
+         <div class="invoice" id="printarea">
+            <div class="invoice__row">
+               <img src="img/logo.png" width="150" alt="logo" class="invoice__logo">
+            </div>
+            <div class="invoice__row">
+               <div class="invoice__info">
+                  <div class="invoice__info-client" >
+                     <p>{{ getClient.name }} {{ getClient.surName }}</p>
+                     <p>{{ getClient.address }}</p>
+                     <p>{{ getClient.city ? `${getClient.city},` : null }} {{ getClient.postIndx }}</p>
+                     <p>{{ getClient.country }}</p>
+                  </div>
+
+                  <div class="invoice__info-hotel">
+                     <p><b>{{ __('Счёт') }}: </b></p>
+                     <p>{{ getInvoiceInfo.name }}</p>
+                     <p>{{ getInvoiceInfo.date }} <TimeComponent /> </p>
+                  </div>
                </div>
 
-               <div class="invoice__info-hotel">
-                  <p><b>Invoice: </b></p>
-                  <p>{{ getInvoiceInfo.name }}</p>
-                  <p>{{ getInvoiceInfo.date }} <TimeComponent /> </p>
-               </div>
+
+               <table cellpadding="0" cellspacing="0" border="0" class="invoice__reservation-info" >
+                  <tr v-if="getReservation.roomNumb">
+                     <td>{{ __('Аппартаменты №') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.roomNumb }}</td>
+                  </tr>
+                  <tr v-if="getReservation.personsCount">
+                     <td>{{ __('Кол-во человек') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.personsCount }}</td>
+                  </tr>
+                  <tr v-if="getReservation.arrival">
+                     <td>{{ __('Прибытие') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.arrival }}</td>
+                  </tr>
+                  <tr v-if="getReservation.departure">
+                     <td>{{ __('Прибытие') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.departure }}</td>
+                  </tr>
+                  <tr v-if="getReservation.reservationNumb">
+                     <td>{{ __('Резервация №') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.reservationNumb }}</td>
+                  </tr>
+                  <tr v-if="getReservation.extReservationNumb">
+                     <td>{{ __('Резервация № (расш.)') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.extReservationNumb }}</td>
+                  </tr>
+                  <tr v-if="getReservation.cashierNumb">
+                     <td>{{ __('Касса №') }}:</td>
+                     <td class="invoice__reservation-info__right">{{ getReservation.cashierNumb }}</td>
+                  </tr>
+               </table>
             </div>
 
+            <table class="invoice-table">
+               <thead class="invoice-table__header">
+                  <tr class="invoice-table__row">
+                     <th class="invoice-table__cell">{{ __('Дата') }}</th>
+                     <th class="invoice-table__cell">{{ __('Описание') }}</th>
+                     <th class="invoice-table__cell" v-html="__('Дебит') + ' ' + currencySymbl"></th>
+                     <th class="invoice-table__cell" v-html="__('Кредит') + ' ' + currencySymbl"></th>
+                  </tr>
+               </thead>
+               <tbody class="invoice-table__body">
+                  <tr class="invoice-table__row" v-for="item in getServices" :key="item.id">
+                     <td class="invoice-table__cell">{{ item.date }}</td>
+                     <td class="invoice-table__cell">{{ item.nameServices }}</td>
+                     <td class="invoice-table__cell">{{ item.debit }}</td>
+                     <td class="invoice-table__cell">{{ item.credit }}</td>
+                  </tr>
+                  <tr class="invoice-table__row invoice-table__footer">
+                     <td class="invoice-table__cell" colspan="2">{{ __('Итого') }}: </td>
+                     <td class="invoice-table__cell">{{ sumDebit }}</td>
+                     <td class="invoice-table__cell">{{ sumCredit }}</td>
+                  </tr>
+                  <tr class="invoice-table__row invoice-table__footer" v-if="balanceDue">
+                     <td class="invoice-table__cell" colspan="2">{{ __('Задолжность') }}: </td>
+                     <td class="invoice-table__cell" colspan="2">{{ balanceDue }}</td>
+                  </tr>
+                  <tr class="invoice-table__row">
+                     <td class="invoice-table__cell" colspan="2">{{ __('Итого, включая НДС') }}: </td>
+                     <td class="invoice-table__cell" colspan="2">{{ TotalIncVAT }}</td>
+                  </tr>
+               </tbody>
+            </table>
 
-            <div class="invoice__reservation-info" >
-               <p v-if="getReservation.roomNumb">Room №:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.roomNumb }}</span>
-               </p>
-               <p v-if="getReservation.personsCount">No. of person(s):
-                  <span class="invoice__reservation-info__right"> {{ getReservation.personsCount }}</span>
-               </p>
-               <p v-if="getReservation.arival">Arival:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.arival }}</span>
-               </p>
-               <p v-if="getReservation.departure">Departure:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.departure }}</span>
-               </p>
-               <p v-if="getReservation.reservationNumb">Reservation №:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.reservationNumb }}</span>
-               </p>
-               <p v-if="getReservation.extReservationNumb">Ext. Reservation №:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.extReservationNumb }}</span>
-               </p>
-               <p v-if="getReservation.cashierNumb">Cashier №:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.cashierNumb }}</span>
-               </p>
-               <p v-if="getReservation.pageNumb">Page №:
-                  <span class="invoice__reservation-info__right"> {{ getReservation.pageNumb }}</span>
-               </p>
-            </div>
+            <table class="invoice-small-table">
+               <thead class="invoice-table__header">
+                  <tr class="invoice-table__row">
+                     <th class="invoice-table__cell"></th>
+                     <th class="invoice-table__cell">{{ __('Нетто') }}</th>
+                     <th class="invoice-table__cell">{{ __('НДС') }}</th>
+                     <th class="invoice-table__cell">{{ __('Итого') }}</th>
+                  </tr>
+               </thead>
+               <tbody class="invoice-table__body">
+                  <tr class="invoice-table__row" v-for="item in smallTableData" :key="item.id">
+                     <td class="invoice-table__cell" style="width: 55%">{{ item.nameServices }}</td>
+                     <td class="invoice-table__cell" style="width: 15%">{{ item.netto }}</td>
+                     <td class="invoice-table__cell" style="width: 15%">{{ item.tva }}</td>
+                     <td class="invoice-table__cell" style="width: 15%">{{ item.debit }}</td>
+                  </tr>
+               </tbody>
+            </table>
+
+            <section class="invoice__requisites">
+               <div class="invoice__text" v-html="requisitesText"></div>
+            </section>
          </div>
-
-         <table class="invoice-table">
-            <thead class="invoice-table__header">
-               <tr class="invoice-table__row">
-                  <th class="invoice-table__cell">Date</th>
-                  <th class="invoice-table__cell">Description</th>
-                  <th class="invoice-table__cell" v-html="`Debit ${currencySymbl}`"></th>
-                  <th class="invoice-table__cell" v-html="`Credit ${currencySymbl}`"></th>
-               </tr>
-            </thead>
-            <tbody class="invoice-table__body">
-               <tr class="invoice-table__row" v-for="item in getServices" :key="item.id">
-                  <td class="invoice-table__cell">{{ item.date }}</td>
-                  <td class="invoice-table__cell">{{ item.nameServices }}</td>
-                  <td class="invoice-table__cell">{{ item.debit }}</td>
-                  <td class="invoice-table__cell">{{ item.credit }}</td>
-               </tr>
-               <tr class="invoice-table__row invoice-table__footer">
-                  <td class="invoice-table__cell" colspan="2"> Subtotal: </td>
-                  <td class="invoice-table__cell">{{ sumDebit }}</td>
-                  <td class="invoice-table__cell">{{ sumCredit }}</td>
-               </tr>
-               <tr class="invoice-table__row invoice-table__footer">
-                  <td class="invoice-table__cell" colspan="2"> Balance Due: </td>
-                  <td class="invoice-table__cell" colspan="2">{{ balanceDue }}</td>
-               </tr>
-               <tr class="invoice-table__row">
-                  <td class="invoice-table__cell" colspan="2" style="text-align: center"> Total Incl. VAT: </td>
-                  <td class="invoice-table__cell" colspan="2">{{ TotalIncVAT }}</td>
-               </tr>
-            </tbody>
-         </table>
-
-         <table class="invoice-small-table">
-            <thead class="invoice-table__header">
-               <tr class="invoice-table__row">
-                  <th class="invoice-table__cell"> </th>
-                  <th class="invoice-table__cell">Net</th>
-                  <th class="invoice-table__cell">VAT</th>
-                  <th class="invoice-table__cell">Total</th>
-               </tr>
-            </thead>
-            <tbody class="invoice-table__body">
-               <tr class="invoice-table__row" v-for="item in smallTableData" :key="item.id">
-                  <td class="invoice-table__cell" style="width: 55%">{{ item.nameServices }}</td>
-                  <td class="invoice-table__cell" style="width: 15%">{{ item.netto }}</td>
-                  <td class="invoice-table__cell" style="width: 15%">{{ item.tva }}</td>
-                  <td class="invoice-table__cell" style="width: 15%">{{ item.debit }}</td>
-               </tr>
-            </tbody>
-         </table>
-
-         <section class="invoice__requisites">
-            <p class="invoice__text" v-for="(item, index) in requisitesText" :key="index">
-               {{ item }}
-            </p>
-         </section>
       </div>
    </div>
 </template>
@@ -127,9 +133,7 @@ export default {
    data: () => ({
       buttonSaveLoading: false,
 
-      requisitesText: [
-         'Контакты и реквизиты',
-      ],
+      requisitesText: 'MD-2005, Republic of Moldova, city Chisinau, str. A. Puskin 35, ac. 4, fl. 2, of. 36 <br>+373 69 747474',
 
      servicesObjsArr: [],
      tva: 7
@@ -170,7 +174,7 @@ export default {
          this.servicesObjsArr = []
 
          this.getServices.forEach(item => {
-            if ( namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null) {
+            if ( namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null && item.debit) {
                namesArr.push(item.nameServices)
             }
          })
@@ -211,10 +215,10 @@ export default {
 
          const element = document.getElementById('printarea');
          const opt = {
-            margin: [5, 10, 0, 10],
-            filename:     'invoice.pdf',
+            margin: [0, 0, 0, 0],
+            filename:     'Invoice.pdf',
             image:        { type: 'jpeg', quality: 1 },
-            html2canvas:  { scale: 2 },
+            html2canvas:  { scale: 4 },
             jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait', putOnlyUsedFonts:false }
          }
 

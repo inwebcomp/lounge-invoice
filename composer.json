@@ -7,9 +7,27 @@
         "laravel"
     ],
     "license": "MIT",
+    "repositories": [
+        {
+            "type": "path",
+            "url": "./admin-components/Tools/TranslatablePhrases"
+        },
+        {
+            "type": "path",
+            "url": "./packages/inweb/admin"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/inwebcomp/base"
+        }
+    ],
     "require": {
         "php": "^7.1.3",
         "fideloper/proxy": "^4.0",
+        "inweb/admin": "dev-master",
+        "inweb/admin-translatable-phrases": "*",
+        "inweb/base": "dev-master",
+        "inwebcomp/translations-parser": "dev-master",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0"
     },

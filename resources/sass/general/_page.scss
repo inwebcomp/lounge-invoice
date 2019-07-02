@@ -28,7 +28,7 @@ body {
    font-family: $font-family;
    font-weight: normal;
    line-height: $line-height;
-   min-width: 320px;
+   min-width: 850px + $padding * 2;
    color: $font-color-black;
    background-color: aliceblue;
 }
@@ -36,14 +36,14 @@ body {
 #app {
    min-height: 100%;
    width: 100%;
-   margin: 0 auto;
-   max-width: 1800px;
-   // display: flex;
+   box-sizing: border-box;
+   padding: $padding;
+   display: flex;
    overflow-x: hidden;
+   flex-wrap: wrap;
    // flex-direction: column;
    // justify-content: space-between;
    position: relative;
-
 }
 
 .container {
@@ -64,9 +64,14 @@ body {
    justify-content: center;
 }
 
+.invoice-fields-box {
+   margin: 0 auto $padding * 2;
+}
+
 .invoice-fields {
-   margin: 105px auto 0 $padding * 0.5;
-   width: 98%;
+   //margin: 105px auto 0 $padding * 0.5;
+   margin-top: $padding;
+   width: 800px;
    height: 100%;
 
    &__title-line {
@@ -120,23 +125,29 @@ body {
    display: block;
 }
 
-@include media-max(1420px) {
+@include media-max(1510px) {
+   .invoice-fields {
+      width: 700px;
+   }
+}
+
+@include media-max(1439px) {
    .invoice-preview-box {
       width: 100%;
    }
 
    .invoice-fields-box {
       width: 100%;
-      padding: 0 $padding;
    }
 
    .invoice-fields {
-      max-width: 850px;
-      margin: 0 auto;
-      margin-top: 50px;
+      width: 850px;
+      margin-left: auto;
+      margin-right: auto;
    }
 
    .invoice-container {
       margin: 0 auto;
+      //padding: 0 !important;
    }
 }

@@ -1782,6 +1782,7 @@ function mergeFn (a, b) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _components_InvoicePreview__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/InvoicePreview */ "./resources/js/components/InvoicePreview.vue");
 /* harmony import */ var _components_InvoiceFields__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/InvoiceFields */ "./resources/js/components/InvoiceFields.vue");
+/* harmony import */ var _components_Languages__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Languages */ "./resources/js/components/Languages.vue");
 //
 //
 //
@@ -1795,10 +1796,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   components: {
+    Languages: _components_Languages__WEBPACK_IMPORTED_MODULE_2__["default"],
     InvoicePreview: _components_InvoicePreview__WEBPACK_IMPORTED_MODULE_0__["default"],
     InvoiceFields: _components_InvoiceFields__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
@@ -1815,6 +1818,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
 //
 //
 //
@@ -2082,6 +2089,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2092,7 +2105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       buttonSaveLoading: false,
-      requisitesText: ['Контакты и реквизиты'],
+      requisitesText: 'MD-2005, Republic of Moldova, city Chisinau, str. A. Puskin 35, ac. 4, fl. 2, of. 36 <br>+373 69 747474',
       servicesObjsArr: [],
       tva: 7
     };
@@ -2125,7 +2138,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var namesArr = [];
       this.servicesObjsArr = [];
       this.getServices.forEach(function (item) {
-        if (namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null) {
+        if (namesArr.indexOf(item.nameServices) < 0 && item.nameServices !== null && item.debit) {
           namesArr.push(item.nameServices);
         }
       });
@@ -2164,14 +2177,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       this.buttonSaveLoading = true;
       var element = document.getElementById('printarea');
       var opt = {
-        margin: [5, 10, 0, 10],
-        filename: 'invoice.pdf',
+        margin: [0, 0, 0, 0],
+        filename: 'Invoice.pdf',
         image: {
           type: 'jpeg',
           quality: 1
         },
         html2canvas: {
-          scale: 2
+          scale: 4
         },
         jsPDF: {
           unit: 'mm',
@@ -2184,6 +2197,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         _this2.buttonSaveLoading = false;
       });
     }
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Languages.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Languages.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: "Languages",
+  data: function data() {
+    return {
+      language: App.locale
+    };
   }
 });
 
@@ -2298,16 +2339,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'ReservationInfo',
   methods: {
@@ -2320,7 +2351,7 @@ __webpack_require__.r(__webpack_exports__);
         field: field
       });
     },
-    onSetArival: function onSetArival(event) {
+    onSetArrival: function onSetArrival(event) {
       this.$refs.departure.focus();
     }
   }
@@ -2465,9 +2496,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-  name: 'SevicesList',
+  name: 'ServicesList',
   directives: {
     ClickOutside: vue_click_outside__WEBPACK_IMPORTED_MODULE_0___default.a
   },
@@ -2539,6 +2578,14 @@ __webpack_require__.r(__webpack_exports__);
     },
     querySearch: function querySearch(queryString, cb) {
       var links = this.nameServicesList;
+      var customValues = this.$store.getters.getServices.filter(function (item) {
+        return !item.isEditing;
+      }).map(function (service) {
+        return {
+          value: service.nameServices
+        };
+      });
+      if (customValues.length) links = Array.prototype.concat(links, customValues);
       var results = queryString ? links.filter(this.createFilter(queryString)) : links;
       cb(results);
     },
@@ -2550,19 +2597,13 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.nameServicesList = [{
-      "value": "vue"
+      "value": this.__("Roomcharge")
     }, {
-      "value": "element"
+      "value": this.__("Citytax")
     }, {
-      "value": "cooking"
+      "value": this.__("Cash")
     }, {
-      "value": "mint-ui"
-    }, {
-      "value": "vuex"
-    }, {
-      "value": "vue-router"
-    }, {
-      "value": "babel"
+      "value": this.__("Parking Hotel")
     }];
   }
 });
@@ -4440,7 +4481,7 @@ for (var i = 0; i < DOMIterables.length; i++) {
 
 /***/ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&":
 /*!***************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss& ***!
   \***************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
@@ -62415,13 +62456,13 @@ var index = (function () {
 
 /***/ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&":
 /*!*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--7-2!./node_modules/sass-loader/lib/loader.js??ref--7-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss& ***!
+  !*** ./node_modules/style-loader!./node_modules/css-loader!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src??ref--8-2!./node_modules/sass-loader/lib/loader.js??ref--8-3!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss& ***!
   \*******************************************************************************************************************************************************************************************************************************************************************************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
 
-var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ReservationInfo.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&");
+var content = __webpack_require__(/*! !../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--8-2!../../../node_modules/sass-loader/lib/loader.js??ref--8-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ReservationInfo.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&");
 
 if(typeof content === 'string') content = [[module.i, content, '']];
 
@@ -63273,33 +63314,16 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    { attrs: { id: "app" } },
-    [
-      _c(
-        "el-row",
-        { attrs: { gutter: 8 } },
-        [
-          _c(
-            "el-col",
-            { staticClass: "invoice-fields-box", attrs: { span: 10 } },
-            [_c("InvoiceFields")],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "el-col",
-            { staticClass: "invoice-preview-box", attrs: { span: 14 } },
-            [_c("InvoicePreview")],
-            1
-          )
-        ],
-        1
-      )
-    ],
-    1
-  )
+  return _c("div", { attrs: { id: "app" } }, [
+    _c(
+      "div",
+      { staticClass: "invoice-fields-box" },
+      [_c("languages"), _vm._v(" "), _c("InvoiceFields")],
+      1
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "invoice-preview-box" }, [_c("InvoicePreview")], 1)
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -63335,7 +63359,9 @@ var render = function() {
             "el-col",
             { attrs: { span: 12 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Имя:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Имя")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: { value: _vm.getFiled("name"), clearable: "" },
@@ -63353,7 +63379,9 @@ var render = function() {
             "el-col",
             { attrs: { span: 12 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Фамилия:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Фамилия")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: { value: _vm.getFiled("surName"), clearable: "" },
@@ -63378,25 +63406,9 @@ var render = function() {
             "el-col",
             { attrs: { span: 6 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Город:")]),
-              _vm._v(" "),
-              _c("el-input", {
-                attrs: { value: _vm.getFiled("addres"), clearable: "" },
-                on: {
-                  input: function($event) {
-                    return _vm.updateField("addres", $event)
-                  }
-                }
-              })
-            ],
-            1
-          ),
-          _vm._v(" "),
-          _c(
-            "el-col",
-            { attrs: { span: 12 } },
-            [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Адресс:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Город")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: { value: _vm.getFiled("city"), clearable: "" },
@@ -63412,10 +63424,30 @@ var render = function() {
           _vm._v(" "),
           _c(
             "el-col",
-            { attrs: { span: 6 } },
+            { attrs: { span: 8 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Почт. индекс:")
+                _vm._v(_vm._s(_vm.__("Адресс")) + ":")
+              ]),
+              _vm._v(" "),
+              _c("el-input", {
+                attrs: { value: _vm.getFiled("address"), clearable: "" },
+                on: {
+                  input: function($event) {
+                    return _vm.updateField("address", $event)
+                  }
+                }
+              })
+            ],
+            1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { attrs: { span: 4 } },
+            [
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Почт. индекс")) + ":")
               ]),
               _vm._v(" "),
               _c("el-input", {
@@ -63428,13 +63460,33 @@ var render = function() {
               })
             ],
             1
+          ),
+          _vm._v(" "),
+          _c(
+            "el-col",
+            { attrs: { span: 6 } },
+            [
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Страна")) + ":")
+              ]),
+              _vm._v(" "),
+              _c("el-input", {
+                attrs: { value: _vm.getFiled("country"), clearable: "" },
+                on: {
+                  input: function($event) {
+                    return _vm.updateField("country", $event)
+                  }
+                }
+              })
+            ],
+            1
           )
         ],
         1
       ),
       _vm._v(" "),
       _c("div", { staticClass: "invoice-fields__title-line" }, [
-        _vm._v("Информация об инвойсе")
+        _vm._v(_vm._s(_vm.__("Информация об инвойсе")))
       ]),
       _vm._v(" "),
       _c(
@@ -63446,7 +63498,7 @@ var render = function() {
             { attrs: { span: 10 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Название отеля:")
+                _vm._v(_vm._s(_vm.__("Название отеля")) + ":")
               ]),
               _vm._v(" "),
               _c("el-input", {
@@ -63460,14 +63512,16 @@ var render = function() {
             "el-col",
             { attrs: { span: 7 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Дата:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Дата")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-date-picker", {
                 staticClass: "date-picker",
                 attrs: {
                   type: "date",
                   value: _vm.getInvoiceFiled("date"),
-                  placeholder: "",
+                  placeholder: _vm.__("Выберите дату"),
                   format: "dd.MM.yyyy",
                   "value-format": "dd.MM.yyyy"
                 },
@@ -63485,7 +63539,9 @@ var render = function() {
             "el-col",
             { attrs: { span: 7 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Время:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Время")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-time-picker", {
                 staticClass: "time-picker",
@@ -63543,21 +63599,21 @@ var render = function() {
         [
           _c(
             "el-tab-pane",
-            { attrs: { label: "Данные клиента" } },
+            { attrs: { label: _vm.__("Данные клиента") } },
             [_c("ClientInfo")],
             1
           ),
           _vm._v(" "),
           _c(
             "el-tab-pane",
-            { attrs: { label: "Данные бронирования" } },
+            { attrs: { label: _vm.__("Данные бронирования") } },
             [_c("ReservationInfo")],
             1
           ),
           _vm._v(" "),
           _c(
             "el-tab-pane",
-            { attrs: { label: "Услуги" } },
+            { attrs: { label: _vm.__("Услуги") } },
             [_c("ServicesList")],
             1
           )
@@ -63616,331 +63672,362 @@ var render = function() {
             attrs: { type: "primary", loading: _vm.buttonSaveLoading },
             on: { click: _vm.saveInvoice }
           },
-          [_vm._v("Сохранить")]
+          [_vm._v(_vm._s(_vm.__("Скачать")))]
         ),
         _vm._v(" "),
         _c(
           "el-button",
           { attrs: { type: "success", onClick: "window.print()" } },
-          [_vm._v("Печать")]
+          [_vm._v(_vm._s(_vm.__("Печать")))]
         )
       ],
       1
     ),
     _vm._v(" "),
-    _c("div", { staticClass: "invoice", attrs: { id: "printarea" } }, [
-      _vm._m(0),
-      _vm._v(" "),
-      _c("div", { staticClass: "invoice__row" }, [
-        _c("div", { staticClass: "invoice__info" }, [
-          _c("div", { staticClass: "invoice__info-client" }, [
-            _c("p", [
-              _vm._v(
-                _vm._s(_vm.getClient.name) +
-                  "  " +
-                  _vm._s(_vm.getClient.surName)
-              )
+    _c("div", { staticClass: "printarea-container" }, [
+      _c("div", { staticClass: "invoice", attrs: { id: "printarea" } }, [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("div", { staticClass: "invoice__row" }, [
+          _c("div", { staticClass: "invoice__info" }, [
+            _c("div", { staticClass: "invoice__info-client" }, [
+              _c("p", [
+                _vm._v(
+                  _vm._s(_vm.getClient.name) +
+                    " " +
+                    _vm._s(_vm.getClient.surName)
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.getClient.address))]),
+              _vm._v(" "),
+              _c("p", [
+                _vm._v(
+                  _vm._s(_vm.getClient.city ? _vm.getClient.city + "," : null) +
+                    " " +
+                    _vm._s(_vm.getClient.postIndx)
+                )
+              ]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.getClient.country))])
             ]),
             _vm._v(" "),
-            _c("p", [
-              _vm._v(
-                _vm._s(_vm.getClient.city ? _vm.getClient.city + "," : null) +
-                  " " +
-                  _vm._s(_vm.getClient.addres)
+            _c("div", { staticClass: "invoice__info-hotel" }, [
+              _c("p", [_c("b", [_vm._v(_vm._s(_vm.__("Счёт")) + ": ")])]),
+              _vm._v(" "),
+              _c("p", [_vm._v(_vm._s(_vm.getInvoiceInfo.name))]),
+              _vm._v(" "),
+              _c(
+                "p",
+                [
+                  _vm._v(_vm._s(_vm.getInvoiceInfo.date) + " "),
+                  _c("TimeComponent")
+                ],
+                1
               )
-            ]),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.getClient.postIndx))])
+            ])
           ]),
           _vm._v(" "),
-          _c("div", { staticClass: "invoice__info-hotel" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c("p", [_vm._v(_vm._s(_vm.getInvoiceInfo.name))]),
-            _vm._v(" "),
-            _c(
-              "p",
-              [
-                _vm._v(_vm._s(_vm.getInvoiceInfo.date) + " "),
-                _c("TimeComponent")
-              ],
-              1
-            )
-          ])
+          _c(
+            "table",
+            {
+              staticClass: "invoice__reservation-info",
+              attrs: { cellpadding: "0", cellspacing: "0", border: "0" }
+            },
+            [
+              _vm.getReservation.roomNumb
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Аппартаменты №")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.roomNumb))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.personsCount
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Кол-во человек")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.personsCount))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.arrival
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Прибытие")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.arrival))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.departure
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Прибытие")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.departure))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.reservationNumb
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Резервация №")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.reservationNumb))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.extReservationNumb
+                ? _c("tr", [
+                    _c("td", [
+                      _vm._v(_vm._s(_vm.__("Резервация № (расш.)")) + ":")
+                    ]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.extReservationNumb))]
+                    )
+                  ])
+                : _vm._e(),
+              _vm._v(" "),
+              _vm.getReservation.cashierNumb
+                ? _c("tr", [
+                    _c("td", [_vm._v(_vm._s(_vm.__("Касса №")) + ":")]),
+                    _vm._v(" "),
+                    _c(
+                      "td",
+                      { staticClass: "invoice__reservation-info__right" },
+                      [_vm._v(_vm._s(_vm.getReservation.cashierNumb))]
+                    )
+                  ])
+                : _vm._e()
+            ]
+          )
         ]),
         _vm._v(" "),
-        _c("div", { staticClass: "invoice__reservation-info" }, [
-          _vm.getReservation.roomNumb
-            ? _c("p", [
-                _vm._v("Room №:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.roomNumb))]
-                )
-              ])
-            : _vm._e(),
+        _c("table", { staticClass: "invoice-table" }, [
+          _c("thead", { staticClass: "invoice-table__header" }, [
+            _c("tr", { staticClass: "invoice-table__row" }, [
+              _c("th", { staticClass: "invoice-table__cell" }, [
+                _vm._v(_vm._s(_vm.__("Дата")))
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "invoice-table__cell" }, [
+                _vm._v(_vm._s(_vm.__("Описание")))
+              ]),
+              _vm._v(" "),
+              _c("th", {
+                staticClass: "invoice-table__cell",
+                domProps: {
+                  innerHTML: _vm._s(_vm.__("Дебит") + " " + _vm.currencySymbl)
+                }
+              }),
+              _vm._v(" "),
+              _c("th", {
+                staticClass: "invoice-table__cell",
+                domProps: {
+                  innerHTML: _vm._s(_vm.__("Кредит") + " " + _vm.currencySymbl)
+                }
+              })
+            ])
+          ]),
           _vm._v(" "),
-          _vm.getReservation.personsCount
-            ? _c("p", [
-                _vm._v("No. of person(s):\n               "),
+          _c(
+            "tbody",
+            { staticClass: "invoice-table__body" },
+            [
+              _vm._l(_vm.getServices, function(item) {
+                return _c(
+                  "tr",
+                  { key: item.id, staticClass: "invoice-table__row" },
+                  [
+                    _c("td", { staticClass: "invoice-table__cell" }, [
+                      _vm._v(_vm._s(item.date))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "invoice-table__cell" }, [
+                      _vm._v(_vm._s(item.nameServices))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "invoice-table__cell" }, [
+                      _vm._v(_vm._s(item.debit))
+                    ]),
+                    _vm._v(" "),
+                    _c("td", { staticClass: "invoice-table__cell" }, [
+                      _vm._v(_vm._s(item.credit))
+                    ])
+                  ]
+                )
+              }),
+              _vm._v(" "),
+              _c(
+                "tr",
+                { staticClass: "invoice-table__row invoice-table__footer" },
+                [
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      attrs: { colspan: "2" }
+                    },
+                    [_vm._v(_vm._s(_vm.__("Итого")) + ": ")]
+                  ),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(_vm.sumDebit))
+                  ]),
+                  _vm._v(" "),
+                  _c("td", { staticClass: "invoice-table__cell" }, [
+                    _vm._v(_vm._s(_vm.sumCredit))
+                  ])
+                ]
+              ),
+              _vm._v(" "),
+              _vm.balanceDue
+                ? _c(
+                    "tr",
+                    { staticClass: "invoice-table__row invoice-table__footer" },
+                    [
+                      _c(
+                        "td",
+                        {
+                          staticClass: "invoice-table__cell",
+                          attrs: { colspan: "2" }
+                        },
+                        [_vm._v(_vm._s(_vm.__("Задолжность")) + ": ")]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "td",
+                        {
+                          staticClass: "invoice-table__cell",
+                          attrs: { colspan: "2" }
+                        },
+                        [_vm._v(_vm._s(_vm.balanceDue))]
+                      )
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("tr", { staticClass: "invoice-table__row" }, [
                 _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.personsCount))]
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v(_vm._s(_vm.__("Итого, включая НДС")) + ": ")]
+                ),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  {
+                    staticClass: "invoice-table__cell",
+                    attrs: { colspan: "2" }
+                  },
+                  [_vm._v(_vm._s(_vm.TotalIncVAT))]
                 )
               ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.arival
-            ? _c("p", [
-                _vm._v("Arival:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.arival))]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.departure
-            ? _c("p", [
-                _vm._v("Departure:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.departure))]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.reservationNumb
-            ? _c("p", [
-                _vm._v("Reservation №:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.reservationNumb))]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.extReservationNumb
-            ? _c("p", [
-                _vm._v("Ext. Reservation №:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.extReservationNumb))]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.cashierNumb
-            ? _c("p", [
-                _vm._v("Cashier №:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.cashierNumb))]
-                )
-              ])
-            : _vm._e(),
-          _vm._v(" "),
-          _vm.getReservation.pageNumb
-            ? _c("p", [
-                _vm._v("Page №:\n               "),
-                _c(
-                  "span",
-                  { staticClass: "invoice__reservation-info__right" },
-                  [_vm._v(" " + _vm._s(_vm.getReservation.pageNumb))]
-                )
-              ])
-            : _vm._e()
-        ])
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "invoice-table" }, [
-        _c("thead", { staticClass: "invoice-table__header" }, [
-          _c("tr", { staticClass: "invoice-table__row" }, [
-            _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Date")]),
-            _vm._v(" "),
-            _c("th", { staticClass: "invoice-table__cell" }, [
-              _vm._v("Description")
-            ]),
-            _vm._v(" "),
-            _c("th", {
-              staticClass: "invoice-table__cell",
-              domProps: { innerHTML: _vm._s("Debit " + _vm.currencySymbl) }
-            }),
-            _vm._v(" "),
-            _c("th", {
-              staticClass: "invoice-table__cell",
-              domProps: { innerHTML: _vm._s("Credit " + _vm.currencySymbl) }
-            })
-          ])
+            ],
+            2
+          )
         ]),
         _vm._v(" "),
-        _c(
-          "tbody",
-          { staticClass: "invoice-table__body" },
-          [
-            _vm._l(_vm.getServices, function(item) {
+        _c("table", { staticClass: "invoice-small-table" }, [
+          _c("thead", { staticClass: "invoice-table__header" }, [
+            _c("tr", { staticClass: "invoice-table__row" }, [
+              _c("th", { staticClass: "invoice-table__cell" }),
+              _vm._v(" "),
+              _c("th", { staticClass: "invoice-table__cell" }, [
+                _vm._v(_vm._s(_vm.__("Нетто")))
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "invoice-table__cell" }, [
+                _vm._v(_vm._s(_vm.__("НДС")))
+              ]),
+              _vm._v(" "),
+              _c("th", { staticClass: "invoice-table__cell" }, [
+                _vm._v(_vm._s(_vm.__("Итого")))
+              ])
+            ])
+          ]),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            { staticClass: "invoice-table__body" },
+            _vm._l(_vm.smallTableData, function(item) {
               return _c(
                 "tr",
                 { key: item.id, staticClass: "invoice-table__row" },
                 [
-                  _c("td", { staticClass: "invoice-table__cell" }, [
-                    _vm._v(_vm._s(item.date))
-                  ]),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "55%" }
+                    },
+                    [_vm._v(_vm._s(item.nameServices))]
+                  ),
                   _vm._v(" "),
-                  _c("td", { staticClass: "invoice-table__cell" }, [
-                    _vm._v(_vm._s(item.nameServices))
-                  ]),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "15%" }
+                    },
+                    [_vm._v(_vm._s(item.netto))]
+                  ),
                   _vm._v(" "),
-                  _c("td", { staticClass: "invoice-table__cell" }, [
-                    _vm._v(_vm._s(item.debit))
-                  ]),
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "15%" }
+                    },
+                    [_vm._v(_vm._s(item.tva))]
+                  ),
                   _vm._v(" "),
-                  _c("td", { staticClass: "invoice-table__cell" }, [
-                    _vm._v(_vm._s(item.credit))
-                  ])
+                  _c(
+                    "td",
+                    {
+                      staticClass: "invoice-table__cell",
+                      staticStyle: { width: "15%" }
+                    },
+                    [_vm._v(_vm._s(item.debit))]
+                  )
                 ]
               )
             }),
-            _vm._v(" "),
-            _c(
-              "tr",
-              { staticClass: "invoice-table__row invoice-table__footer" },
-              [
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    attrs: { colspan: "2" }
-                  },
-                  [_vm._v(" Subtotal: ")]
-                ),
-                _vm._v(" "),
-                _c("td", { staticClass: "invoice-table__cell" }, [
-                  _vm._v(_vm._s(_vm.sumDebit))
-                ]),
-                _vm._v(" "),
-                _c("td", { staticClass: "invoice-table__cell" }, [
-                  _vm._v(_vm._s(_vm.sumCredit))
-                ])
-              ]
-            ),
-            _vm._v(" "),
-            _c(
-              "tr",
-              { staticClass: "invoice-table__row invoice-table__footer" },
-              [
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    attrs: { colspan: "2" }
-                  },
-                  [_vm._v(" Balance Due: ")]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    attrs: { colspan: "2" }
-                  },
-                  [_vm._v(_vm._s(_vm.balanceDue))]
-                )
-              ]
-            ),
-            _vm._v(" "),
-            _c("tr", { staticClass: "invoice-table__row" }, [
-              _c(
-                "td",
-                {
-                  staticClass: "invoice-table__cell",
-                  staticStyle: { "text-align": "center" },
-                  attrs: { colspan: "2" }
-                },
-                [_vm._v(" Total Incl. VAT: ")]
-              ),
-              _vm._v(" "),
-              _c(
-                "td",
-                { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-                [_vm._v(_vm._s(_vm.TotalIncVAT))]
-              )
-            ])
-          ],
-          2
-        )
-      ]),
-      _vm._v(" "),
-      _c("table", { staticClass: "invoice-small-table" }, [
-        _vm._m(2),
+            0
+          )
+        ]),
         _vm._v(" "),
-        _c(
-          "tbody",
-          { staticClass: "invoice-table__body" },
-          _vm._l(_vm.smallTableData, function(item) {
-            return _c(
-              "tr",
-              { key: item.id, staticClass: "invoice-table__row" },
-              [
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "55%" }
-                  },
-                  [_vm._v(_vm._s(item.nameServices))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "15%" }
-                  },
-                  [_vm._v(_vm._s(item.netto))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "15%" }
-                  },
-                  [_vm._v(_vm._s(item.tva))]
-                ),
-                _vm._v(" "),
-                _c(
-                  "td",
-                  {
-                    staticClass: "invoice-table__cell",
-                    staticStyle: { width: "15%" }
-                  },
-                  [_vm._v(_vm._s(item.debit))]
-                )
-              ]
-            )
-          }),
-          0
-        )
-      ]),
-      _vm._v(" "),
-      _c(
-        "section",
-        { staticClass: "invoice__requisites" },
-        _vm._l(_vm.requisitesText, function(item, index) {
-          return _c("p", { key: index, staticClass: "invoice__text" }, [
-            _vm._v("\n            " + _vm._s(item) + "\n         ")
-          ])
-        }),
-        0
-      )
+        _c("section", { staticClass: "invoice__requisites" }, [
+          _c("div", {
+            staticClass: "invoice__text",
+            domProps: { innerHTML: _vm._s(_vm.requisitesText) }
+          })
+        ])
+      ])
     ])
   ])
 }
@@ -63955,30 +64042,62 @@ var staticRenderFns = [
         attrs: { src: "img/logo.png", width: "150", alt: "logo" }
       })
     ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("p", [_c("b", [_vm._v("Invoice: ")])])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "invoice-table__header" }, [
-      _c("tr", { staticClass: "invoice-table__row" }, [
-        _c("th", { staticClass: "invoice-table__cell" }),
-        _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Net")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("VAT")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Total")])
-      ])
-    ])
   }
 ]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0&":
+/*!************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0& ***!
+  \************************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("nav", { staticClass: "languages" }, [
+    _c(
+      "a",
+      {
+        staticClass: "languages__item",
+        class: { active: _vm.language == "ru" },
+        attrs: { href: "/" }
+      },
+      [_vm._v("Русский")]
+    ),
+    _vm._v(" "),
+    _c(
+      "a",
+      {
+        staticClass: "languages__item",
+        class: { active: _vm.language == "ro" },
+        attrs: { href: "/ro" }
+      },
+      [_vm._v("Română")]
+    ),
+    _vm._v(" "),
+    _c(
+      "a",
+      {
+        staticClass: "languages__item",
+        class: { active: _vm.language == "en" },
+        attrs: { href: "/en" }
+      },
+      [_vm._v("English")]
+    )
+  ])
+}
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -64013,7 +64132,7 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Room No.:")
+                _vm._v(_vm._s(_vm.__("Аппартаменты №")) + ":")
               ]),
               _vm._v(" "),
               _c(
@@ -64021,7 +64140,7 @@ var render = function() {
                 {
                   attrs: {
                     value: _vm.getFiled("roomNumb"),
-                    placeholder: "Выберите из списка"
+                    placeholder: _vm.__("Выберите из списка")
                   },
                   on: {
                     input: function($event) {
@@ -64046,7 +64165,7 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("No. of person(s):")
+                _vm._v(_vm._s(_vm.__("Кол-во человек")) + ":")
               ]),
               _vm._v(" "),
               _c(
@@ -64054,7 +64173,7 @@ var render = function() {
                 {
                   attrs: {
                     value: _vm.getFiled("personsCount"),
-                    placeholder: "Выберите из списка"
+                    placeholder: _vm.__("Выберите из списка")
                   },
                   on: {
                     input: function($event) {
@@ -64085,22 +64204,24 @@ var render = function() {
             "el-col",
             { attrs: { span: 12 } },
             [
-              _c("label", { staticClass: "input-label" }, [_vm._v("Arival:")]),
+              _c("label", { staticClass: "input-label" }, [
+                _vm._v(_vm._s(_vm.__("Прибытие")) + ":")
+              ]),
               _vm._v(" "),
               _c("el-date-picker", {
                 staticClass: "date-picker",
                 attrs: {
                   type: "date",
-                  value: _vm.getFiled("arival"),
-                  placeholder: "Выберите дату",
+                  value: _vm.getFiled("arrival"),
+                  placeholder: _vm.__("Выберите дату"),
                   format: "dd.MM.yyyy",
                   "value-format": "dd.MM.yyyy"
                 },
                 on: {
                   input: function($event) {
-                    return _vm.updateField("arival", $event)
+                    return _vm.updateField("arrival", $event)
                   },
-                  change: _vm.onSetArival
+                  change: _vm.onSetArrival
                 }
               })
             ],
@@ -64112,7 +64233,7 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Departure:")
+                _vm._v(_vm._s(_vm.__("Отбытие")) + ":")
               ]),
               _vm._v(" "),
               _c("el-date-picker", {
@@ -64121,7 +64242,7 @@ var render = function() {
                 attrs: {
                   type: "date",
                   value: _vm.getFiled("departure"),
-                  placeholder: "Выберите дату",
+                  placeholder: _vm.__("Выберите дату"),
                   format: "dd.MM.yyyy",
                   "value-format": "dd.MM.yyyy"
                 },
@@ -64147,13 +64268,13 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Reservation No.:")
+                _vm._v(_vm._s(_vm.__("Резервация №")) + ":")
               ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
                   type: "text",
-                  placeholder: "Введите номер",
+                  placeholder: _vm.__("Введите номер"),
                   value: _vm.getFiled("reservationNumb"),
                   clearable: ""
                 },
@@ -64172,13 +64293,13 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Ext. Reservation No.:")
+                _vm._v(_vm._s(_vm.__("Резервация № (расш.)")) + ":")
               ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
                   type: "text",
-                  placeholder: "Введите номер",
+                  placeholder: _vm.__("Введите номер"),
                   value: _vm.getFiled("extReservationNumb"),
                   clearable: ""
                 },
@@ -64204,13 +64325,13 @@ var render = function() {
             { attrs: { span: 12 } },
             [
               _c("label", { staticClass: "input-label" }, [
-                _vm._v("Cashier No.:")
+                _vm._v(_vm._s(_vm.__("Касса №")) + ":")
               ]),
               _vm._v(" "),
               _c("el-input", {
                 attrs: {
                   type: "text",
-                  placeholder: "Введите номер",
+                  placeholder: _vm.__("Введите номер"),
                   value: _vm.getFiled("cashierNumb"),
                   clearable: ""
                 },
@@ -64222,9 +64343,7 @@ var render = function() {
               })
             ],
             1
-          ),
-          _vm._v(" "),
-          _c("el-col", { attrs: { span: 12 } })
+          )
         ],
         1
       )
@@ -64258,7 +64377,9 @@ var render = function() {
     "div",
     { staticClass: "fields-box" },
     [
-      _c("label", { staticClass: "inlain-label" }, [_vm._v("Валюта: ")]),
+      _c("label", { staticClass: "inlain-label" }, [
+        _vm._v(_vm._s(_vm.__("Валюта")) + ": ")
+      ]),
       _vm._v(" "),
       _c(
         "el-select",
@@ -64281,7 +64402,27 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("table", { staticClass: "invoice-table service-table" }, [
-        _vm._m(0),
+        _c("thead", { staticClass: "invoice-table__header" }, [
+          _c("tr", { staticClass: "invoice-table__row" }, [
+            _c("th", { staticClass: "invoice-table__cell" }, [
+              _vm._v(_vm._s(_vm.__("Дата")))
+            ]),
+            _vm._v(" "),
+            _c("th", { staticClass: "invoice-table__cell" }, [
+              _vm._v(_vm._s(_vm.__("Название услуги")))
+            ]),
+            _vm._v(" "),
+            _c("th", { staticClass: "invoice-table__cell" }, [
+              _vm._v(_vm._s(_vm.__("Дебит")))
+            ]),
+            _vm._v(" "),
+            _c(
+              "th",
+              { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
+              [_vm._v(_vm._s(_vm.__("Кредит")))]
+            )
+          ])
+        ]),
         _vm._v(" "),
         _c(
           "tbody",
@@ -64410,6 +64551,9 @@ var render = function() {
                               $event,
                               item.id
                             )
+                          },
+                          select: function($event) {
+                            return _vm.focusInput("inputDebit", item.id)
                           }
                         }
                       }),
@@ -64624,7 +64768,13 @@ var render = function() {
                       },
                       on: { click: _vm.addService }
                     },
-                    [_vm._v("Добавить")]
+                    [
+                      _vm._v(
+                        "\n                    " +
+                          _vm._s(_vm.__("Добавить")) +
+                          "\n                "
+                      )
+                    ]
                   )
                 ],
                 1
@@ -64638,30 +64788,7 @@ var render = function() {
     1
   )
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("thead", { staticClass: "invoice-table__header" }, [
-      _c("tr", { staticClass: "invoice-table__row" }, [
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Дата")]),
-        _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [
-          _vm._v("Название услуги")
-        ]),
-        _vm._v(" "),
-        _c("th", { staticClass: "invoice-table__cell" }, [_vm._v("Дебит")]),
-        _vm._v(" "),
-        _c(
-          "th",
-          { staticClass: "invoice-table__cell", attrs: { colspan: "2" } },
-          [_vm._v("Кредит")]
-        )
-      ])
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 
@@ -77928,7 +78055,7 @@ __webpack_require__.r(__webpack_exports__);
 
  // mixins
 
-var Lang = new _services_Translator__WEBPACK_IMPORTED_MODULE_3__["default"]({});
+var Lang = new _services_Translator__WEBPACK_IMPORTED_MODULE_3__["default"](translations);
 vue__WEBPACK_IMPORTED_MODULE_1___default.a.mixin({
   methods: {
     __: function __() {
@@ -78203,6 +78330,75 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Languages.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Languages.vue ***!
+  \***********************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Languages.vue?vue&type=template&id=1632fcc0& */ "./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0&");
+/* harmony import */ var _Languages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Languages.vue?vue&type=script&lang=js& */ "./resources/js/components/Languages.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Languages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Languages.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./resources/js/components/Languages.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Languages.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Languages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib??ref--4-0!../../../node_modules/vue-loader/lib??vue-loader-options!./Languages.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Languages.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Languages_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0& ***!
+  \******************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib??vue-loader-options!./Languages.vue?vue&type=template&id=1632fcc0& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/Languages.vue?vue&type=template&id=1632fcc0&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Languages_vue_vue_type_template_id_1632fcc0___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ReservationInfo.vue":
 /*!*****************************************************!*\
   !*** ./resources/js/components/ReservationInfo.vue ***!
@@ -78265,10 +78461,10 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--7-2!../../../node_modules/sass-loader/lib/loader.js??ref--7-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ReservationInfo.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&");
-/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
-/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
- /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_7_2_node_modules_sass_loader_lib_loader_js_ref_7_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/style-loader!../../../node_modules/css-loader!../../../node_modules/vue-loader/lib/loaders/stylePostLoader.js!../../../node_modules/postcss-loader/src??ref--8-2!../../../node_modules/sass-loader/lib/loader.js??ref--8-3!../../../node_modules/vue-loader/lib??vue-loader-options!./ReservationInfo.vue?vue&type=style&index=0&lang=scss& */ "./node_modules/style-loader/index.js!./node_modules/css-loader/index.js!./node_modules/vue-loader/lib/loaders/stylePostLoader.js!./node_modules/postcss-loader/src/index.js?!./node_modules/sass-loader/lib/loader.js?!./node_modules/vue-loader/lib/index.js?!./resources/js/components/ReservationInfo.vue?vue&type=style&index=0&lang=scss&");
+/* harmony import */ var _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__);
+/* harmony reexport (unknown) */ for(var __WEBPACK_IMPORT_KEY__ in _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__) if(__WEBPACK_IMPORT_KEY__ !== 'default') (function(key) { __webpack_require__.d(__webpack_exports__, key, function() { return _node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0__[key]; }) }(__WEBPACK_IMPORT_KEY__));
+ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_style_loader_index_js_node_modules_css_loader_index_js_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_8_2_node_modules_sass_loader_lib_loader_js_ref_8_3_node_modules_vue_loader_lib_index_js_vue_loader_options_ReservationInfo_vue_vue_type_style_index_0_lang_scss___WEBPACK_IMPORTED_MODULE_0___default.a); 
 
 /***/ }),
 
@@ -78527,12 +78723,13 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     client: {
       name: '',
       surName: '',
-      addres: '',
+      address: '',
       city: '',
-      postIndx: null
+      postIndx: '',
+      country: ''
     },
     invoiceInfo: {
-      name: 'Raddison Blu Hotel',
+      name: 'Prestige Hotel',
       date: new Intl.DateTimeFormat('ru-RU').format(new Date()),
       time: null
     },
@@ -78562,7 +78759,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
         value: 4
       }],
       personsCount: null,
-      arival: null,
+      arrival: null,
       departure: null,
       reservationNumb: null,
       extReservationNumb: null,
@@ -78678,15 +78875,27 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
 /***/ }),
 
+/***/ "./resources/sass/auth.scss":
+/*!**********************************!*\
+  !*** ./resources/sass/auth.scss ***!
+  \**********************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
 /***/ 0:
-/*!*************************************************************!*\
-  !*** multi ./resources/js/app.js ./resources/sass/app.scss ***!
-  \*************************************************************/
+/*!****************************************************************************************!*\
+  !*** multi ./resources/js/app.js ./resources/sass/app.scss ./resources/sass/auth.scss ***!
+  \****************************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! E:\Work\lounge-invoice\resources\js\app.js */"./resources/js/app.js");
-module.exports = __webpack_require__(/*! E:\Work\lounge-invoice\resources\sass\app.scss */"./resources/sass/app.scss");
+__webpack_require__(/*! /home/escral/Server/www/invoice/resources/js/app.js */"./resources/js/app.js");
+__webpack_require__(/*! /home/escral/Server/www/invoice/resources/sass/app.scss */"./resources/sass/app.scss");
+module.exports = __webpack_require__(/*! /home/escral/Server/www/invoice/resources/sass/auth.scss */"./resources/sass/auth.scss");
 
 
 /***/ })

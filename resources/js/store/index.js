@@ -8,13 +8,14 @@ export default new Vuex.Store({
       client: {
          name: '',
          surName: '',
-         addres: '',
+         address: '',
          city: '',
-         postIndx: null
+         postIndx: '',
+         country: ''
       },
 
       invoiceInfo: {
-         name: 'Raddison Blu Hotel',
+         name: 'Prestige Hotel',
          date: new Intl.DateTimeFormat('ru-RU').format(new Date()),
          time: null
       },
@@ -34,7 +35,7 @@ export default new Vuex.Store({
             {label: '4', value: 4},
          ],
          personsCount: null,
-         arival: null,
+         arrival: null,
          departure: null,
          reservationNumb: null,
          extReservationNumb: null,

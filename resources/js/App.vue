@@ -1,22 +1,24 @@
 <template>
    <div id="app">
-      <el-row :gutter="8">
-         <el-col :span="10" class="invoice-fields-box">
-            <InvoiceFields />
-         </el-col>
-         <el-col :span="14" class="invoice-preview-box">
-            <InvoicePreview />
-         </el-col>
-      </el-row>
+      <div class="invoice-fields-box">
+         <languages />
+
+         <InvoiceFields />
+      </div>
+      <div class="invoice-preview-box">
+         <InvoicePreview />
+      </div>
    </div>
 </template>
 
 <script>
 import InvoicePreview from './components/InvoicePreview'
 import InvoiceFields from './components/InvoiceFields'
+import Languages from "./components/Languages"
 
 export default {
    components: {
+      Languages,
       InvoicePreview,
       InvoiceFields
    },

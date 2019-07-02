@@ -11,7 +11,7 @@ import locale from 'element-ui/lib/locale'
 import App from './App.vue'
 
 // mixins
-let Lang = new Translator({});
+let Lang = new Translator(translations);
 
 Vue.mixin({
     methods: {

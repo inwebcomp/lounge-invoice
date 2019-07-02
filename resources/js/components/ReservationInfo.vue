@@ -2,11 +2,11 @@
    <div class="fields-box">
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
-            <label class="input-label">Room No.:</label>
+            <label class="input-label">{{ __('Аппартаменты №') }}:</label>
             <el-select
                :value="getFiled('roomNumb')"
                @input="updateField('roomNumb', $event)"
-               placeholder="Выберите из списка">
+               :placeholder="__('Выберите из списка')">
                <el-option
                   v-for="item in getFiled('roomNumbsList')"
                   :key="item.value"
@@ -16,11 +16,11 @@
             </el-select>
          </el-col>
          <el-col :span="12">
-            <label class="input-label">No. of person(s):</label>
+            <label class="input-label">{{ __('Кол-во человек') }}:</label>
             <el-select
                :value="getFiled('personsCount')"
                @input="updateField('personsCount', $event)"
-               placeholder="Выберите из списка">
+               :placeholder="__('Выберите из списка')">
                <el-option
                   v-for="item in getFiled('personsCountList')"
                   :key="item.value"
@@ -33,25 +33,25 @@
 
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
-            <label class="input-label">Arival:</label>
+            <label class="input-label">{{ __('Прибытие') }}:</label>
             <el-date-picker
                type="date"
-               :value="getFiled('arival')"
-               @input="updateField('arival', $event)"
-               @change="onSetArival"
-               placeholder="Выберите дату"
+               :value="getFiled('arrival')"
+               @input="updateField('arrival', $event)"
+               @change="onSetArrival"
+               :placeholder="__('Выберите дату')"
                format="dd.MM.yyyy"
                class="date-picker"
                value-format="dd.MM.yyyy">
             </el-date-picker>
          </el-col>
          <el-col :span="12">
-            <label class="input-label">Departure:</label>
+            <label class="input-label">{{ __('Отбытие') }}:</label>
             <el-date-picker
                type="date"
                :value="getFiled('departure')"
                @input="updateField('departure', $event)"
-               placeholder="Выберите дату"
+               :placeholder="__('Выберите дату')"
                format="dd.MM.yyyy"
                class="date-picker"
                value-format="dd.MM.yyyy"
@@ -62,20 +62,20 @@
 
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
-            <label class="input-label">Reservation No.:</label>
+            <label class="input-label">{{ __('Резервация №') }}:</label>
                <el-input
                type="text"
-               placeholder="Введите номер"
+               :placeholder="__('Введите номер')"
                :value="getFiled('reservationNumb')"
                @input="updateField('reservationNumb', $event)"
                clearable>
             </el-input>
          </el-col>
          <el-col :span="12">
-            <label class="input-label">Ext. Reservation No.:</label>
+            <label class="input-label">{{ __('Резервация № (расш.)') }}:</label>
                <el-input
                type="text"
-               placeholder="Введите номер"
+               :placeholder="__('Введите номер')"
                :value="getFiled('extReservationNumb')"
                @input="updateField('extReservationNumb', $event)"
                clearable>
@@ -85,24 +85,14 @@
 
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
-            <label class="input-label">Cashier No.:</label>
+            <label class="input-label">{{ __('Касса №') }}:</label>
                <el-input
                type="text"
-               placeholder="Введите номер"
+               :placeholder="__('Введите номер')"
                :value="getFiled('cashierNumb')"
                @input="updateField('cashierNumb', $event)"
                clearable>
             </el-input>
-         </el-col>
-         <el-col :span="12">
-            <!-- <label class="input-label">Page No.:</label>
-               <el-input
-               type="number"
-               placeholder="Введите номер"
-               :value="getFiled('pageNumb')"
-               @input="updateField('pageNumb', $event)"
-               clearable>
-            </el-input> -->
          </el-col>
       </el-row>
    </div>
@@ -120,7 +110,7 @@ export default {
       updateField (field, val) {
          this.$store.commit('updateReservationFiled', {value: val, field: field})
       },
-      onSetArival(event) {
+      onSetArrival(event) {
          this.$refs.departure.focus()
       }
    }
