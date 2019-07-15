@@ -21,11 +21,7 @@ export default new Vuex.Store({
       },
 
       reservation: {
-         roomNumbsList: [
-            {label: 'option11', value: 'roomNumb111'},
-            {label: 'option22', value: 'roomNumb2221'},
-            {label: 'option33', value: 'roomNumb333'},
-         ],
+         roomNumbsList: [],
          roomNumb: null,
 
          personsCountList: [
@@ -33,6 +29,10 @@ export default new Vuex.Store({
             {label: '2', value: 2},
             {label: '3', value: 3},
             {label: '4', value: 4},
+            {label: '5', value: 5},
+            {label: '6', value: 6},
+            {label: '7', value: 7},
+            {label: '8', value: 8},
          ],
          personsCount: null,
          arrival: null,
@@ -45,6 +45,8 @@ export default new Vuex.Store({
 
       services: [],
 
+      defaultServices: [],
+
       currency: {
          items: [
             {label: 'USD', value: 'USD'},
@@ -52,7 +54,9 @@ export default new Vuex.Store({
             {label: 'MDL', value: 'MDL'},
          ],
          value: 'EUR'
-      }
+      },
+
+      textblocks: {}
    },
 
    getters: {
@@ -115,6 +119,7 @@ export default new Vuex.Store({
       addService(state, data) {
          state.services.push(data)
       },
+
       removeService(state, id) {
          state.services.forEach((item, index) => {
             if (item.id === id) {
@@ -134,9 +139,32 @@ export default new Vuex.Store({
             item.isEditing = false
          })
       },
+
+      setDefaultServices(state, items) {
+         state.defaultServices = items
+      },
+
+      setRoomNumbsList(state, items) {
+         state.reservation.roomNumbsList = items
+      },
+
+      setTextblocks(state, items) {
+         state.textblocks = items
+      }
    },
 
    actions: {
-
+      async services ({ commit }) {
+         const {data: {data}} = await Vue.axios.get('services')
+         commit('setDefaultServices', data)
+      },
+      async apartments ({ commit }) {
+         const {data: {data}} = await Vue.axios.get('apartments')
+         commit('setRoomNumbsList', data)
+      },
+      async textblocks ({ commit }) {
+         const {data} = await Vue.axios.get('textblocks')
+         commit('setTextblocks', data)
+      },
    }
 })

@@ -36834,7 +36834,7 @@ if (token) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /home/escral/Server/www/invoice/resources/js/auth/auth.js */"./resources/js/auth/auth.js");
+module.exports = __webpack_require__(/*! /home/alexander/Server/www/lounge/resources/js/auth/auth.js */"./resources/js/auth/auth.js");
 
 
 /***/ })

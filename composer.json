@@ -29,7 +29,8 @@
         "inweb/base": "dev-master",
         "inwebcomp/translations-parser": "dev-master",
         "laravel/framework": "5.8.*",
-        "laravel/tinker": "^1.0"
+        "laravel/tinker": "^1.0",
+        "moontoast/math": "^1.1"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",

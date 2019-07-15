@@ -2,32 +2,19 @@
    <div class="fields-box">
       <el-row :gutter="16" class="fields-row">
          <el-col :span="12">
-            <label class="input-label">{{ __('Аппартаменты №') }}:</label>
-            <el-select
+            <label class="input-label">{{ __('Апартаменты №') }}:</label>
+            <el-autocomplete
                :value="getFiled('roomNumb')"
                @input="updateField('roomNumb', $event)"
-               :placeholder="__('Выберите из списка')">
-               <el-option
-                  v-for="item in getFiled('roomNumbsList')"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-               </el-option>
-            </el-select>
+               :placeholder="__('Выберите из списка')"
+               :fetch-suggestions="appartmentQuerySearch"
+               style="width: 100%"/>
          </el-col>
          <el-col :span="12">
             <label class="input-label">{{ __('Кол-во человек') }}:</label>
-            <el-select
+            <el-input
                :value="getFiled('personsCount')"
-               @input="updateField('personsCount', $event)"
-               :placeholder="__('Выберите из списка')">
-               <el-option
-                  v-for="item in getFiled('personsCountList')"
-                  :key="item.value"
-                  :label="item.label"
-                  :value="item.value">
-               </el-option>
-            </el-select>
+               @input="updateField('personsCount', $event)" />
          </el-col>
       </el-row>
 
@@ -112,7 +99,25 @@ export default {
       },
       onSetArrival(event) {
          this.$refs.departure.focus()
+      },
+
+      appartmentQuerySearch(queryString, cb) {
+         let links = this.getFiled('roomNumbsList')
+
+         let results = queryString ? links.filter(this.createFilter(queryString)) : links
+
+         cb(results)
+      },
+
+      createFilter(queryString) {
+         return (link) => {
+            return (link.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0)
+         }
       }
+   },
+
+   mounted() {
+      this.$store.dispatch('apartments')
    }
 }
 </script>

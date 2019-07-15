@@ -6,6 +6,11 @@ import { Button, Select, Option, Row, Col, Icon, Form, FormItem, Tabs, TabPane, 
 //import DatePicker from 'vue2-datepicker'
 import lang from 'element-ui/lib/locale/lang/en'
 import locale from 'element-ui/lib/locale'
+import axios from 'axios'
+axios.defaults.baseURL = '/api/';
+import VueAxios from 'vue-axios'
+
+Vue.use(VueAxios, axios)
 
 // components
 import App from './App.vue'

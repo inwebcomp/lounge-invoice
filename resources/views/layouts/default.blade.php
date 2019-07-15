@@ -9,6 +9,8 @@
 
     <title>{{ config('app.name', 'Invoice') }}</title>
 
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800&display=swap&subset=cyrillic-ext" rel="stylesheet">
+
     @yield('styles')
     <link rel="stylesheet" href="{{ mix('/css/app.css') }}">
 

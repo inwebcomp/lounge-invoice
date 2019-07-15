@@ -150,6 +150,9 @@
             },
             currency() {
                 return this.$store.state.currency
+            },
+            nameServicesList() {
+                return this.$store.state.defaultServices
             }
         },
 
@@ -214,12 +217,15 @@
             },
 
             querySearch(queryString, cb) {
-                let links = this.nameServicesList
+                let links = new Set(this.nameServicesList)
 
-                let customValues = this.$store.getters.getServices.filter(item => ! item.isEditing).map((service) => ({ value: service.nameServices }))
+                let customValues = this.$store.getters.getServices.filter(item => ! item.isEditing).map((service) => service.nameServices)
 
-                if (customValues.length)
-                    links = Array.prototype.concat(links, customValues)
+                if (customValues.length) {
+                    customValues.forEach(item => links.add(item))
+                }
+
+                links = Array.from(links).map(item => ({ value: item }))
 
                 let results = queryString ? links.filter(this.createFilter(queryString)) : links
 
@@ -234,12 +240,7 @@
         },
 
         mounted() {
-            this.nameServicesList = [
-                {"value": this.__("Roomcharge")},
-                {"value": this.__("Citytax")},
-                {"value": this.__("Cash")},
-                {"value": this.__("Parking Hotel")},
-            ]
+            this.$store.dispatch('services')
         }
     }
 </script>

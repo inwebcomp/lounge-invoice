@@ -35,7 +35,7 @@ class AdminServiceProvider extends AdminApplicationServiceProvider
      */
     protected function resources()
     {
-//        Admin::resourcesIn(app_path('Admin/Resources'));
+        Admin::resourcesIn(app_path('Admin/Resources'));
     }
 
     /**
@@ -46,7 +46,7 @@ class AdminServiceProvider extends AdminApplicationServiceProvider
     public function tools()
     {
         return [
-            TranslatablePhrases::class
+            new TranslatablePhrases()
         ];
     }
 }
