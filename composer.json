@@ -13,10 +13,6 @@
             "url": "./admin-components/Tools/TranslatablePhrases"
         },
         {
-            "type": "path",
-            "url": "./packages/inweb/admin"
-        },
-        {
             "type": "git",
             "url": "https://github.com/inwebcomp/base"
         }

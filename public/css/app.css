@@ -231,9 +231,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -250,9 +248,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -269,9 +265,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -12596,9 +12590,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -12615,9 +12607,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -12634,9 +12624,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -16939,7 +16927,7 @@
   margin: 0;
   position: relative;
   cursor: pointer;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   padding: 12px 20px;
   font-size: 14px;
   border-radius: 0;
@@ -17866,7 +17854,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -24944,7 +24932,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -28056,7 +28044,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -31085,9 +31073,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -31104,9 +31090,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -31123,9 +31107,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -35438,9 +35420,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -35457,9 +35437,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -35476,9 +35454,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -38063,9 +38039,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -38082,9 +38056,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -38101,9 +38073,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -49143,9 +49113,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -49162,9 +49130,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -49181,9 +49147,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -50048,7 +50012,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -59336,9 +59300,7 @@
   font-size: 14px;
   cursor: pointer;
   vertical-align: middle;
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   margin-top: 60px;
 }
 
@@ -64894,9 +64856,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center top;
           transform-origin: center top;
 }
@@ -64913,9 +64873,7 @@
   opacity: 1;
   -webkit-transform: scaleY(1);
           transform: scaleY(1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: center bottom;
           transform-origin: center bottom;
 }
@@ -64932,9 +64890,7 @@
   opacity: 1;
   -webkit-transform: scale(1, 1);
           transform: scale(1, 1);
-  transition: opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1);
-  transition: transform 100ms cubic-bezier(0.23, 1, 0.32, 1), opacity 100ms cubic-bezier(0.23, 1, 0.32, 1), -webkit-transform 100ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: none;
   -webkit-transform-origin: top left;
           transform-origin: top left;
 }
@@ -68643,7 +68599,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -74261,7 +74217,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
@@ -80878,7 +80834,7 @@
   outline: none;
   margin: 0;
   position: relative;
-  transition: all 0.15s cubic-bezier(0.645, 0.045, 0.355, 1);
+  transition: none;
   -moz-user-select: none;
   -webkit-user-select: none;
   -ms-user-select: none;
