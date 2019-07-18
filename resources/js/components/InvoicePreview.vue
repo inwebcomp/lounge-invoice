@@ -7,11 +7,12 @@
         </div>
 
         <div class="printarea-container">
-            <div class="invoice" id="printarea">
+            <div class="invoice" ref="invoice" id="printarea">
+                <div class="invoice__stop-line"></div>
                 <div class="invoice__row">
                     <img src="img/logo.png" width="150" alt="logo" class="invoice__logo">
                 </div>
-                <div class="invoice__row">
+                <div class="invoice__row row-flex">
                     <div class="invoice__info">
                         <div class="invoice__info-client">
                             <p>{{ getClient.name }} {{ getClient.surName }}</p>
@@ -20,13 +21,7 @@
                             <p>{{ getClient.country }}</p>
                         </div>
 
-                        <div class="invoice__info-hotel">
-                            <p><b>{{ __('Счёт') }}: </b></p>
-                            <p>{{ getInvoiceInfo.name }}</p>
-                            <p>{{ getInvoiceInfo.date }}
-                                <TimeComponent/>
-                            </p>
-                        </div>
+                        
                     </div>
 
 
@@ -44,7 +39,7 @@
                             <td class="invoice__reservation-info__right">{{ getReservation.arrival }}</td>
                         </tr>
                         <tr v-if="getReservation.departure">
-                            <td>{{ __('Прибытие') }}:</td>
+                            <td>{{ __('Отбытие') }}:</td>
                             <td class="invoice__reservation-info__right">{{ getReservation.departure }}</td>
                         </tr>
                         <tr v-if="getReservation.reservationNumb">
@@ -61,6 +56,20 @@
                         </tr>
                     </table>
                 </div>
+
+                <div class="invoice__row">
+                    <div class="invoice__info">
+                        <div class="invoice__info-hotel">
+                            <p><b>{{ __('Счёт') }}: </b></p>
+                            <p>{{ getInvoiceInfo.name }}</p>
+                            <p>{{ getInvoiceInfo.date }}
+                                <TimeComponent/>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                
 
                 <table class="invoice-table">
                     <thead class="invoice-table__header">
@@ -105,10 +114,10 @@
                     </thead>
                     <tbody class="invoice-table__body">
                     <tr class="invoice-table__row" v-for="item in smallTableData" :key="item.id">
-                        <td class="invoice-table__cell" style="width: 55%">{{ item.nameServices }}</td>
-                        <td class="invoice-table__cell" style="width: 15%">{{ item.netto }}</td>
-                        <td class="invoice-table__cell" style="width: 15%">{{ item.tva }}</td>
-                        <td class="invoice-table__cell" style="width: 15%">{{ item.debit }}</td>
+                        <td class="invoice-table__cell" style="width: 100%">{{ item.nameServices }}</td>
+                        <td class="invoice-table__cell" >{{ item.netto }}</td>
+                        <td class="invoice-table__cell" >{{ item.tva }}</td>
+                        <td class="invoice-table__cell" >{{ item.debit }}</td>
                     </tr>
                     </tbody>
                 </table>
@@ -218,17 +227,20 @@
                 this.buttonSaveLoading = true
 
                 const element = document.getElementById('printarea')
+                element.classList.add('for-save')
+
                 const opt = {
-                    margin: [0, 0, 0, 0],
+                    margin: [0, 4, 0, 0],
                     filename: 'Invoice.pdf',
                     image: {type: 'jpeg', quality: 1},
                     html2canvas: {scale: 4},
-                    jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait', putOnlyUsedFonts: false}
+                    jsPDF: {unit: 'mm', format: 'a4', orientation: 'portrait', putOnlyUsedFonts: true}
                 }
 
                 html2pdf(element, opt)
                     .then(() => {
                             this.buttonSaveLoading = false
+                            element.classList.remove('for-save')
                         }
                     )
             }
